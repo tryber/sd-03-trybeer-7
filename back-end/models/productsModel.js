@@ -5,13 +5,15 @@ const getAllProducts = async () => {
     const dBase = await connection();
     const query = await dBase
       .getTable('products')
-      .select(['name', 'price'])
+      .select(['id', 'name', 'price', 'url_image'])
       .execute();
     const results = await query.fetchAll();
     return results
-      ? results.map(([name, price]) => ({
+      ? results.map(([id, name, price, urlImage]) => ({
+        id,
         name,
         price,
+        urlImage,
       }))
       : null;
   } catch (error) {
