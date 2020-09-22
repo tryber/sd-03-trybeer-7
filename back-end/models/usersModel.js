@@ -10,8 +10,7 @@ const findByEmail = async (email) => {
       .bind('email', email)
       .execute();
 
-    const results = await searchQuery.fetchAll()[0];
-    console.log(results);
+    const results = await searchQuery.fetchAll();
     const userResult = results.reduce(
       (acc, [id, name, email, password, role]) => ({
         ...acc,
@@ -23,7 +22,6 @@ const findByEmail = async (email) => {
       }),
       {},
     );
-    console.log(userResult);
     return userResult;
   } catch (error) {
     return error;
