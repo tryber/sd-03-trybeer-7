@@ -11,11 +11,9 @@ module.exports = async (req, res, next) => {
     const { body } = req;
 
     const user = await userServices.getUserByEmail(body.email);
-    console.log(body.password, user)
     // alterar mensagem de erro
     if (!user) throw new Error('user not found');
-    if (body.password !== user.password)
-      throw new Error('wrong user or password');
+    if (body.password !== user.password) throw new Error('wrong user or password');
 
     const { password, ...userData } = user;
 
