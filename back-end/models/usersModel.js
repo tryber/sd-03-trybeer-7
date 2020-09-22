@@ -10,17 +10,21 @@ const findByEmail = async (email) => {
       .bind('email', email)
       .execute();
 
-    const results = searchQuery.fetchAll();
-    return results
-      ? result.reduce((acc, [id, name, email, password, role]) => ({
-          ...acc,
-          id,
-          name,
-          email,
-          password,
-          role,
-        }))
-      : null;
+    const results = await searchQuery.fetchAll()[0];
+    console.log(results);
+    const userResult = results.reduce(
+      (acc, [id, name, email, password, role]) => ({
+        ...acc,
+        id,
+        name,
+        email,
+        password,
+        role,
+      }),
+      {},
+    );
+    console.log(userResult);
+    return userResult;
   } catch (error) {
     return error;
   }
@@ -28,4 +32,4 @@ const findByEmail = async (email) => {
 
 module.exports = {
   findByEmail,
-}
+};
