@@ -7,8 +7,9 @@ const isEmailValid = (email) => {
   const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   return !!email && typeof email === 'string' && !!email.match(emailRegex);
 };
-const minimumPassLength = 6;
-const isPasswordValid = (password) => password.length >= minimumPassLength;
+// guardando numero numa variavel como pede o Eslint (No magic number rule)
+const minimumLength = 6;
+const isPasswordValid = (password) => password.length >= minimumLength;
 
 const LoginPage = () => {
   const { setToken, user, loggedIn } = useContext(AuthContext);
@@ -40,8 +41,15 @@ const LoginPage = () => {
   if (loggedIn && user.role === 'administrator') return <Redirect to="/admin/orders" />;
 
   return (
-    <div>
-      <form>
+    <div style={ { margin: 'auto', height: '640px', display: 'flex' } }>
+      {error && <h4>{error}</h4>}
+      <form
+        className="form-container"
+        onSubmit={ (event) => {
+          event.preventDefault();
+          setHasLogged(!hasLogged);
+        } }
+      >
         <label htmlFor="email">
           Email
           <input
@@ -54,11 +62,10 @@ const LoginPage = () => {
           />
         </label>
         <label htmlFor="password">
-          Senha
+          Password
           <input
-            id="password"
             data-testid="password-input"
-            placeholder="Senha"
+            placeholder="Password"
             type="password"
             value={ password }
             onChange={ (e) => setPassword(e.target.value) }
@@ -67,12 +74,12 @@ const LoginPage = () => {
           />
         </label>
         <br />
-          <button type="button" data-testid="signin-btn" disabled={ !isValid }>
-            ENTRAR
-          </button>
+        <button type="submit" data-testid="signin-btn" disabled={ !isValid }>
+          ENTRAR
+        </button>
         <Link to="/register">
           <button type="button" data-testid="no-account-btn">
-            Ainda nao tenho conta
+            Ainda não tenho conta
           </button>
         </Link>
       </form>
