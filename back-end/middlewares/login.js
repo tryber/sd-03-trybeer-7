@@ -18,7 +18,7 @@ module.exports = async (req, res, next) => {
     const { password, ...userData } = user;
 
     const token = jwt.sign({ data: userData }, SECRET, tokenConfig);
-
+    console.log(jwt.verify(token, SECRET))
     return res.status(200).json({ token });
   } catch (error) {
     next(generateError(errorCode, error));
