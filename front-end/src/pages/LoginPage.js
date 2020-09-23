@@ -27,9 +27,8 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (!hasLogged) return undefined;
-    userLogin(email, password).then((response) => (
-      !error ? setToken(response) : setError(error.message)
-    ));
+    userLogin(email, password)
+      .then((response) => (!error ? setToken(response) : setError(error.message)));
     setHasLogged(false);
     return () => {
       setHasLogged(false);
@@ -51,28 +50,31 @@ const LoginPage = () => {
           setHasLogged(!hasLogged);
         } }
       >
-        <input
-          data-testid="email-input"
-          placeholder="Email"
-          type="email"
-          value={ email }
-          onChange={ (e) => setEmail(e.target.value) }
-        />
-        <input
-          data-testid="password-input"
-          placeholder="password"
-          type="password"
-          value={ password }
-          onChange={ (e) => setPassword(e.target.value) }
-          required
-          minLength={ 6 }
-        />
+        <label htmlFor="email">
+          Email
+          <input
+            id="email"
+            data-testid="email-input"
+            placeholder="Email"
+            type="email"
+            value={ email }
+            onChange={ (e) => setEmail(e.target.value) }
+          />
+        </label>
+        <label htmlFor="password">
+          Password
+          <input
+            data-testid="password-input"
+            placeholder="Password"
+            type="password"
+            value={ password }
+            onChange={ (e) => setPassword(e.target.value) }
+            required
+            minLength={ 6 }
+          />
+        </label>
         <br />
-        <button
-          type="submit"
-          data-testid="signin-btn"
-          disabled={ !isValid }
-        >
+        <button type="submit" data-testid="signin-btn" disabled={ !isValid }>
           Entrar
         </button>
         <Link to="/register">
