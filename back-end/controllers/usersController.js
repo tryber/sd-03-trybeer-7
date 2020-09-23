@@ -6,7 +6,7 @@ const middlewares = require('../middlewares');
 const { schemas, validateSchema } = middlewares.validation;
 const user = Router();
 
-user.route('/').post(
+user.route('/register').post(
   validateSchema(schemas.userSchema),
   async (req, _res, next) => {
     try {

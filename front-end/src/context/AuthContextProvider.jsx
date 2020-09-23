@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import jwt from 'jwt-decode';
 import AuthContext from './AuthContext';
 
-const initialTokenState = localStorage.getItem('user')
-  ? JSON.parse(localStorage.getItem('user')).token
-  : null;
+const initialTokenState = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
+const initialUserState = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+const initialLoggedInState = !!localStorage.getItem('user');
 
 export default ({ children }) => {
   const [token, setToken] = useState(initialTokenState);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(initialLoggedInState);
+  const [user, setUser] = useState(initialUserState);
 
   useEffect(() => {
     if (!token) return undefined;

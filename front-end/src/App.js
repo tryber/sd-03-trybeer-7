@@ -6,12 +6,13 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
 
 function App() {
+  const path = window.location.pathname;
   return (
     <div className="App">
       <AuthProvider>
         <Router>
           <Switch>
-            <Route exact path="/login" component={ LoginPage } />
+            <Route exact path={ path === '/' || '/login' } component={ LoginPage } />
             <Route path="/register" component={ RegisterPage } />
           </Switch>
         </Router>
