@@ -1,8 +1,8 @@
-const model = require('../models');
+const { usersModel } = require('../models');
 
 const getUserByEmail = async (email) => {
   try {
-    const user = await model.usersModel.findByEmail(email);
+    const user = await usersModel.findByEmail(email);
 
     return user ? { ...user } : null;
   } catch (error) {
@@ -10,6 +10,17 @@ const getUserByEmail = async (email) => {
   }
 };
 
+const addUser = async (name, email, password, role) => {
+  try {
+    const user = await usersModel.createUser(name, email, password, role);
+
+    return user;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
   getUserByEmail,
+  addUser,
 };

@@ -28,6 +28,21 @@ const findByEmail = async (userEmail) => {
   }
 };
 
+const createUser = async (name, email, password, role) => {
+  try {
+    const dBase = await connection();
+    const updateQuery = await dBase
+      .getTable('users')
+      .insert(['name', 'email', 'password', 'role'])
+      .values(name, email, password, role)
+      .execute();
+    return updateQuery;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   findByEmail,
+  createUser,
 };
