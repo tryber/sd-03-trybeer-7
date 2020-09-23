@@ -15,7 +15,7 @@ app.use('/user', controllers.userController);
 app.get('/', async (_req, res) => res.send('Hello, Trybeer'));
 
 app.use((err, _req, res, _next) => {
-  if (err.payload) res.status(err.status).json(err.payload);
+  if (err.payload) return res.status(err.status).json(err.payload);
   return res.status(500).json({ message: 'Internal error' });
 });
 
