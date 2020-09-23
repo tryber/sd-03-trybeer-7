@@ -5,9 +5,8 @@ const isEmailValid = (email) => {
   const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   return !!email && typeof email === 'string' && !!email.match(emailRegex);
 };
-// guardando numero numa variavel como pede o Eslint (No magic number rule)
-const minimumLength = 6;
-const isPasswordValid = (password) => password.length > minimumLength;
+const minimumPassLength = 6;
+const isPasswordValid = (password) => password.length >= minimumPassLength;
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -22,38 +21,38 @@ const LoginPage = () => {
   return (
     <div style={ { margin: 'auto', height: '640px', display: 'flex' } }>
       <form className="form-container">
-        <input
-          data-testid="email-input"
-          placeholder="Email"
-          type="email"
-          value={ email }
-          onChange={ (e) => setEmail(e.target.value) }
-        />
-        <input
-          data-testid="password-input"
-          placeholder="password"
-          type="password"
-          value={ password }
-          onChange={ (e) => setPassword(e.target.value) }
-          required
-          minLength={ 6 }
-        />
+        <label htmlFor="email">
+          Email
+          <input
+            id="email"
+            data-testid="email-input"
+            placeholder="Email"
+            type="email"
+            value={ email }
+            onChange={ (e) => setEmail(e.target.value) }
+          />
+        </label>
+        <label htmlFor="passoword">
+          Senha
+          <input
+            id="password"
+            data-testid="password-input"
+            placeholder="Senha"
+            type="password"
+            value={ password }
+            onChange={ (e) => setPassword(e.target.value) }
+            required
+            minLength={ 6 }
+          />
+        </label>
         <br />
         <Link to="/">
-          <button
-            type="button"
-            data-testid="signin-btn"
-            disabled={ !isValid }
-          // onClick={() => setLocalStorage(email)}
-          >
+          <button type="button" data-testid="signin-btn" disabled={ !isValid }>
             Entrar
           </button>
         </Link>
         <Link to="/register">
-          <button
-            type="button"
-            data-testid="no-account-btn"
-          >
+          <button type="button" data-testid="no-account-btn">
             Ainda nao tenho conta
           </button>
         </Link>
