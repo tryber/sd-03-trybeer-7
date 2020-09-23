@@ -6,9 +6,11 @@ const userLogin = async (email, password) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password }),
-  });
-  const response = await request.json();
-  return response.token;
+  })
+    .then((response) => response.json())
+    .then((data) => data.token)
+    .catch((error) => error);
+  return request;
 };
 
 export default userLogin;

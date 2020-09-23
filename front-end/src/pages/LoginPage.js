@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
+import userLogin from '../services';
 
 const isEmailValid = (email) => {
   const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -10,18 +12,41 @@ const minimumLength = 6;
 const isPasswordValid = (password) => password.length > minimumLength;
 
 const LoginPage = () => {
+  const { setToken } = useContext(AuthContext);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
+  const [hasLogged, setHasLogged] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (isEmailValid(email) && isPasswordValid(password)) setIsValid(true);
     if (!isEmailValid(email) || !isPasswordValid(password)) setIsValid(false);
   }, [email, password]);
 
+  useEffect(() => {
+    if (!hasLogged) return;
+    userLogin(email, password).then((response) => (
+      !error ? setToken(response) : setError(error.message)
+    ));
+    setHasLogged(false);
+    return () => {
+      setHasLogged(false);
+      setError(null);
+    };
+  }, [hasLogged]);
+
   return (
     <div style={ { margin: 'auto', height: '640px', display: 'flex' } }>
-      <form className="form-container">
+      {error && <h4>{error}</h4>}
+      <form
+        className="form-container"
+        onSubmit={ (event) => {
+          event.preventDefault();
+          setHasLogged(!hasLogged);
+        } }
+      >
         <input
           data-testid="email-input"
           placeholder="Email"
@@ -39,21 +64,16 @@ const LoginPage = () => {
           minLength={ 6 }
         />
         <br />
-        <Link to="/">
-          <button
-            type="button"
-            data-testid="signin-btn"
-            disabled={ !isValid }
+        <button
+          type="submit"
+          data-testid="signin-btn"
+          disabled={ !isValid }
           // onClick={() => setLocalStorage(email)}
-          >
-            Entrar
-          </button>
-        </Link>
+        >
+          Entrar
+        </button>
         <Link to="/register">
-          <button
-            type="button"
-            data-testid="no-account-btn"
-          >
+          <button type="button" data-testid="no-account-btn">
             Ainda nao tenho conta
           </button>
         </Link>
