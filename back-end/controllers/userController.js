@@ -10,11 +10,13 @@ user
   .route('/')
   .post(validateSchema(schemas.userSchema), async (req, res, next) => {
     try {
-      const { name, email, password } = req.body;
+      const { name, email, password, role } = req.body;
+      const userData = await userServices.addUser(name, email, password, role);
 
-      const userData = await userServices.addUser(name, email, password);
       return res.status(201).json({
-        message: `User id.${userData.id} created at ${Date.now}`,
+        message: `User ID:${
+          userData.userID
+        } created at ${new Date().toISOString()}`,
       });
     } catch (error) {
       next(error);

@@ -24,7 +24,7 @@ const findByEmail = async (userEmail) => {
     );
     return userResult;
   } catch (error) {
-    return error;
+    throw new Error(error.message);
   }
 };
 
@@ -36,9 +36,9 @@ const createUser = async (name, email, password, role) => {
       .insert(['name', 'email', 'password', 'role'])
       .values(name, email, password, role)
       .execute();
-    return updateQuery;
+    return { userID: updateQuery.getAutoIncrementValue() };
   } catch (error) {
-    return error;
+    throw new Error(error.message);
   }
 };
 
