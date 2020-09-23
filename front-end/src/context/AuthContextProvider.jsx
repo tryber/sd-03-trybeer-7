@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import jwt from 'jwt-decode';
 import AuthContext from './AuthContext';
 
-const initialTokenState = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
+const initialTokenState = localStorage.getItem('user')
+  ? JSON.parse(localStorage.getItem('user')).token
+  : null;
 
 export default ({ children }) => {
   const [token, setToken] = useState(initialTokenState);
@@ -10,7 +12,7 @@ export default ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    if (!token) return;
+    if (!token) return undefined;
     const decodedData = jwt(token);
     const userData = { ...decodedData.data, token };
     localStorage.setItem('user', JSON.stringify(userData));
@@ -29,5 +31,5 @@ export default ({ children }) => {
     user,
   };
 
-  return <AuthContext.Provider value={store}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={ store }>{children}</AuthContext.Provider>;
 };
