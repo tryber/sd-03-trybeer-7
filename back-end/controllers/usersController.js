@@ -2,23 +2,29 @@ const { Router } = require('express');
 
 const { usersService } = require('../services');
 const middlewares = require('../middlewares');
-const { generateError } = require('../utils');
 
+const { schemas, validateSchema } = middlewares.validation;
 const user = Router();
 
-user.route('/').post(async (req, res, next) => {
-  try {
-    const { name, email, password } = req.body;
+user.route('/').post(
+  validateSchema(schemas.userSchema),
+  async (req, _res, next) => {
+    try {
+      const { name, email, password, role } = req.body;
+      const userData = await usersService.addUser(name, email, password, role);
 
-    const userData = await usersService.addUser(name, email, password);
-    return res.status(201).json({
-      message: `User id.${userData.id} created at ${Date.now}`,
-    });
-  } catch (error) {
-    next(generateError(400, error));
-  }
-});
+      if (!userData) throw new Error();
 
-user.route('/login').post(middlewares.login);
+      return next();
+    } catch (error) {
+      next(error);
+    }
+  },
+  middlewares.login,
+);
+
+user
+  .route('/login')
+  .post(validateSchema(schemas.loginSchema), middlewares.login);
 
 module.exports = user;
