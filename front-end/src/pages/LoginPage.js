@@ -9,7 +9,7 @@ const isEmailValid = (email) => {
 };
 // guardando numero numa variavel como pede o Eslint (No magic number rule)
 const minimumLength = 6;
-const isPasswordValid = (password) => password.length > minimumLength;
+const isPasswordValid = (password) => password.length >= minimumLength;
 
 const LoginPage = () => {
   const { setToken, user, loggedIn } = useContext(AuthContext);
