@@ -26,7 +26,7 @@ const LoginPage = () => {
   }, [email, password]);
 
   useEffect(() => {
-    if (!hasLogged) return;
+    if (!hasLogged) return undefined;
     userLogin(email, password).then((response) => (
       !error ? setToken(response) : setError(error.message)
     ));
@@ -35,7 +35,7 @@ const LoginPage = () => {
       setHasLogged(false);
       setError(null);
     };
-  }, [hasLogged]);
+  }, [hasLogged, email, error, password, setToken]);
 
   return (
     <div style={ { margin: 'auto', height: '640px', display: 'flex' } }>
