@@ -12,7 +12,7 @@ function App() {
       <AuthProvider>
         <Router>
           <Switch>
-            <Route exact path={path === '/' || '/login'} component={ LoginPage } />
+            <Route exact path={ path === '/' || '/login' } component={ LoginPage } />
             <Route path="/register" component={ RegisterPage } />
           </Switch>
         </Router>
