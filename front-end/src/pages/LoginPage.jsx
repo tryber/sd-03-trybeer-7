@@ -67,11 +67,9 @@ const LoginPage = () => {
           />
         </label>
         <br />
-        <Link to="/">
           <button type="button" data-testid="signin-btn" disabled={ !isValid }>
             ENTRAR
           </button>
-        </Link>
         <Link to="/register">
           <button type="button" data-testid="no-account-btn">
             Ainda nao tenho conta
