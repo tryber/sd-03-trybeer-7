@@ -8,12 +8,14 @@ import RegisterPage from './pages/Register/RegisterPage';
 function App() {
   return (
     <div className="App">
-      <Router>
-        <Switch>
-          <Route exact path="/login" component={ LoginPage } />
-          <Route path="/register" component={ RegisterPage } />
-        </Switch>
-      </Router>
+      <AuthProvider>
+        <Router>
+          <Switch>
+            <Route exact path="/login" component={LoginPage} />
+            <Route path="/register" component={RegisterPage} />
+          </Switch>
+        </Router>
+      </AuthProvider>
     </div>
   );
 }
