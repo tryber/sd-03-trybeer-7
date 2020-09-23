@@ -4,6 +4,7 @@ import AuthProvider from './context/AuthContextProvider';
 import './App.css';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
+import NavBar from './components/NavBar';
 
 function App() {
   return (
@@ -11,8 +12,10 @@ function App() {
       <AuthProvider>
         <Router>
           <Switch>
+            <Route exact path="/" component={ LoginPage } />
             <Route exact path="/login" component={ LoginPage } />
             <Route path="/register" component={ RegisterPage } />
+            <Route path="/navbartest" component={ NavBar } />
           </Switch>
         </Router>
       </AuthProvider>
