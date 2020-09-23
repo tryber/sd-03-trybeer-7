@@ -1,6 +1,6 @@
 const { Router } = require('express');
 
-const { userServices } = require('../services');
+const { usersService } = require('../services');
 const middlewares = require('../middlewares');
 const { generateError } = require('../utils');
 
@@ -10,7 +10,7 @@ user.route('/').post(async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
-    const userData = await userServices.addUser(name, email, password);
+    const userData = await usersService.addUser(name, email, password);
     return res.status(201).json({
       message: `User id.${userData.id} created at ${Date.now}`,
     });

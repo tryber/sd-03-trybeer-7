@@ -10,7 +10,8 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/user', controllers.userController);
+app.use('/user', controllers.usersController);
+app.use('/products', controllers.productsController);
 
 app.get('/', async (_req, res) => res.send('Hello, Trybeer'));
 
