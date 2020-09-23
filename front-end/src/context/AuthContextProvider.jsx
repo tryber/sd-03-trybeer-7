@@ -11,10 +11,11 @@ export default ({ children }) => {
 
   useEffect(() => {
     if (!token) return;
+    console.log(token,user)
     const decodedData = jwt(token);
     const userData = { ...decodedData.data, token };
     localStorage.setItem('user', JSON.stringify(userData));
-    setUser((previousUser) => ({ ...previousUser, userData }));
+    setUser((previousUser) => ({ ...previousUser, ...userData }));
     setLoggedIn(true);
     return () => {
       setToken(null);

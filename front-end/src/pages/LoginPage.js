@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import userLogin from '../services';
 
@@ -12,7 +12,7 @@ const minimumLength = 6;
 const isPasswordValid = (password) => password.length > minimumLength;
 
 const LoginPage = () => {
-  const { setToken } = useContext(AuthContext);
+  const { setToken, user, loggedIn } = useContext(AuthContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -36,6 +36,10 @@ const LoginPage = () => {
       setError(null);
     };
   }, [hasLogged, email, error, password, setToken]);
+
+  if (loggedIn && user.role === 'client') return <Redirect to="/products" />;
+
+  if (loggedIn && user.role === 'administrator') return <Redirect to="/admin/orders" />;
 
   return (
     <div style={ { margin: 'auto', height: '640px', display: 'flex' } }>
