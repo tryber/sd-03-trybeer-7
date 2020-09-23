@@ -40,8 +40,8 @@ const LoginPage = () => {
   if (loggedIn && user.role === 'administrator') return <Redirect to="/admin/orders" />;
 
   return (
-    <div style={ { margin: 'auto', height: '640px', display: 'flex' } }>
-      <form className="form-container">
+    <div>
+      <form>
         <label htmlFor="email">
           Email
           <input
@@ -53,7 +53,7 @@ const LoginPage = () => {
             onChange={ (e) => setEmail(e.target.value) }
           />
         </label>
-        <label htmlFor="passoword">
+        <label htmlFor="password">
           Senha
           <input
             id="password"
@@ -69,7 +69,7 @@ const LoginPage = () => {
         <br />
         <Link to="/">
           <button type="button" data-testid="signin-btn" disabled={ !isValid }>
-            Entrar
+            ENTRAR
           </button>
         </Link>
         <Link to="/register">
