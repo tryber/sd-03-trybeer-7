@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import AuthProvider from './context/AuthContextProvider';
 import './App.css';
 import LoginPage from './pages/LoginPage';
@@ -12,7 +12,9 @@ function App() {
       <AuthProvider>
         <Router>
           <Switch>
-            <Route exact path="/" component={ LoginPage } />
+            <Redirect to="/login">
+              <Route exact path="/"/>
+            </Redirect>
             <Route exact path="/login" component={ LoginPage } />
             <Route path="/register" component={ RegisterPage } />
             <Route path="/navbartest" component={ NavBar } />
