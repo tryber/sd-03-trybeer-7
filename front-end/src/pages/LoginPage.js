@@ -72,7 +72,6 @@ const LoginPage = () => {
           type="submit"
           data-testid="signin-btn"
           disabled={ !isValid }
-          // onClick={() => setLocalStorage(email)}
         >
           Entrar
         </button>
