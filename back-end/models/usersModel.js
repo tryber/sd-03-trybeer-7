@@ -36,6 +36,7 @@ const createUser = async (name, email, password, role) => {
       .insert(['name', 'email', 'password', 'role'])
       .values(name, email, password, role)
       .execute();
+    // função getAutoIncrement retorna valor do ID gerado pela query
     return { userID: updateQuery.getAutoIncrementValue() };
   } catch (error) {
     throw new Error(error.message);
