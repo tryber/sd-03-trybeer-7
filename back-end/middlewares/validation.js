@@ -11,9 +11,9 @@ const schemas = {
       .required(),
     email: Joi.string()
       .email({
-        minDomainSegments: 2,
+        minDomainSegments: 1,
         tlds: {
-          allow: ['com', 'net'],
+          allow: ['trybe'],
         },
       })
       .required(),
@@ -30,7 +30,7 @@ const schemas = {
       .email({
         minDomainSegments: 2,
         tlds: {
-          allow: ['com', 'net'],
+          allow: ['com', 'net', 'br'],
         },
       })
       .required(),
@@ -49,6 +49,7 @@ const validateSchema = (schema) => async (req, _res, next) => {
 
     return next();
   } catch (error) {
+    console.log(error.details[0]);
     return next(generateError(errorCode, error));
   }
 };
