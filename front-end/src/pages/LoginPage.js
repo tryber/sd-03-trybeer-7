@@ -75,11 +75,11 @@ const LoginPage = () => {
         </label>
         <br />
         <button type="submit" data-testid="signin-btn" disabled={ !isValid }>
-          Entrar
+          ENTRAR
         </button>
         <Link to="/register">
           <button type="button" data-testid="no-account-btn">
-            Ainda nao tenho conta
+            Ainda não tenho conta
           </button>
         </Link>
       </form>
