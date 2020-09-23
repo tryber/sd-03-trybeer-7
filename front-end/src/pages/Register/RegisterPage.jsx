@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { Redirect } from 'react-router-dom';
 import { registerUser } from '../../services';
 import AuthContext from '../../context/AuthContext';
 
@@ -31,7 +32,7 @@ const RegisterPage = () => {
   const [isValid, setIsValid] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
 
-  const { setToken, loggedIn } = useContext(AuthContext);
+  const { setToken, loggedIn, user } = useContext(AuthContext);
 
   useEffect(() => {
     if (!isSubmit) return undefined;
@@ -48,6 +49,10 @@ const RegisterPage = () => {
       ? setIsValid(true)
       : setIsValid(false);
   }, [email, password, name]);
+
+  if (loggedIn && user.role === 'client') return <Redirect to="/products" />;
+
+  if (loggedIn && user.role === 'administrator') return <Redirect to="/admin/orders" />;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>

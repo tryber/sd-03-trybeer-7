@@ -49,7 +49,6 @@ const validateSchema = (schema) => async (req, _res, next) => {
 
     return next();
   } catch (error) {
-    console.log(error);
     return next(generateError(errorCode, error));
   }
 };
