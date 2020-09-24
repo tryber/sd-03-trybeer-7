@@ -35,17 +35,6 @@ const RegisterPage = () => {
   const { setToken, loggedIn, user } = useContext(AuthContext);
 
   useEffect(() => {
-    if (!isSubmit) return undefined;
-    submitUser(name, email, password, isAdmin).then((response) => setToken(response));
-    setIsSubmit(false);
-    return () => {
-      setIsAdmin(false);
-      setIsValid(false);
-      setIsSubmit(false);
-    };
-  }, [isSubmit, isAdmin, name, email, password, setToken]);
-
-  useEffect(() => {
     if (emailValidation(email)
     && isPasswordValid(password)
     && nameValidation(name)
@@ -58,6 +47,17 @@ const RegisterPage = () => {
 
     return () => setIsValid(false);
   }, [email, password, name]);
+
+  useEffect(() => {
+    if (!isSubmit) return undefined;
+    submitUser(name, email, password, isAdmin).then((response) => setToken(response));
+    setIsSubmit(false);
+    return () => {
+      setIsAdmin(false);
+      setIsValid(false);
+      setIsSubmit(false);
+    };
+  }, [isSubmit, isAdmin, name, email, password, setToken]);
 
   if (loggedIn && user.role === 'client') return <Redirect to="/products" />;
 
