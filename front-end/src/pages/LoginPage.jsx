@@ -28,8 +28,14 @@ const LoginPage = () => {
   useEffect(() => {
     if (!hasLogged) return undefined;
     userLogin(email, password)
-      .then((response) => (!error ? setToken(response) : setError(error.message)));
-    setHasLogged(false);
+      .then((response) => {
+        setToken(response);
+        return setHasLogged(false);
+      }, (response) => {
+        setError(response);
+        return setHasLogged(false);
+      });
+
     return () => {
       setHasLogged(false);
       setError(null);

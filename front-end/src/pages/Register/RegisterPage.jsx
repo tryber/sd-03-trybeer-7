@@ -31,6 +31,7 @@ const RegisterPage = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [error, setError] = useState(null);
 
   const { setToken, loggedIn, user } = useContext(AuthContext);
 
@@ -50,8 +51,14 @@ const RegisterPage = () => {
 
   useEffect(() => {
     if (!isSubmit) return undefined;
-    submitUser(name, email, password, isAdmin).then((response) => setToken(response));
-    setIsSubmit(false);
+    submitUser(name, email, password, isAdmin).then((response) => {
+      setToken(response);
+      return setIsSubmit(false);
+    }, (response) => {
+      setError(response);
+      return setIsSubmit(false);
+    });
+
     return () => {
       setIsAdmin(false);
       setIsValid(false);
@@ -65,6 +72,7 @@ const RegisterPage = () => {
 
   return (
     <div style={ { display: 'flex', flexDirection: 'column' } }>
+      {error && <h4>{error}</h4>}
       <form
         onSubmit={ (event) => {
           event.preventDefault();
