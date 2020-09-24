@@ -7,9 +7,11 @@ const userLogin = async (email, password) => {
     },
     body: JSON.stringify({ email, password }),
   })
-    .then((response) => response.json())
-    .then((data) => data.token)
-    .catch((error) => error);
+    .then((response) => response
+      .json()
+      .then((data) => (response.ok
+        ? Promise.resolve(data.token)
+        : Promise.reject(data.message))));
   return request;
 };
 
@@ -20,18 +22,19 @@ const registerUser = async (name, email, password, role) => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(
-      {
-        name,
-        email,
-        password,
-        role,
-      },
-    ),
+    body: JSON.stringify({
+      name,
+      email,
+      password,
+      role,
+    }),
   })
-    .then((response) => response.json())
-    .then((data) => data.token)
-    .catch((error) => error);
+    .then((response) => response
+      .json()
+      .then((data) => (response.ok
+        ? Promise.resolve(data.token)
+        : Promise.reject(data.message))));
+    console.log(request)
   return request;
 };
 
