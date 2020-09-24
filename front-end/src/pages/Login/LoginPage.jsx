@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import { userLogin } from '../../services';
 
@@ -13,7 +13,7 @@ const isPasswordValid = (password) => password.length >= minimumLength;
 
 const LoginPage = () => {
   const history = useHistory();
-  const { setToken, user, loggedIn } = useContext(AuthContext);
+  const { setToken } = useContext(AuthContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
