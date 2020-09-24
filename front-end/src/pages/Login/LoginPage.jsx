@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import { userLogin } from '../../services';
 
@@ -12,14 +12,13 @@ const minimumLength = 6;
 const isPasswordValid = (password) => password.length >= minimumLength;
 
 const LoginPage = () => {
-  const {
-    setToken, user, loggedIn,
-  } = useContext(AuthContext);
+  const history = useHistory();
+  const { setToken, user, loggedIn } = useContext(AuthContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
-  const [hasLogged, setHasLogged] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -28,25 +27,30 @@ const LoginPage = () => {
   }, [email, password]);
 
   useEffect(() => {
-    if (!hasLogged) return undefined;
+    if (!isSubmit) return undefined;
     userLogin(email, password)
-      .then((response) => {
-        setToken(response);
-        return setHasLogged(false);
-      }, (response) => {
-        setError(response);
-        return setHasLogged(false);
+      .then(
+        (response) => {
+          setToken(response);
+          setIsSubmit(false);
+        },
+        (response) => {
+          setError(response);
+          setIsSubmit(false);
+        },
+      )
+      .then(() => {
+        const { role } = JSON.parse(localStorage.getItem('user'));
+        if (role === 'client') return history.push('/products');
+        if (role === 'administrator') return history.push('/admin/orders');
+        return undefined;
       });
 
     return () => {
-      setHasLogged(false);
+      setIsSubmit(false);
       setError(null);
     };
-  }, [hasLogged, email, error, password, setToken]);
-
-  if (loggedIn && user.role === 'client') return <Redirect to="/products" />;
-
-  if (loggedIn && user.role === 'administrator') return <Redirect to="/admin/orders" />;
+  }, [isSubmit, email, error, password, setToken, history]);
 
   return (
     <div style={ { margin: 'auto', height: '640px', display: 'flex' } }>
@@ -55,7 +59,7 @@ const LoginPage = () => {
         className="form-container"
         onSubmit={ (event) => {
           event.preventDefault();
-          setHasLogged(!hasLogged);
+          setIsSubmit(!isSubmit);
         } }
       >
         <label htmlFor="email">
