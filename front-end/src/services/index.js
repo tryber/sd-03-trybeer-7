@@ -37,4 +37,24 @@ const registerUser = async (name, email, password, role) => {
   return request;
 };
 
-export { userLogin, registerUser };
+const updateUser = async (name, email) => {
+  const request = fetch('http://localhost:3001/user/profile', {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name,
+      email,
+    }),
+  })
+    .then((response) => response
+      .json()
+      .then((data) => (response.ok
+        ? Promise.resolve(data.token)
+        : Promise.reject(data.message))));
+  return request;
+};
+
+export { userLogin, registerUser, updateUser };

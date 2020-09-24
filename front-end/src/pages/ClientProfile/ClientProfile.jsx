@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
+import { updateUser } from '../../services';
 import AuthContext from '../../context/AuthContext';
 
 const nameValidation = (name) => {
@@ -15,7 +16,7 @@ function ClientProfile() {
   const [isSubmit, setIsSubmit] = useState(false);
   const [error, setError] = useState(null);
 
-  const { loggedIn, user } = useContext(AuthContext);
+  const { loggedIn, user, setToken } = useContext(AuthContext);
 
   useEffect(() => {
     if (nameValidation(name)
@@ -26,6 +27,22 @@ function ClientProfile() {
 
     return () => setIsValid(false);
   }, [name]);
+
+  useEffect(() => {
+    if (!isSubmit) return undefined;
+    updateUser(name, user.email).then((response) => {
+      setToken(response);
+      return setIsSubmit(false);
+    }, (response) => {
+      setError(response);
+      return setIsSubmit(false);
+    });
+
+    return () => {
+      setIsValid(false);
+      setIsSubmit(false);
+    };
+  }, [isSubmit, name, user.email, setToken]);
 
   if (!loggedIn) return <Redirect to="/login" />;
   return (
@@ -41,10 +58,10 @@ function ClientProfile() {
           Nome
           <input
             id="name"
-            data-testid="signup-name"
+            data-testid="profile-name-input"
             placeholder="Nome"
             type="text"
-            value={ name }
+            value={ user.name }
             onChange={ (event) => setName(event.target.value) }
             required
             minLength={ 12 }
@@ -55,7 +72,7 @@ function ClientProfile() {
           Email
           <input
             id="email"
-            data-testid="signup-email"
+            data-testid="profile-email-input"
             type="email"
             value={ user.email }
             readOnly
@@ -65,7 +82,7 @@ function ClientProfile() {
           type="submit"
           disabled={ !isValid }
           style={ { width: '150px', margin: 'auto' } }
-          data-testid="signup-btn"
+          data-testid="profile-save-btn"
         >
           Salvar
         </button>

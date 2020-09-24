@@ -23,14 +23,16 @@ user.route('/register').post(
   middlewares.login,
 );
 
-user.route('/profile').put(async (req, _res, next) => {
+user.route('/profile').put(validateSchema(schemas.userUpdateSchema), async (req, _res, next) => {
   try {
     const { name, email } = req.body;
     const updatedUser = await usersService.updateUser(name, email);
     if (!updatedUser) throw new Error();
 
     const userData = await usersService.getUserByEmail(email);
-    req.body = userData;
+    const { password, ...data } = userData;
+
+    req.body = { ...req.body, ...data };
     return next();
   } catch (error) {
     next(error);
