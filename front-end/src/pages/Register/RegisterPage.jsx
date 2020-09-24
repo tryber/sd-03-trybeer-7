@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { registerUser } from '../../services';
 import AuthContext from '../../context/AuthContext';
 
@@ -25,6 +25,8 @@ const submitUser = async (name, email, password, role) => {
 };
 
 const RegisterPage = () => {
+  const history = useHistory();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -33,7 +35,7 @@ const RegisterPage = () => {
   const [isSubmit, setIsSubmit] = useState(false);
   const [error, setError] = useState(null);
 
-  const { setToken, loggedIn, user } = useContext(AuthContext);
+  const { setToken } = useContext(AuthContext);
 
   useEffect(() => {
     if (emailValidation(email)
@@ -57,6 +59,11 @@ const RegisterPage = () => {
     }, (response) => {
       setError(response);
       return setIsSubmit(false);
+    }).then(() => {
+      const { role } = JSON.parse(localStorage.getItem('user'));
+      if (role === 'client') return history.push('/products');
+      if (role === 'administrator') return history.push('/admin/orders');
+      return undefined;
     });
 
     return () => {
@@ -64,11 +71,7 @@ const RegisterPage = () => {
       setIsValid(false);
       setIsSubmit(false);
     };
-  }, [isSubmit, isAdmin, name, email, password, setToken]);
-
-  if (loggedIn && user.role === 'client') return <Redirect to="/products" />;
-
-  if (loggedIn && user.role === 'administrator') return <Redirect to="/admin/orders" />;
+  }, [isSubmit, isAdmin, name, email, password, setToken, history]);
 
   return (
     <div style={ { display: 'flex', flexDirection: 'column' } }>
