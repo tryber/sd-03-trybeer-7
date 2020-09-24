@@ -39,6 +39,20 @@ const schemas = {
       .max(12)
       .required(),
   }),
+  userUpdateSchema: Joi.object({
+    name: Joi.string()
+      .min(12)
+      .max(30)
+      .required(),
+    email: Joi.string()
+      .email({
+        minDomainSegments: 2,
+        tlds: {
+          allow: ['com', 'net', 'br'],
+        },
+      })
+      .required(),
+  }),
 };
 
 const validateSchema = (schema) => async (req, _res, next) => {
