@@ -22,7 +22,7 @@ const submitUser = async (name, email, password, role) => {
   const userRole = role ? 'administrator' : 'client';
   const token = await registerUser(name, email, password, userRole);
   return token;
-}
+};
 
 const RegisterPage = () => {
   const [name, setName] = useState('');
@@ -39,15 +39,24 @@ const RegisterPage = () => {
     submitUser(name, email, password, isAdmin).then((response) => setToken(response));
     setIsSubmit(false);
     return () => {
-      setIsAdmin(false)
+      setIsAdmin(false);
       setIsValid(false);
+      setIsSubmit(false);
     };
-  }, [isSubmit]);
+  }, [isSubmit, isAdmin, name, email, password, setToken]);
 
   useEffect(() => {
-    emailValidation(email) && isPasswordValid(password) && nameValidation(name) && isValidName(name)
-      ? setIsValid(true)
-      : setIsValid(false);
+    if (emailValidation(email)
+    && isPasswordValid(password)
+    && nameValidation(name)
+    && isValidName(name)) setIsValid(true);
+
+    if (!emailValidation(email)
+    || !isPasswordValid(password)
+    || !nameValidation(name)
+    || !isValidName(name)) setIsValid(false);
+
+    return () => setIsValid(false);
   }, [email, password, name]);
 
   if (loggedIn && user.role === 'client') return <Redirect to="/products" />;
@@ -55,59 +64,64 @@ const RegisterPage = () => {
   if (loggedIn && user.role === 'administrator') return <Redirect to="/admin/orders" />;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <form onSubmit={(event) => {
-        event.preventDefault()
-        setIsSubmit(true);
-       }}>
-        <label>
+    <div style={ { display: 'flex', flexDirection: 'column' } }>
+      <form
+        onSubmit={ (event) => {
+          event.preventDefault();
+          setIsSubmit(true);
+        } }
+      >
+        <label htmlFor="name">
           Nome
-        <input
+          <input
+            id="name"
             data-testid="signup-name"
             placeholder="Nome"
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={ name }
+            onChange={ (e) => setName(e.target.value) }
             required
-            minLength={12}
-            maxLength={100}
+            minLength={ 12 }
+            maxLength={ 100 }
           />
-        </label>{' '}
-        <label>
+        </label>
+        <label htmlFor="email">
           Email
-        <input
+          <input
+            id="email"
             data-testid="signup-email"
             placeholder="Email"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={ email }
+            onChange={ (e) => setEmail(e.target.value) }
             required
           />
-        </label>{' '}
-        <label>
+        </label>
+        <label htmlFor="password">
           Senha
-        <input
+          <input
+            id="password"
             data-testid="signup-password"
             placeholder="Senha"
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={ password }
+            onChange={ (e) => setPassword(e.target.value) }
             required
-            minLength={6}
+            minLength={ 6 }
           />
         </label>
-        <label>
+        <label htmlFor="role">
           Quero vender
-        <input onClick={() => setIsAdmin(!isAdmin)} data-testid="signup-seller" type="checkbox" />
+          <input onClick={ () => setIsAdmin(!isAdmin) } data-testid="signup-seller" type="checkbox" id="role" />
         </label>
         <button
           type="submit"
-          disabled={!isValid}
-          style={{ width: '150px', margin: 'auto' }}
+          disabled={ !isValid }
+          style={ { width: '150px', margin: 'auto' } }
           data-testid="signup-btn"
         >
           CADASTRAR
-      </button>
+        </button>
       </form>
     </div>
   );
