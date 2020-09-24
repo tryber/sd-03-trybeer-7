@@ -34,7 +34,6 @@ const registerUser = async (name, email, password, role) => {
       .then((data) => (response.ok
         ? Promise.resolve(data.token)
         : Promise.reject(data.message))));
-    console.log(request)
   return request;
 };
 
