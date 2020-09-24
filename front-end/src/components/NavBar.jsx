@@ -9,7 +9,7 @@ const bar = () => {
   return (
     <div
       className="side-menu-container"
-      style={{ width: '250px', height: '460px', backgroundColor: 'red' }}
+      style={{ width: '250px', height: '460px', backgroundColor: 'black' }}
     >
       {Buttons('Produtos', '/products', 'side-menu-item-products')}
       {Buttons('Meus pedidos', '/orders', 'side-menu-item-my-orders')}
