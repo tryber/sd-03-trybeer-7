@@ -12,7 +12,9 @@ const minimumLength = 6;
 const isPasswordValid = (password) => password.length >= minimumLength;
 
 const LoginPage = () => {
-  const { token, setToken, user, loggedIn } = useContext(AuthContext);
+  const {
+    setToken, user, loggedIn,
+  } = useContext(AuthContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
