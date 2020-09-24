@@ -19,7 +19,17 @@ const addUser = async (name, email, password, role) => {
   }
 };
 
+const updateUser = async (name, email) => {
+  try {
+    const updatedUser = await usersModel.updateUser(name, email);
+    return updatedUser;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
   getUserByEmail,
   addUser,
+  updateUser,
 };

@@ -6,7 +6,7 @@ const middlewares = require('../middlewares');
 const { schemas, validateSchema } = middlewares.validation;
 const user = Router();
 
-user.route('/').post(
+user.route('/register').post(
   validateSchema(schemas.userSchema),
   async (req, _res, next) => {
     try {
@@ -22,6 +22,20 @@ user.route('/').post(
   },
   middlewares.login,
 );
+
+user.route('/profile').put(async (req, _res, next) => {
+  try {
+    const { name, email } = req.body;
+    const updatedUser = await usersService.updateUser(name, email);
+    if (!updatedUser) throw new Error();
+
+    const userData = await usersService.getUserByEmail(email);
+    req.body = userData;
+    return next();
+  } catch (error) {
+    next(error);
+  }
+}, middlewares.login);
 
 user
   .route('/login')

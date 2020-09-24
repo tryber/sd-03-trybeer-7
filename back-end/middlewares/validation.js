@@ -5,8 +5,8 @@ const errorCode = 400;
 
 const schemas = {
   userSchema: Joi.object({
-    name: Joi.string().alphanum()
-      .min(5)
+    name: Joi.string()
+      .min(12)
       .max(30)
       .required(),
     email: Joi.string()
