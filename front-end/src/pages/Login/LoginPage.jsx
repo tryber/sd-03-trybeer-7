@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import AuthContext from '../context/AuthContext';
-import { userLogin } from '../services';
+import AuthContext from '../../context/AuthContext';
+import { userLogin } from '../../services';
 
 const isEmailValid = (email) => {
   const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
