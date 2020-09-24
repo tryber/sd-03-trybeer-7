@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import jwt from 'jwt-decode';
 import AuthContext from './AuthContext';
 
-// const initialTokenState = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
+/* const initialTokenState = localStorage.getItem('user') ?
+  JSON.parse(localStorage.getItem('user')).token : null; */
 const initialUserState = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
 const initialLoggedInState = !!localStorage.getItem('user');
 
