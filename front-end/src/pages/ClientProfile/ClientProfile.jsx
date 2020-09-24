@@ -2,11 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 
-const emailValidation = (email) => {
-  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-  return !!email && typeof email === 'string' && !!email.match(emailRegex);
-};
-
 const nameValidation = (name) => {
   const nameRegex = /^[a-zA-Z]+(([a-zA-Z ])?[a-zA-Z]*)*$/;
   return !!name && typeof name === 'string' && !!name.match(nameRegex);
@@ -14,17 +9,13 @@ const nameValidation = (name) => {
 const minimumNameLength = 12;
 const isValidName = (name) => name.length >= minimumNameLength;
 
-const minimumLength = 6;
-const isPasswordValid = (password) => password.length >= minimumLength;
-
 function ClientProfile() {
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [isValid, setIsValid] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [error, setError] = useState(null);
 
-  const { setToken, loggedIn, user } = useContext(AuthContext);
+  const { loggedIn, user } = useContext(AuthContext);
 
   useEffect(() => {
     if (nameValidation(name)
@@ -54,7 +45,7 @@ function ClientProfile() {
             placeholder="Nome"
             type="text"
             value={ name }
-            onChange={ (e) => setName(e.target.value) }
+            onChange={ (event) => setName(event.target.value) }
             required
             minLength={ 12 }
             maxLength={ 100 }
@@ -66,7 +57,7 @@ function ClientProfile() {
             id="email"
             data-testid="signup-email"
             type="email"
-            value={ email }
+            value={ user.email }
             readOnly
           />
         </label>
