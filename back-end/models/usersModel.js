@@ -54,7 +54,7 @@ const updateUser = async (name, email) => {
       .bind('email', email)
       .execute();
   } catch (error) {
-    return error;
+    throw new Error(error.message);
   }
 };
 
