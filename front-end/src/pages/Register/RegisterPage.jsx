@@ -41,12 +41,12 @@ const RegisterPage = () => {
     if (emailValidation(email)
     && isPasswordValid(password)
     && nameValidation(name)
-    && isValidName(name)) setIsValid(true);
+    && isValidName(name)) return setIsValid(true);
 
     if (!emailValidation(email)
     || !isPasswordValid(password)
     || !nameValidation(name)
-    || !isValidName(name)) setIsValid(false);
+    || !isValidName(name)) return setIsValid(false);
 
     return () => setIsValid(false);
   }, [email, password, name]);
