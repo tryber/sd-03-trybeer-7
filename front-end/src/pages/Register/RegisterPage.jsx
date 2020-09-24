@@ -109,7 +109,7 @@ const RegisterPage = () => {
           />
         </label>
         <label htmlFor="password">
-          Senha
+          Password
           <input
             id="password"
             data-testid="signup-password"
