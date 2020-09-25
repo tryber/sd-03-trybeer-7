@@ -15,8 +15,8 @@ function ClientProfile() {
   const { setToken } = useContext(AuthContext);
   const userData = JSON.parse(localStorage.getItem('user'));
   const [user, setUser] = useState(null);
-  const { name, email } = user || userData;
-  const [updatedName, setUpdatedName] = useState(name);
+  const { name, email } = user || userData || '';
+  const [updatedName, setUpdatedName] = useState(name || '');
   const [isValid, setIsValid] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [error, setError] = useState(null);
@@ -32,7 +32,7 @@ function ClientProfile() {
   }, [updatedName]);
 
   useEffect(() => {
-    if (!user) setUser(userData);
+    if (!user) setUser((previousUser) => ({ ...previousUser, ...userData }));
     if (!isSubmit) return undefined;
     updateUser(updatedName, email).then((response) => {
       setToken(response);
