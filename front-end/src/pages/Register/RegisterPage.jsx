@@ -131,7 +131,7 @@ const RegisterPage = () => {
           style={ { width: '150px', margin: 'auto' } }
           data-testid="signup-btn"
         >
-          CADASTRAR
+          Cadastrar
         </button>
       </form>
     </div>
