@@ -36,7 +36,7 @@ const lowerProductQuantity = (index, productList, callback) => {
 const removeProductFromCart = (product, productList, callback) => {
   const productIndex = productList.indexOf(product);
   const isSingleProduct = productList[productIndex].quantity
-  && productList[productIndex].quantity <= 1;
+  && productList[productIndex].quantity < 1;
 
   return isSingleProduct
     ? removeEntireProduct(productIndex, productList, callback)
