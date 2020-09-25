@@ -17,7 +17,7 @@ function App() {
           <Switch>
             <Route exact path={ path === '/' || '/login' } component={ LoginPage } />
             <Route path="/register" component={ RegisterPage } />
-            <Route path="/admin/profile" component={ AdminProfile }/>
+            <Route path="/admin/profile" component={ AdminProfile } />
             <Route path="/profile" component={ ClientProfile } />
             <Route path="/navbartest" component={ NavBar } />
           </Switch>
