@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { updateUser } from '../../services';
 import AuthContext from '../../context/AuthContext';
+import NavBar from '../../components/NavBar';
+import { updateUser } from '../../services';
 
 const nameValidation = (name) => {
   const nameRegex = /^[a-zA-Z]+(([a-zA-Z ])?[a-zA-Z]*)*$/;
@@ -49,6 +50,7 @@ function ClientProfile() {
   if (!userData) return <Redirect to="/login" />;
   return (
     <div style={ { display: 'flex', flexDirection: 'column' } }>
+      <NavBar title="Meu perfil" />
       {error && <h4>{error}</h4>}
       <form
         onSubmit={ (event) => {
