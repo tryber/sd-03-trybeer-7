@@ -122,7 +122,7 @@ const RegisterPage = () => {
           />
         </label>
         <label htmlFor="role">
-          Quero vender
+          Quero Vender
           <input onClick={ () => setIsAdmin(!isAdmin) } data-testid="signup-seller" type="checkbox" id="role" />
         </label>
         <button
