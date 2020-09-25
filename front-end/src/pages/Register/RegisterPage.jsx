@@ -54,11 +54,10 @@ const RegisterPage = () => {
     if (!isSubmit) return undefined;
     submitUser(name, email, password, isAdmin).then((response) => {
       setToken(response);
-      setIsSubmit(false);
-      return setRedirect(true);
+      setRedirect(true);
     }, (response) => {
       setError(response);
-      return setIsSubmit(false);
+      setIsSubmit(false);
     });
 
     return () => {
