@@ -34,6 +34,7 @@ const RegisterPage = () => {
   const [isValid, setIsValid] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [error, setError] = useState(null);
+  const [redirect, setRedirect] = useState(false);
 
   const { setToken } = useContext(AuthContext);
 
@@ -55,15 +56,11 @@ const RegisterPage = () => {
     if (!isSubmit) return undefined;
     submitUser(name, email, password, isAdmin).then((response) => {
       setToken(response);
-      return setIsSubmit(false);
+      setIsSubmit(false);
+      return setRedirect(true);
     }, (response) => {
       setError(response);
       return setIsSubmit(false);
-    }).then(() => {
-      const { role } = JSON.parse(localStorage.getItem('user'));
-      if (role === 'client') return history.push('/products');
-      if (role === 'administrator') return history.push('/admin/orders');
-      return undefined;
     });
 
     return () => {
@@ -72,6 +69,11 @@ const RegisterPage = () => {
       setIsSubmit(false);
     };
   }, [isSubmit, isAdmin, name, email, password, setToken, history]);
+
+  if (redirect) {
+    const { role } = JSON.parse(localStorage.getItem('user'));
+    return role === 'administrator' ? history.push('/admin/orders') : history.push('/products');
+  }
 
   return (
     <div style={ { display: 'flex', flexDirection: 'column' } }>

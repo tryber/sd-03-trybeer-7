@@ -20,6 +20,7 @@ const LoginPage = () => {
   const [isValid, setIsValid] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [error, setError] = useState(null);
+  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     if (isEmailValid(email) && isPasswordValid(password)) setIsValid(true);
@@ -33,24 +34,24 @@ const LoginPage = () => {
         (response) => {
           setToken(response);
           setIsSubmit(false);
+          return setRedirect(true);
         },
         (response) => {
           setError(response);
-          setIsSubmit(false);
+          return setIsSubmit(false);
         },
-      )
-      .then(() => {
-        const { role } = JSON.parse(localStorage.getItem('user'));
-        if (role === 'client') return history.push('/products');
-        if (role === 'administrator') return history.push('/admin/orders');
-        return undefined;
-      });
+      );
 
     return () => {
       setIsSubmit(false);
       setError(null);
     };
   }, [isSubmit, email, error, password, setToken, history]);
+
+  if (redirect) {
+    const { role } = JSON.parse(localStorage.getItem('user'));
+    return role === 'administrator' ? history.push('/admin/orders') : history.push('/products');
+  }
 
   return (
     <div style={ { margin: 'auto', height: '640px', display: 'flex' } }>
