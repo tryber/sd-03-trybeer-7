@@ -4,7 +4,7 @@ import NavBar from '../../components/NavBar';
 
 function AdminProfile() {
   const userData = JSON.parse(localStorage.getItem('user'));
-  if (!userData || userData.role !== "admin") return <Redirect to="/login" />;
+  if (!userData || userData.role !== "administrator") return <Redirect to="/login" />;
   return (
     <div style={ { display: 'flex', flexDirection: 'column' } }>
       <NavBar title="Meu perfil" />
