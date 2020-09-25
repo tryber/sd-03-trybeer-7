@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
-import Buttons from './Buttons';
+import Button from './Button';
 
 function renderNavBar(showBar, setShowBar) {
   return showBar === true ? setShowBar(false) : setShowBar(true);
 }
 
-const bar = () => {
-  return (
+const bar = (role) => {
+  role === "client" ? (
     <div
       className="side-menu-container"
       style={{ width: '250px', height: '460px', backgroundColor: 'black' }}
     >
-      {Buttons('Produtos', '/products', 'side-menu-item-products')}
-      {Buttons('Meus pedidos', '/orders', 'side-menu-item-my-orders')}
-      {Buttons('Meu perfil', '/profile', 'side-menu-item-my-profile')}
-      {Buttons('Sair', '/login', 'side-menu-item-logout')}
+      {Button('Produtos', '/products', 'side-menu-item-products')}
+      {Button('Meus pedidos', '/orders', 'side-menu-item-my-orders')}
+      {Button('Meu perfil', '/profile', 'side-menu-item-my-profile')}
+      {Button('Sair', '/login', 'side-menu-item-logout')}
     </div>
+  ) : (
+  <div><p>{role}</p></div>
   );
 };
 
-function NavBar({ title = 'Trybeer' }) {
+function NavBar({ title = 'Trybeer', role }) {
   const [showBar, setShowBar] = useState(false);
   return (
     <div style={{ width: '360px' }}>
@@ -41,7 +43,7 @@ function NavBar({ title = 'Trybeer' }) {
         </button>
         <h2 data-testid="top-title">{title}</h2>
       </div>
-      {showBar === true ? bar() : null}
+      {showBar === true ? bar(role) : null}
     </div>
   );
 }
