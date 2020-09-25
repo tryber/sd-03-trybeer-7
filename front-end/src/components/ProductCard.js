@@ -43,7 +43,7 @@ export default function ProductCard({ product }) {
   const initialQuantity = 0;
   return (
     <div key={ product.name }>
-      <img src={ product.imageUrl } alt={ product.name } />
+      <img src={ product.urlImage } alt={ product.name } />
       <br />
       <p>{product.name}</p>
       <br />
@@ -68,7 +68,7 @@ export default function ProductCard({ product }) {
 ProductCard.propTypes = {
   product: PropTypes.shape({
     name: PropTypes.string,
-    imageUrl: PropTypes.string,
+    urlImage: PropTypes.string,
     quantity: PropTypes.number,
   }).isRequired,
 };
