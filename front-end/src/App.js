@@ -5,6 +5,7 @@ import './App.css';
 import LoginPage from './pages/Login/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
 import ClientProfile from './pages/ClientProfile/ClientProfile';
+import AdminProfile from './pages/AdminProfile/AdminProfile';
 import NavBar from './components/NavBar';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Switch>
             <Route exact path={ path === '/' || '/login' } component={ LoginPage } />
             <Route path="/register" component={ RegisterPage } />
+            <Route path="/admin/profile" component={ AdminProfile }/>
             <Route path="/profile" component={ ClientProfile } />
             <Route path="/navbartest" component={ NavBar } />
           </Switch>
