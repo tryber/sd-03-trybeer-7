@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import { userLogin } from '../../services';
 
@@ -12,7 +12,6 @@ const minimumLength = 6;
 const isPasswordValid = (password) => password.length >= minimumLength;
 
 const LoginPage = () => {
-  const history = useHistory();
   const { setToken } = useContext(AuthContext);
 
   const [email, setEmail] = useState('');
@@ -20,6 +19,7 @@ const LoginPage = () => {
   const [isValid, setIsValid] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [error, setError] = useState(null);
+  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     if (isEmailValid(email) && isPasswordValid(password)) setIsValid(true);
@@ -32,25 +32,25 @@ const LoginPage = () => {
       .then(
         (response) => {
           setToken(response);
-          setIsSubmit(false);
+          setRedirect(true);
         },
         (response) => {
           setError(response);
           setIsSubmit(false);
         },
-      )
-      .then(() => {
-        const { role } = JSON.parse(localStorage.getItem('user'));
-        if (role === 'client') return history.push('/products');
-        if (role === 'administrator') return history.push('/admin/orders');
-        return undefined;
-      });
+      );
 
     return () => {
       setIsSubmit(false);
       setError(null);
+      setRedirect(false);
     };
-  }, [isSubmit, email, error, password, setToken, history]);
+  }, [isSubmit, email, error, password, setToken]);
+
+  if (redirect) {
+    const { role } = JSON.parse(localStorage.getItem('user'));
+    return role === 'administrator' ? <Redirect to="/admin/orders" /> : <Redirect to="/products" />;
+  }
 
   return (
     <div style={ { margin: 'auto', height: '640px', display: 'flex' } }>

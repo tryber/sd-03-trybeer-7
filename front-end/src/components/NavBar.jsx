@@ -1,27 +1,13 @@
 import React, { useState } from 'react';
-import Button from './Button';
+import PropTypes from 'prop-types';
+
+import SideBar from './SideBar';
 
 function renderNavBar(showBar, setShowBar) {
   return showBar === true ? setShowBar(false) : setShowBar(true);
 }
 
-const bar = (role) => {
-  role === "client" ? (
-    <div
-      className="side-menu-container"
-      style={{ width: '250px', height: '460px', backgroundColor: 'black' }}
-    >
-      {Button('Produtos', '/products', 'side-menu-item-products')}
-      {Button('Meus pedidos', '/orders', 'side-menu-item-my-orders')}
-      {Button('Meu perfil', '/profile', 'side-menu-item-my-profile')}
-      {Button('Sair', '/login', 'side-menu-item-logout')}
-    </div>
-  ) : (
-  <div><p>{role}</p></div>
-  );
-};
-
-function NavBar({ title = 'Trybeer', role }) {
+function NavBar({ title = 'Trybeer', role = 'test' }) {
   const [showBar, setShowBar] = useState(false);
   return (
     <div style={{ width: '360px' }}>
@@ -36,16 +22,21 @@ function NavBar({ title = 'Trybeer', role }) {
       >
         <button
           data-testid="top-hamburguer"
-          onClick={(e) => renderNavBar(showBar, setShowBar)}
+          type="button"
+          onClick={() => renderNavBar(showBar, setShowBar)}
           style={{ position: 'fixed', left: '10px', top: '20px' }}
         >
           =
         </button>
         <h2 data-testid="top-title">{title}</h2>
       </div>
-      {showBar === true ? bar(role) : null}
+      {showBar === true ? SideBar(role) : null}
     </div>
   );
 }
+
+NavBar.propTypes = {
+  title: PropTypes.string.isRequired,
+};
 
 export default NavBar;
