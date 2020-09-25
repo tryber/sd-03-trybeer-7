@@ -11,10 +11,10 @@ const bar = () => (
     className="side-menu-container"
     style={ { width: '250px', height: '460px', backgroundColor: 'red' } }
   >
-    {Buttons('Produtos', '/products', 'side-menu-item-products')}
-    {Buttons('Meus pedidos', '/orders', 'side-menu-item-my-orders')}
-    {Buttons('Meu perfil', '/profile', 'side-menu-item-my-profile')}
-    {Buttons('Sair', '/login', 'side-menu-item-logout')}
+    <Buttons title="Produtos" link="/products" testId="side-menu-item-products" />
+    <Buttons title="Meus pedidos" link="/orders" testId="side-menu-item-my-orders" />
+    <Buttons title="Meu perfil" link="/profile" testId="side-menu-item-my-profile" />
+    <Buttons title="Sair" link="/login" testId="side-menu-item-logout" />
   </div>
 );
 
