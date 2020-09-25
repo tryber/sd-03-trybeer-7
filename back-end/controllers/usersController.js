@@ -30,9 +30,9 @@ user.route('/profile').put(validateSchema(schemas.userUpdateSchema), async (req,
     if (!updatedUser) throw new Error();
 
     const userData = await usersService.getUserByEmail(email);
-    const { password, ...data } = userData;
 
-    req.body = { ...req.body, ...data };
+    req.body = userData;
+
     return next();
   } catch (error) {
     next(error);
