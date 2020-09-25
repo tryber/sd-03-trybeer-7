@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import ProductContext from '../context/ProductContext';
 
 const raiseProductQuantity = (product, productList, callback) => {
@@ -22,36 +23,63 @@ const addProductToCart = (product, productList, callback) => {
     : createProductAtCart(product, productList, callback);
 };
 
+const removeEntireProduct = (index, productList, callback) => {
+  productList.splice(index, 1);
+  callback(productList);
+};
+
+const lowerProductQuantity = (index, productList, callback) => {
+  productList[index].quantity -= 1;
+  callback(productList);
+};
+
 const removeProductFromCart = (product, productList, callback) => {
   const productIndex = productList.indexOf(product);
-  if (productList[productIndex].quantity <= 1) {
-    productList.splice(productIndex);
-    callback(productList);
-  }
-  if (productList[productIndex].quantity > 1) {
-    productList[productIndex].quantity -= 1;
-    callback(productList);
-  }
-  return null;
+  const isSingleProduct = productList[productIndex].quantity
+  && productList[productIndex].quantity <= 1;
+
+  return isSingleProduct
+    ? removeEntireProduct(productIndex, productList, callback)
+    : lowerProductQuantity(productIndex, productList, callback);
 };
 
 export default function ProductCard({ product }) {
   const { productCart, setProductCart } = useContext(ProductContext);
+  const { name, imageUrl } = product;
+  const [updateQuantity, setUpdateQuantity] = useState(false);
+
+  useEffect(() => {
+  }, [productCart, updateQuantity]);
 
   return (
-    <div key={ product.name }>
-      <img src={ product.imageUrl } alt={ product.name } />
+    <div key={ name }>
+      <img src={ imageUrl } alt={ name } />
       <br />
-      <p>{product.name}</p>
+      <p>{name}</p>
       <br />
       <button
         type="button"
-        onClick={ () => removeProductFromCart(product, productCart, setProductCart) }
-        disabled={ !product.quantity && product.quantity < 1 }
+        onClick={ () => {
+          removeProductFromCart(product, productCart, setProductCart, setUpdateQuantity);
+          setUpdateQuantity(!updateQuantity);
+        } }
+        disabled={ product.quantity ? product.quantity < 1 : true }
       >
         -
       </button>
-      <p>{product.quantity ? product.quantity : 0}</p>
-      <button type="button" onClick={ () => addProductToCart(product, productCart, setProductCart) }>+</button>
+      <p>{product.quantity ? product.quantity : 0 }</p>
+      <button
+        type="button"
+        onClick={ () => {
+          addProductToCart(product, productCart, setProductCart);
+          setUpdateQuantity(!updateQuantity);
+        } }
+      >
+        +
+      </button>
     </div>);
 }
+
+ProductCard.propTypes = {
+  product: PropTypes.objectOf(PropTypes.string).isRequired,
+};
