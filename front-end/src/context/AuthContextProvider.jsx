@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import jwt from 'jwt-decode';
 import AuthContext from './AuthContext';
 
 const initialTokenState = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
+const initialUserState = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+const initialLoggedInState = !!localStorage.getItem('user');
 
-export default ({ children }) => {
+const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState(initialTokenState);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(initialLoggedInState);
+  const [user, setUser] = useState(initialUserState);
 
   useEffect(() => {
-    if (!token) return;
+    if (!token) return undefined;
     const decodedData = jwt(token);
     const userData = { ...decodedData.data, token };
     localStorage.setItem('user', JSON.stringify(userData));
@@ -29,5 +32,11 @@ export default ({ children }) => {
     user,
   };
 
-  return <AuthContext.Provider value={store}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={ store }>{children}</AuthContext.Provider>;
 };
+
+AuthContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export default AuthContextProvider;
