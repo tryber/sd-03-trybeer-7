@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { registerUser } from '../../services';
 import AuthContext from '../../context/AuthContext';
 
@@ -25,8 +25,6 @@ const submitUser = async (name, email, password, role) => {
 };
 
 const RegisterPage = () => {
-  const history = useHistory();
-
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -67,12 +65,13 @@ const RegisterPage = () => {
       setIsAdmin(false);
       setIsValid(false);
       setIsSubmit(false);
+      setRedirect(false);
     };
-  }, [isSubmit, isAdmin, name, email, password, setToken, history]);
+  }, [isSubmit, isAdmin, name, email, password, setToken]);
 
   if (redirect) {
     const { role } = JSON.parse(localStorage.getItem('user'));
-    return role === 'administrator' ? history.push('/admin/orders') : history.push('/products');
+    return role === 'administrator' ? <Redirect to="/admin/orders" /> : <Redirect to="/products" />;
   }
 
   return (
