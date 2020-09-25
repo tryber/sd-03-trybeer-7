@@ -87,7 +87,7 @@ function ClientProfile() {
         </label>
         <button
           type="submit"
-          disabled={ !isValid && name === updatedName }
+          disabled={ !isValid || name === updatedName }
           style={ { width: '150px', margin: 'auto' } }
           data-testid="profile-save-btn"
         >
