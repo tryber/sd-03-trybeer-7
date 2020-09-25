@@ -43,7 +43,23 @@ const createUser = async (name, email, password, role) => {
   }
 };
 
+const updateUser = async (name, email) => {
+  try {
+    const db = await connection();
+    return db
+      .getTable('users')
+      .update()
+      .set('name', name)
+      .where('email = :email')
+      .bind('email', email)
+      .execute();
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
   findByEmail,
   createUser,
+  updateUser,
 };

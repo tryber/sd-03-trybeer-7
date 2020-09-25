@@ -10,13 +10,15 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/user', controllers.userController);
+app.use('/user', controllers.usersController);
+app.use('/products', controllers.productsController);
 
 app.get('/', async (_req, res) => res.send('Hello, Trybeer'));
 
 app.use((err, _req, res, _next) => {
   if (err.payload) return res.status(err.status).json(err.payload);
-  return res.status(500).json({ message: 'Internal error' });
+  if (err.message.match(/^duplicate./i)) return res.status(400).json({ message: 'E-mail already in database.' });
+  return res.status(500).json({ message: 'Internal Error' });
 });
 
 const { PORT = 3001 } = process.env;

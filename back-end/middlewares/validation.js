@@ -5,15 +5,15 @@ const errorCode = 400;
 
 const schemas = {
   userSchema: Joi.object({
-    name: Joi.string().alphanum()
-      .min(5)
+    name: Joi.string()
+      .min(12)
       .max(30)
       .required(),
     email: Joi.string()
       .email({
-        minDomainSegments: 1,
+        minDomainSegments: 2,
         tlds: {
-          allow: ['trybe'],
+          allow: ['com', 'net', 'br'],
         },
       })
       .required(),
@@ -39,6 +39,20 @@ const schemas = {
       .max(12)
       .required(),
   }),
+  userUpdateSchema: Joi.object({
+    name: Joi.string()
+      .min(12)
+      .max(30)
+      .required(),
+    email: Joi.string()
+      .email({
+        minDomainSegments: 2,
+        tlds: {
+          allow: ['com', 'net', 'br'],
+        },
+      })
+      .required(),
+  }),
 };
 
 const validateSchema = (schema) => async (req, _res, next) => {
@@ -49,7 +63,6 @@ const validateSchema = (schema) => async (req, _res, next) => {
 
     return next();
   } catch (error) {
-    console.log(error.details[0]);
     return next(generateError(errorCode, error));
   }
 };
