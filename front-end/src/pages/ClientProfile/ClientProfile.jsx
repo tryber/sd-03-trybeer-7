@@ -19,6 +19,7 @@ function ClientProfile() {
   const [updatedName, setUpdatedName] = useState(name || '');
   const [isValid, setIsValid] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -36,6 +37,7 @@ function ClientProfile() {
     if (!isSubmit) return undefined;
     updateUser(updatedName, email).then((response) => {
       setToken(response);
+      setMessage('Atualização concluída com sucesso');
       return setIsSubmit(false);
     }, (response) => {
       setError(response);
@@ -52,6 +54,7 @@ function ClientProfile() {
     <div style={ { display: 'flex', flexDirection: 'column' } }>
       <NavBar title="Meu perfil" />
       {error && <h4>{error}</h4>}
+      {message && <h4>{message}</h4>}
       <form
         onSubmit={ (event) => {
           event.preventDefault();
@@ -67,9 +70,8 @@ function ClientProfile() {
             placeholder="Nome"
             type="text"
             value={ updatedName }
-            onChange={ (event) => setUpdatedName(event.target.value) }
+            onChange={ (event) => setUpdatedName(event.target.value.trim()) }
             required
-            minLength={ 12 }
             maxLength={ 100 }
           />
         </label>
@@ -85,7 +87,7 @@ function ClientProfile() {
         </label>
         <button
           type="submit"
-          disabled={ !isValid }
+          disabled={ !isValid && name === updatedName }
           style={ { width: '150px', margin: 'auto' } }
           data-testid="profile-save-btn"
         >
