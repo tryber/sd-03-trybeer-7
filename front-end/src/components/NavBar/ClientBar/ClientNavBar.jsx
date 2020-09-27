@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import SideBar from './SideBar';
+import ClientSideBar from './ClientSideBar';
 
 function renderNavBar(showBar, setShowBar) {
   return showBar === true ? setShowBar(false) : setShowBar(true);
 }
 
-function NavBar({ title = 'Trybeer', role = 'test' }) {
+function ClientNavBar({title}) {
   const [showBar, setShowBar] = useState(false);
   return (
     <div style={{ width: '360px' }}>
@@ -28,15 +28,15 @@ function NavBar({ title = 'Trybeer', role = 'test' }) {
         >
           =
         </button>
-        <h2 data-testid="top-title">{title}</h2>
+        <h2 data-testid="top-title">{`${title}`}</h2>
       </div>
-      {showBar === true ? SideBar(role) : null}
+      {showBar === true ? ClientSideBar() : null}
     </div>
   );
 }
 
-NavBar.propTypes = {
+ClientNavBar.propTypes = {
   title: PropTypes.string.isRequired,
 };
 
-export default NavBar;
+export default ClientNavBar;
