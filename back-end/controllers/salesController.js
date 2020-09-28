@@ -8,10 +8,10 @@ const { schemas, validateSchema } = middlewares.validation;
 const sales = Router();
 
 sales
-  .route('/')
-  .post(validateSchema(schemas.salesbyUserSchema), async (req, res, next) => {
+  .route('/search')
+  .get(validateSchema(schemas.salesbyUserSchema), async (req, res, next) => {
     try {
-      const { userId } = req.body;
+      const { userId } = req.query;
       const salesData = await salesService.saleByUser(userId);
 
       if (!salesData.length) throw new Error('Sales info not found');
