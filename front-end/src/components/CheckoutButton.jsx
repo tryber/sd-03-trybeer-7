@@ -14,7 +14,7 @@ const CheckoutButton = () => {
   useEffect(() => {
   }, [productCart, update]);
 
-  return productCart && productCart.length > zero ? (
+  return (
     <div>
       <Link to="/checkout">
         <button data-testid="checkout-bottom-btn" type="button">
@@ -25,7 +25,7 @@ const CheckoutButton = () => {
         </button>
       </Link>
     </div>
-  ) : null;
+  );
 };
 
 export default CheckoutButton;
