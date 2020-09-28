@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import ProductCard from '../components/ProductCard';
 import CheckoutButton from '../components/CheckoutButton';
-import NavBar from '../components/NavBar';
+import ClientNavBar from '../components/NavBar/ClientBar/ClientNavBar';
 import ProductContext from '../context/ProductContext';
 
 const fetchData = async () => {
@@ -39,8 +39,8 @@ const ProductsPage = () => {
 
   return isLoading ? <h1>Carregando...</h1> : (
     <div>
+      <ClientNavBar title="TryBeer" />
       <div>
-        <NavBar title="TryBeer" />
         { Array.isArray(products)
           ? products.map((product, i) => (
             <ProductCard
