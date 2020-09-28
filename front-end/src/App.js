@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import AuthProvider from './context/AuthContextProvider';
 import ProductProvider from './context/ProductContextProvider';
 import './App.css';
+import OrdersPage from './pages/OrdersPage';
 import LoginPage from './pages/Login/LoginPage';
 import ProductsPage from './pages/ProductsPage';
 import RegisterPage from './pages/Register/RegisterPage';
@@ -21,6 +22,7 @@ function App() {
               <Route exact path={ path === '/' || '/login' } component={ LoginPage } />
               <Route path="/register" component={ RegisterPage } />
               <Route path="/admin/profile" component={ AdminProfile } />
+              <Route path="/admin/orders" component={ OrdersPage } />
               <Route path="/profile" component={ ClientProfile } />
             </Switch>
           </Router>
