@@ -48,14 +48,6 @@ const schemas = {
       })
       .required(),
   }),
-  // Regex: string que contenha número entre 1 - 100000
-  salesbyUserSchema: Joi.object({
-    userId: Joi.string()
-      .pattern(/^[1-9][0-9]?$|^100000$/, { name: 'userId' })
-      // mensagem de erro customizada
-      .rule({ message: 'invalid data' })
-      .required(),
-  }),
 };
 
 const validateSchema = (schema) => async (req, _res, next) => {
