@@ -2,7 +2,6 @@ const connection = require('./connection');
 
 const getSalesByUser = async (userId) => {
   try {
-    console.log('oi')
     const dBase = await connection();
     const searchQuery = await dBase
       .getTable('sales')
