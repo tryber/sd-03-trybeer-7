@@ -32,7 +32,7 @@ const ProductsPage = () => {
     fetchData().then((data) => setProducts(data));
     setIsLoading(false);
     getCartAtLocalStorage(setProductCart);
-  }, []);
+  }, [setProductCart]);
 
   useEffect(() => {
   }, [productCart]);

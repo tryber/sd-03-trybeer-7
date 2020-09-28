@@ -2,8 +2,11 @@ import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ProductsContext from '../context/ProductContext';
 
+const zero = 0;
+const hundred = 100;
+
 const getCartTotal = (productList) => Math.round(productList.reduce((acc, product) => acc
-  + (product.price * product.quantity), 0) * 100) / 100;
+  + (product.price * product.quantity), zero) * hundred) / hundred;
 
 const CheckoutButton = () => {
   const { productCart, update } = useContext(ProductsContext);
@@ -11,7 +14,7 @@ const CheckoutButton = () => {
   useEffect(() => {
   }, [productCart, update]);
 
-  return productCart && productCart.length > 0 ? (
+  return productCart && productCart.length > zero ? (
     <div>
       <Link to="/checkout">
         <button data-testid="checkout-bottom-btn" type="button">
