@@ -10,6 +10,7 @@ sales
   .get(async (req, res, next) => {
     try {
       const { userId } = req.query;
+      console.log(req, 'oi');
       const salesData = await salesService.saleByUser(userId);
 
       if (!salesData.length) throw new Error('Sales info not found');

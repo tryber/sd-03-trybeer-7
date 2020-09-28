@@ -58,7 +58,7 @@ const updateUser = async (name, email) => {
 };
 
 const userOrders = async (userId) => {
-  const request = fetch(`http://localhost:3001/sales?q=${userId}`, {
+  const request = fetch(`http://localhost:3001/sales/search?userId=${encodeURIComponent(userId)}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',

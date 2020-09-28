@@ -1,19 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
-import AuthContext from '../../context/AuthContext';
+import React, { useState, useEffect } from 'react';
 import ClientNavBar from '../../components/NavBar/ClientBar/ClientNavBar';
 import OrderCard from '../../components/OrderCard';
 import { userOrders } from '../../services';
 
 function ClientOrders() {
-  const { user } = useContext(AuthContext);
+  const user = JSON.parse(localStorage.getItem('user'));
+  const [userId, setUserId] = useState(null);
   const [orders, setOrders] = useState(null);
   const [errors, setErrors] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
-    if (!user) return undefined;
+    setUserId(user.id);
+    if (!userId) return undefined;
     setIsFetching(true);
-    userOrders(user.id).then(
+    userOrders(userId).then(
       (response) => {
         setOrders(response);
         setIsFetching(false);
@@ -28,7 +29,7 @@ function ClientOrders() {
       setErrors(null);
       setIsFetching(false);
     };
-  }, [user]);
+  }, [userId, user.id]);
 
   return (
     <div style={ { display: 'flex', flexDirection: 'column' } }>
