@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import ProductCard from '../components/ProductCard';
+import NavBar from '../components/NavBar';
 import ProductContext from '../context/ProductContext';
 
 const ProductsPage = () => {
@@ -30,6 +31,7 @@ const ProductsPage = () => {
 
   return isLoading ? <h1>Carregando...</h1> : (
     <div>
+      <NavBar title="TryBeer" />
       { Array.isArray(products)
         ? products.map((product) => <ProductCard key={ product.name } product={ product } />)
         : null}

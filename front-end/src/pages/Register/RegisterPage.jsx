@@ -32,19 +32,20 @@ const RegisterPage = () => {
   const [isValid, setIsValid] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [error, setError] = useState(null);
+  const [redirect, setRedirect] = useState(false);
 
-  const { setToken, loggedIn, user } = useContext(AuthContext);
+  const { setToken } = useContext(AuthContext);
 
   useEffect(() => {
     if (emailValidation(email)
     && isPasswordValid(password)
     && nameValidation(name)
-    && isValidName(name)) setIsValid(true);
+    && isValidName(name)) return setIsValid(true);
 
     if (!emailValidation(email)
     || !isPasswordValid(password)
     || !nameValidation(name)
-    || !isValidName(name)) setIsValid(false);
+    || !isValidName(name)) return setIsValid(false);
 
     return () => setIsValid(false);
   }, [email, password, name]);
@@ -53,22 +54,24 @@ const RegisterPage = () => {
     if (!isSubmit) return undefined;
     submitUser(name, email, password, isAdmin).then((response) => {
       setToken(response);
-      return setIsSubmit(false);
+      setRedirect(true);
     }, (response) => {
       setError(response);
-      return setIsSubmit(false);
+      setIsSubmit(false);
     });
 
     return () => {
       setIsAdmin(false);
       setIsValid(false);
       setIsSubmit(false);
+      setRedirect(false);
     };
   }, [isSubmit, isAdmin, name, email, password, setToken]);
 
-  if (loggedIn && user.role === 'client') return <Redirect to="/products" />;
-
-  if (loggedIn && user.role === 'administrator') return <Redirect to="/admin/orders" />;
+  if (redirect) {
+    const { role } = JSON.parse(localStorage.getItem('user'));
+    return role === 'administrator' ? <Redirect to="/admin/orders" /> : <Redirect to="/products" />;
+  }
 
   return (
     <div style={ { display: 'flex', flexDirection: 'column' } }>
@@ -106,7 +109,7 @@ const RegisterPage = () => {
           />
         </label>
         <label htmlFor="password">
-          Senha
+          Password
           <input
             id="password"
             data-testid="signup-password"
@@ -119,7 +122,7 @@ const RegisterPage = () => {
           />
         </label>
         <label htmlFor="role">
-          Quero vender
+          Quero Vender
           <input onClick={ () => setIsAdmin(!isAdmin) } data-testid="signup-seller" type="checkbox" id="role" />
         </label>
         <button
@@ -128,7 +131,7 @@ const RegisterPage = () => {
           style={ { width: '150px', margin: 'auto' } }
           data-testid="signup-btn"
         >
-          CADASTRAR
+          Cadastrar
         </button>
       </form>
     </div>

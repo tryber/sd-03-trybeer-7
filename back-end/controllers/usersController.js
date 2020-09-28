@@ -23,22 +23,21 @@ user.route('/register').post(
   middlewares.login,
 );
 
-user.route('/profile').put(
-  async (req, _res, next) => {
-    try {
-      const { name, email } = req.body;
-      const updatedUser = await usersService.updateUser(name, email);
-      if (!updatedUser) throw new Error();
+user.route('/profile').put(validateSchema(schemas.userUpdateSchema), async (req, _res, next) => {
+  try {
+    const { name, email } = req.body;
+    const updatedUser = await usersService.updateUser(name, email);
+    if (!updatedUser) throw new Error();
 
-      const userData = await usersService.getUserByEmail(email);
-      req.body = userData;
-      return next();
-    } catch (error) {
-      next(error);
-    }
-  },
-  middlewares.login,
-)
+    const userData = await usersService.getUserByEmail(email);
+
+    req.body = userData;
+
+    return next();
+  } catch (error) {
+    next(error);
+  }
+}, middlewares.login);
 
 user
   .route('/login')

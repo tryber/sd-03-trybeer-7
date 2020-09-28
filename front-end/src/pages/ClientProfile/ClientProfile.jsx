@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
+import NavBar from '../../components/NavBar';
+import { updateUser } from '../../services';
 
 const nameValidation = (name) => {
   const nameRegex = /^[a-zA-Z]+(([a-zA-Z ])?[a-zA-Z]*)*$/;
@@ -10,27 +12,49 @@ const minimumNameLength = 12;
 const isValidName = (name) => name.length >= minimumNameLength;
 
 function ClientProfile() {
-  const [name, setName] = useState('');
+  const { setToken } = useContext(AuthContext);
+  const userData = JSON.parse(localStorage.getItem('user'));
+  const [user, setUser] = useState(null);
+  const { name, email } = user || userData || '';
+  const [updatedName, setUpdatedName] = useState(name || '');
   const [isValid, setIsValid] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
 
-  const { loggedIn, user } = useContext(AuthContext);
-
   useEffect(() => {
-    if (nameValidation(name)
-    && isValidName(name)) setIsValid(true);
+    if (nameValidation(updatedName)
+    && isValidName(updatedName)) setIsValid(true);
 
-    if (!nameValidation(name)
-    || !isValidName(name)) setIsValid(false);
+    if (!nameValidation(updatedName)
+    || !isValidName(updatedName)) setIsValid(false);
 
     return () => setIsValid(false);
-  }, [name]);
+  }, [updatedName]);
 
-  if (!loggedIn) return <Redirect to="/login" />;
+  useEffect(() => {
+    if (!user) setUser((previousUser) => ({ ...previousUser, ...userData }));
+    if (!isSubmit) return undefined;
+    updateUser(updatedName, email).then((response) => {
+      setToken(response);
+      setMessage('Atualização concluída com sucesso');
+      return setIsSubmit(false);
+    }, (response) => {
+      setError(response);
+      return setIsSubmit(false);
+    });
+    return () => {
+      setIsValid(false);
+      setIsSubmit(false);
+    };
+  }, [isSubmit, setToken, updatedName, email, userData, user]);
+
+  if (!userData) return <Redirect to="/login" />;
   return (
     <div style={ { display: 'flex', flexDirection: 'column' } }>
+      <NavBar title="Meu perfil" />
       {error && <h4>{error}</h4>}
+      {message && <h4>{message}</h4>}
       <form
         onSubmit={ (event) => {
           event.preventDefault();
@@ -41,13 +65,13 @@ function ClientProfile() {
           Nome
           <input
             id="name"
-            data-testid="signup-name"
+            name="name"
+            data-testid="profile-name-input"
             placeholder="Nome"
             type="text"
-            value={ name }
-            onChange={ (event) => setName(event.target.value) }
+            value={ updatedName }
+            onChange={ (event) => setUpdatedName(event.target.value.trim()) }
             required
-            minLength={ 12 }
             maxLength={ 100 }
           />
         </label>
@@ -55,17 +79,17 @@ function ClientProfile() {
           Email
           <input
             id="email"
-            data-testid="signup-email"
+            data-testid="profile-email-input"
             type="email"
-            value={ user.email }
+            value={ email }
             readOnly
           />
         </label>
         <button
           type="submit"
-          disabled={ !isValid }
+          disabled={ !isValid || name === updatedName }
           style={ { width: '150px', margin: 'auto' } }
-          data-testid="signup-btn"
+          data-testid="profile-save-btn"
         >
           Salvar
         </button>

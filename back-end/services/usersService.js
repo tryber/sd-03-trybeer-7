@@ -26,7 +26,7 @@ const updateUser = async (name, email) => {
   } catch (error) {
     throw new Error(error.message);
   }
-}
+};
 
 module.exports = {
   getUserByEmail,

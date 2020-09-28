@@ -17,7 +17,9 @@ const createProductAtCart = (product, productList, callback) => {
 };
 
 const addProductToCart = (product, productList, callback) => {
-  const isProductAlreadyAtCart = productList.find((element) => element.id === product.id);
+  const isProductAlreadyAtCart = productList.find(
+    (element) => element.id === product.id,
+  );
   return isProductAlreadyAtCart
     ? raiseProductQuantity(product, productList, callback)
     : createProductAtCart(product, productList, callback);
