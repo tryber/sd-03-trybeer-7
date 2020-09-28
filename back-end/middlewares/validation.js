@@ -5,8 +5,7 @@ const errorCode = 400;
 
 const schemas = {
   userSchema: Joi.object({
-    name: Joi.string()
-      .min(12)
+    name: Joi.string().min(12)
       .max(30)
       .required(),
     email: Joi.string()
@@ -17,12 +16,10 @@ const schemas = {
         },
       })
       .required(),
-    password: Joi.string()
-      .min(6)
+    password: Joi.string().min(6)
       .max(12)
       .required(),
-    role: Joi.string()
-      .valid('administrator', 'client')
+    role: Joi.string().valid('administrator', 'client')
       .required(),
   }),
   loginSchema: Joi.object({
@@ -34,14 +31,12 @@ const schemas = {
         },
       })
       .required(),
-    password: Joi.string()
-      .min(6)
+    password: Joi.string().min(6)
       .max(12)
       .required(),
   }),
   userUpdateSchema: Joi.object({
-    name: Joi.string()
-      .min(12)
+    name: Joi.string().min(12)
       .max(30)
       .required(),
     email: Joi.string()
@@ -51,6 +46,10 @@ const schemas = {
           allow: ['com', 'net', 'br'],
         },
       })
+      .required(),
+  }),
+  salesbyUserSchema: Joi.object({
+    userId: Joi.string().pattern(/^[1-9][0-9]{0,99999}$/i)
       .required(),
   }),
 };
