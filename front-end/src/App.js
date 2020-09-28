@@ -22,7 +22,7 @@ function App() {
               <Route path="/register" component={ RegisterPage } />
               <Route path="/admin/profile" component={ AdminProfile } />
               <Route path="/profile" component={ ClientProfile } />
-              </Switch>
+            </Switch>
           </Router>
         </ProductProvider>
       </AuthProvider>
