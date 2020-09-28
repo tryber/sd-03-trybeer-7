@@ -48,8 +48,12 @@ const schemas = {
       })
       .required(),
   }),
+  // Regex: string que contenha número entre 1 - 100000
   salesbyUserSchema: Joi.object({
-    userId: Joi.string().pattern(/^[1-9][0-9]{0,99999}$/i)
+    userId: Joi.string()
+      .pattern(/^[1-9][0-9]?$|^100000$/, { name: 'userId' })
+      // mesagem de erro customizada
+      .rule({ message: 'invalid data' })
       .required(),
   }),
 };
