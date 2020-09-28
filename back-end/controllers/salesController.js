@@ -1,15 +1,13 @@
 const { Router } = require('express');
 
 const { salesService } = require('../services');
-const middlewares = require('../middlewares');
 const { generateError } = require('../utils');
 
-const { schemas, validateSchema } = middlewares.validation;
 const sales = Router();
 
 sales
   .route('/search')
-  .get(validateSchema(schemas.salesbyUserSchema), async (req, res, next) => {
+  .get(async (req, res, next) => {
     try {
       const { userId } = req.query;
       const salesData = await salesService.saleByUser(userId);

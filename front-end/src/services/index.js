@@ -58,23 +58,21 @@ const updateUser = async (name, email) => {
 };
 
 const userOrders = async (userId) => {
-  const request = fetch('http://localhost:3001/sales/profile', {
-    method: 'PUT',
+  const request = fetch(`http://localhost:3001/sales?q=${userId}`, {
+    method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      name,
-      email,
-    }),
   })
     .then((response) => response
       .json()
       .then((data) => (response.ok
-        ? Promise.resolve(data.token)
+        ? Promise.resolve(data.sales)
         : Promise.reject(data.message))));
   return request;
 };
 
-export { userLogin, registerUser, updateUser, userOrders };
+export {
+  userLogin, registerUser, updateUser, userOrders,
+};
