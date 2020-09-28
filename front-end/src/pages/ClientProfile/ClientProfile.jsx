@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
-import NavBar from '../../components/NavBar';
+import ClientNavBar from '../../components/NavBar/ClientBar/ClientNavBar';
 import { updateUser } from '../../services';
 
 const nameValidation = (name) => {
@@ -52,7 +52,7 @@ function ClientProfile() {
   if (!userData) return <Redirect to="/login" />;
   return (
     <div style={ { display: 'flex', flexDirection: 'column' } }>
-      <NavBar title="Meu perfil" />
+      <ClientNavBar title="Meu perfil" />
       {error && <h4>{error}</h4>}
       {message && <h4>{message}</h4>}
       <form
