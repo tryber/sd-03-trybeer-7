@@ -52,7 +52,7 @@ const schemas = {
   salesbyUserSchema: Joi.object({
     userId: Joi.string()
       .pattern(/^[1-9][0-9]?$|^100000$/, { name: 'userId' })
-      // mesagem de erro customizada
+      // mensagem de erro customizada
       .rule({ message: 'invalid data' })
       .required(),
   }),
