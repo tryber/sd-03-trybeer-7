@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ProductContext from '../context/ProductContext';
 
@@ -45,7 +45,9 @@ const getQuantityFromCart = (productId, productList) => {
 };
 
 export default function ProductCard({ product, index }) {
-  const { productCart, setProductCart, update, setUpdate } = useContext(ProductContext);
+  const {
+    productCart, setProductCart, update, setUpdate,
+  } = useContext(ProductContext);
   const {
     id, name, price, urlImage,
   } = product;
