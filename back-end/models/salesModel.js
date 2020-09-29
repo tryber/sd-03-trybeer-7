@@ -39,7 +39,7 @@ const addSalesProducts = async (saleID, product = {}) => {
 
 const getSalesDetailsByID = async (saleId) => {
   try {
-    const joinQuery = `SELECT sproducts.product_id, sproducts.quantity FROM Trybeer.sales_products AS sproducts LEFT JOIN Trybeer.sales AS sales ON sproducts.sale_id = sales.id ORDER BY sales.id`;
+    const joinQuery = `SELECT sproducts.product_id, sproducts.quantity FROM Trybeer.sales_products AS sproducts LEFT JOIN Trybeer.sales AS sales ON sproducts.sale_id = sales.id AND sales.id = ${saleId} ORDER BY sales.id`;
     const dBase = await connection();
     const searchQuery = await dBase
       .getTable('sales')
@@ -117,7 +117,7 @@ const getSalesByUser = async (userId) => {
 };
 
 module.exports = {
-  getSalesByID,
+  getSalesDetailsByID,
   getSalesByUser,
   addSale,
   addSalesProducts,
