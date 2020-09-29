@@ -71,11 +71,12 @@ export default function ProductCard({ product, index }) {
       <button
         data-testid={ `${index}-product-minus` }
         type="button"
-        onClick={ () => {
-          removeProductFromCart(product, productCart, setProductCart);
-          setUpdate(!update);
-        } }
-        disabled={ getQuantityFromCart(id, productCart) < 1 }
+        onClick={ getQuantityFromCart(id, productCart) < 1
+          ? null
+          : () => {
+            removeProductFromCart(product, productCart, setProductCart);
+            setUpdate(!update);
+          } }
       >
         -
       </button>
