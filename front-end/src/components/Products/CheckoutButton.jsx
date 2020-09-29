@@ -11,7 +11,7 @@ const CheckoutButton = () => {
 
   return (
     <div>
-      <Link to="/checkout">
+      <Link disabled={ productCart.length === zero } to="/checkout">
         <button disabled={ productCart.length === zero } data-testid="checkout-bottom-btn" type="button">
           <p data-testid="checkout-bottom-btn-value">
             {`Ver Carrinho | R$ ${getCartTotal(productCart)}`}
