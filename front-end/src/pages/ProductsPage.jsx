@@ -1,27 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import ProductCard from '../components/ProductCard';
-import CheckoutButton from '../components/CheckoutButton';
+import ProductCard from '../components/Products/ProductCard';
+import CheckoutButton from '../components/Products/CheckoutButton';
 import ClientNavBar from '../components/NavBar/ClientBar/ClientNavBar';
 import ProductContext from '../context/ProductContext';
-
-const fetchData = async () => {
-  try {
-    const result = await fetch('http://localhost:3001/products/all');
-    const json = await result.json();
-    return json;
-  } catch (error) {
-    return (error.message);
-  }
-};
-
-const getCartAtLocalStorage = (callback) => {
-  const zero = 0;
-  const localProductCart = localStorage.getItem('productCart');
-  return localProductCart && localProductCart.length > zero
-    ? callback(JSON.parse(localStorage.getItem('productCart')))
-    : null;
-};
+import { fetchProducts, getCartAtLocalStorage } from '../utils/products';
 
 const ProductsPage = () => {
   const userData = JSON.parse(localStorage.getItem('user'));
@@ -31,7 +14,7 @@ const ProductsPage = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetchData().then((data) => setProducts(data));
+    fetchProducts().then((data) => setProducts(data));
     setIsLoading(false);
     getCartAtLocalStorage(setProductCart);
   }, [setProductCart]);

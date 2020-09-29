@@ -1,20 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import ProductsContext from '../context/ProductContext';
-
-const zero = 0;
-
-const getCartTotal = (productList) => {
-  const total = productList.reduce(
-    (acc, product) => acc + (product.price * product.quantity), zero,
-  );
-  const formatedTotal = total.toLocaleString('pt-BR', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-
-  return formatedTotal;
-};
+import ProductsContext from '../../context/ProductContext';
+import { zero, getCartTotal } from '../../utils/products';
 
 const CheckoutButton = () => {
   const { productCart, update } = useContext(ProductsContext);
