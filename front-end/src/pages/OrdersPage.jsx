@@ -26,15 +26,15 @@ export default function OrdersPage() {
             <div>
                 <h1>Pedidos pendentes</h1>
                 <div>
-                    {mocker.map((ele, index)  => {
-                        <OrderCard
+                    {mocker.map((ele, index)  => <OrderCard
                         orderNum={ele.orderNum} 
                         address={ele.addressStreet+','+ele.addressNum}
                         totalPrice={ele.totalPrice}
                         status={ele.status}
                         index={index}
+                        key={index}
                         />
-                    })}
+                    )}
                 </div>
             </div>
         </div>

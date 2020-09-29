@@ -4,6 +4,7 @@ import AuthProvider from './context/AuthContextProvider';
 import ProductProvider from './context/ProductContextProvider';
 import './App.css';
 import OrdersPage from './pages/OrdersPage';
+import OrderDetailsPage from './pages/OrderDetailsPage';
 import LoginPage from './pages/Login/LoginPage';
 import ProductsPage from './pages/ProductsPage';
 import RegisterPage from './pages/Register/RegisterPage';
@@ -23,6 +24,7 @@ function App() {
               <Route path="/register" component={ RegisterPage } />
               <Route path="/admin/profile" component={ AdminProfile } />
               <Route path="/admin/orders" component={ OrdersPage } />
+              <Route path="/admin/orders/:id" component={ OrderDetailsPage } />
               <Route path="/profile" component={ ClientProfile } />
             </Switch>
           </Router>
