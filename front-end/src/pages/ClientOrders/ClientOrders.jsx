@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import ClientNavBar from '../../components/NavBar/ClientBar/ClientNavBar';
 import OrderCard from '../../components/OrderCard';
 import { userOrders } from '../../services';
 
 function ClientOrders() {
-  const user = JSON.parse(localStorage.getItem('user'));
-  const [userId, setUserId] = useState(null);
-  const [orders, setOrders] = useState(null);
-  const [errors, setErrors] = useState(null);
+  const initialUserId = 0;
+  const userData = JSON.parse(localStorage.getItem('user') || '{}');
+  const [userId, setUserId] = useState(initialUserId);
+  const [orders, setOrders] = useState([]);
+  const [errors, setErrors] = useState('');
   const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
-    setUserId(user.id);
+    setUserId(userData.id);
     if (!userId) return undefined;
     setIsFetching(true);
     userOrders(userId).then(
@@ -29,7 +31,9 @@ function ClientOrders() {
       setErrors(null);
       setIsFetching(false);
     };
-  }, [userId, user.id]);
+  }, [userId, userData.id]);
+
+  if (!userData) return <Redirect to="/login" />;
 
   return (
     <div style={ { display: 'flex', flexDirection: 'column' } }>
