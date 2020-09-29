@@ -37,22 +37,13 @@ const addSalesProducts = async (saleID, product = {}) => {
   }
 };
 
-const getSalesByID = async (saleId) => {
+const getSalesDetailsByID = async (saleId) => {
   try {
+    const joinQuery = `SELECT sproducts.product_id, sproducts.quantity FROM Trybeer.sales_products AS sproducts LEFT JOIN Trybeer.sales AS sales ON sproducts.sale_id = sales.id ORDER BY sales.id`;
     const dBase = await connection();
     const searchQuery = await dBase
       .getTable('sales')
-      .select([
-        'id',
-        'user_id',
-        'total_price',
-        'delivery_address',
-        'delivery_number',
-        'sale_date',
-        'status',
-      ])
-      .where('id = :id')
-      .bind('id', saleId)
+      .sql(joinQuery)
       .execute();
 
     const results = await searchQuery.fetchAll();
