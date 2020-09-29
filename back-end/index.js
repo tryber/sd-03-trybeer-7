@@ -15,12 +15,15 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/user', controllers.usersController);
 app.use('/products', controllers.productsController);
+app.use('/sales', controllers.salesController);
 
 app.get('/', async (_req, res) => res.send('Hello, Trybeer'));
 
 app.use((err, _req, res, _next) => {
   if (err.payload) return res.status(err.status).json(err.payload);
-  if (err.message.match(/^duplicate./i)) return res.status(400).json({ message: 'E-mail already in database.' });
+  if (err.message.match(/^duplicate./i)) {
+    return res.status(400).json({ message: 'E-mail already in database.' });
+  }
   return res.status(500).json({ message: 'Internal Error' });
 });
 
