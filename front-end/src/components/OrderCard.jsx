@@ -7,9 +7,9 @@ const convertMySQLDatetime = (datetime) => {
   const initialDateIndex = 5;
   const finalDateIndex = 10;
   const convertDate = new Date(datetime);
-  const dayAndMonthExtract = convertDate.toISOString().slice(initialDateIndex, finalDateIndex).split('-').reverse()
+  const extractDayAndMonth = convertDate.toISOString().slice(initialDateIndex, finalDateIndex).split('-').reverse()
     .join('/');
-  return dayAndMonthExtract;
+  return extractDayAndMonth;
 };
 
 const OrderCard = ({
