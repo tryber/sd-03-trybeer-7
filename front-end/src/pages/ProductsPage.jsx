@@ -1,40 +1,42 @@
 import React, { useState, useEffect, useContext } from 'react';
-import ProductCard from '../components/ProductCard';
+import { Redirect } from 'react-router-dom';
+import ProductCard from '../components/Products/ProductCard';
+import CheckoutButton from '../components/Products/CheckoutButton';
 import ClientNavBar from '../components/NavBar/ClientBar/ClientNavBar';
 import ProductContext from '../context/ProductContext';
+import { fetchProducts, getCartAtLocalStorage } from '../utils/products';
 
 const ProductsPage = () => {
+  const userData = JSON.parse(localStorage.getItem('user'));
   const [products, setProducts] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { productCart } = useContext(ProductContext);
-
-  const fetchData = async () => {
-    try {
-      setIsLoading(true);
-      const result = await fetch('http://localhost:3001/products/all');
-      const json = await result.json();
-      setIsLoading(false);
-      return json;
-    } catch (error) {
-      return (error.message);
-    }
-  };
+  const { productCart, setProductCart } = useContext(ProductContext);
 
   useEffect(() => {
-    fetchData().then((data) => {
-      setProducts(data);
-    });
-  }, []);
+    setIsLoading(true);
+    fetchProducts().then((data) => setProducts(data));
+    setIsLoading(false);
+    getCartAtLocalStorage(setProductCart);
+  }, [setProductCart]);
 
   useEffect(() => {
-  }, [products, productCart]);
+  }, [productCart]);
 
+  if (!userData) return <Redirect to="/login" />;
   return isLoading ? <h1>Carregando...</h1> : (
     <div>
       <ClientNavBar title="TryBeer" />
-      { Array.isArray(products)
-        ? products.map((product) => <ProductCard key={ product.name } product={ product } />)
-        : null }
+      <div>
+        { Array.isArray(products)
+          ? products.map((product, i) => (
+            <ProductCard
+              key={ product.name }
+              product={ product }
+              index={ i }
+            />))
+          : null }
+      </div>
+      <CheckoutButton />
     </div>
   );
 };
