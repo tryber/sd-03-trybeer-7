@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { Redirect } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import CheckoutButton from '../components/CheckoutButton';
 import ClientNavBar from '../components/NavBar/ClientBar/ClientNavBar';
@@ -23,6 +24,7 @@ const getCartAtLocalStorage = (callback) => {
 };
 
 const ProductsPage = () => {
+  const userData = JSON.parse(localStorage.getItem('user'));
   const [products, setProducts] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { productCart, setProductCart } = useContext(ProductContext);
@@ -37,6 +39,7 @@ const ProductsPage = () => {
   useEffect(() => {
   }, [productCart]);
 
+  if (!userData) return <Redirect to="/login" />;
   return isLoading ? <h1>Carregando...</h1> : (
     <div>
       <ClientNavBar title="TryBeer" />
