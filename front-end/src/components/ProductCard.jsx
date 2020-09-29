@@ -44,6 +44,11 @@ const getQuantityFromCart = (productId, productList) => {
   return product ? product.quantity : zero;
 };
 
+const formatPrice = (price) => price.toLocaleString('pt-BR', {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+
 export default function ProductCard({ product, index }) {
   const {
     productCart, setProductCart, update, setUpdate,
@@ -61,10 +66,7 @@ export default function ProductCard({ product, index }) {
       <img data-testid={ `${index}-product-img` } src={ urlImage } alt={ name } />
       <br />
       <p data-testid={ `${index}-product-name` }>{name}</p>
-      <p data-testid={ `${index}-product-price` }>
-        R$
-        {price}
-      </p>
+      <p data-testid={ `${index}-product-price` }>{`R$ ${formatPrice(price)}`}</p>
       <br />
       <button
         data-testid={ `${index}-product-minus` }

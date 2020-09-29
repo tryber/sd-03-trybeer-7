@@ -3,10 +3,18 @@ import { Link } from 'react-router-dom';
 import ProductsContext from '../context/ProductContext';
 
 const zero = 0;
-const hundred = 100;
 
-const getCartTotal = (productList) => Math.round(productList.reduce((acc, product) => acc
-  + (product.price * product.quantity), zero) * hundred) / hundred;
+const getCartTotal = (productList) => {
+  const total = productList.reduce(
+    (acc, product) => acc + (product.price * product.quantity), zero,
+  );
+  const formatedTotal = total.toLocaleString('pt-BR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+  return formatedTotal;
+};
 
 const CheckoutButton = () => {
   const { productCart, update } = useContext(ProductsContext);
@@ -19,8 +27,7 @@ const CheckoutButton = () => {
       <Link to="/checkout">
         <button data-testid="checkout-bottom-btn" type="button">
           <p data-testid="checkout-bottom-btn-value">
-            Ver Carrinho R$
-            {getCartTotal(productCart)}
+            {`Ver Carrinho | R$ ${getCartTotal(productCart)}`}
           </p>
         </button>
       </Link>
