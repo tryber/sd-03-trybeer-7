@@ -41,7 +41,18 @@ const salesByUser = async (userId) => {
   }
 };
 
+const allSales = async () => {
+  try {
+    const sales = await salesModel.getAllSales();
+
+    return [...sales];
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
+  allSales,
   salesById,
   salesByUser,
   registerSales,
