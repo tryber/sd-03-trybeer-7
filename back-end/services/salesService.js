@@ -24,11 +24,30 @@ const registerSales = async (userId,
   }
 };
 
-const salesById = async (saleID) => {
+const salesDetailsById = async (saleID) => {
   try {
-    const sales = await salesModel.getSalesByID(saleID);
+    const sales = await salesModel.getSalesDetailsByID(saleID);
 
-    return { ...sales };
+    const salesData = { saleID: sales[0].saleID,
+      userID: sales[0].userID,
+      orderValue: sales[0].orderValue,
+      deliveryAddress: sales[0].deliveryAddress,
+      deliveryNumber: sales[0].deliveryNumber,
+      saleDate: sales[0].saleDate,
+      status: sales[0].status,
+      products: sales.map(({ soldProductID,
+        solQuantity,
+        productName,
+        productPrice,
+        productImage }) => ({
+        soldProductID,
+        solQuantity,
+        productName,
+        productPrice,
+        productImage,
+      })) };
+
+    return salesData;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -56,7 +75,7 @@ const allSales = async () => {
 
 module.exports = {
   allSales,
-  salesById,
+  salesDetailsById,
   salesByUser,
   registerSales,
 };

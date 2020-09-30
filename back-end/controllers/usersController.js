@@ -17,7 +17,7 @@ user.route('/register').post(
 
       return next();
     } catch (error) {
-      next(error);
+      return next(error);
     }
   },
   middlewares.login,
@@ -35,7 +35,7 @@ user.route('/profile').put(validateSchema(schemas.userUpdateSchema), async (req,
 
     return next();
   } catch (error) {
-    next(error);
+    return next(error);
   }
 }, middlewares.login);
 
