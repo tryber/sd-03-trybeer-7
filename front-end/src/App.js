@@ -10,6 +10,7 @@ import RegisterPage from './pages/Register/RegisterPage';
 import ClientProfile from './pages/ClientProfile/ClientProfile';
 import AdminProfile from './pages/AdminProfile/AdminProfile';
 import ClientOrders from './pages/ClientOrders/ClientOrders';
+import CheckoutPage from './pages/CheckoutPage/CheckoutPage';
 
 function App() {
   const path = window.location.pathname;
@@ -19,8 +20,9 @@ function App() {
         <ProductProvider>
           <Router>
             <Switch>
-              <Route exact path="/products" component={ ProductsPage } />
               <Route exact path={ path === '/' || '/login' } component={ LoginPage } />
+              <Route exact path="/products" component={ ProductsPage } />
+              <Route path="/checkout" component={ CheckoutPage } />
               <Route path="/register" component={ RegisterPage } />
               <Route path="/admin/profile" component={ AdminProfile } />
               <Route path="/admin/orders" component={ OrdersPage } />
