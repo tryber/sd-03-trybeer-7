@@ -149,7 +149,7 @@ const getAllSales = async () => {
         totalPrice,
         deliveryAddress,
         deliveryNumber,
-        saleDate,
+        saleDate: new Date(saleDate).toISOString(),
         status,
       }),
     );
