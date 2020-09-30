@@ -44,7 +44,18 @@ sales.route('/search/:id').get(async (req, res, next) => {
   } catch (error) {
     return next(generateError(404, error));
   }
-});
+})
+  .put(validateSchema(schemas.updateSalesStatusSchema), async (req, res, next) => {
+    try {
+      const { status } = req.body;
+      const { id } = req.params;
+      const updateSalesStatus = await salesService.updateSalesStatus(id, status);
+
+      return res.status(200).json({ statusUpdate: updateSalesStatus });
+    } catch (error) {
+      return next(error);
+    }
+  });
 
 sales.route('/register').post(validateSchema(schemas.registrySalesSchema), async (req, res, next) => {
   try {

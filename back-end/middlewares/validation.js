@@ -71,6 +71,10 @@ const schemas = {
     }))
       .required(),
   }),
+  updateSalesStatusSchema: Joi.object({
+    status: Joi.string().valid('Pendente', 'Entregue')
+      .required(),
+  }),
 };
 
 const validateSchema = (schema) => async (req, _res, next) => {

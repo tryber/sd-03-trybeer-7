@@ -24,11 +24,22 @@ const registerSales = async (userId,
   }
 };
 
+const updateSalesStatus = async (id, status) => {
+  try {
+    const updateStatus = await salesModel.updateSaleStatus(id, status);
+
+    if (!updateStatus) throw new Error();
+    return true;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 const salesDetailsById = async (saleID) => {
   try {
     const sales = await salesModel.getSalesDetailsByID(saleID);
 
-    const salesData = { saleID: sales[0].saleID,
+    const salesData = sales.length ? { saleID: sales[0].saleID,
       userID: sales[0].userID,
       orderValue: sales[0].orderValue,
       deliveryAddress: sales[0].deliveryAddress,
@@ -45,9 +56,9 @@ const salesDetailsById = async (saleID) => {
         productName,
         productPrice,
         productImage,
-      })) };
+      })) } : {};
 
-    return salesData;
+    return { ...salesData };
   } catch (error) {
     throw new Error(error.message);
   }
@@ -78,4 +89,5 @@ module.exports = {
   salesDetailsById,
   salesByUser,
   registerSales,
+  updateSalesStatus,
 };

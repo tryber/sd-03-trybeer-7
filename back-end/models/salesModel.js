@@ -78,6 +78,20 @@ const getSalesDetailsByID = async (saleId) => {
   }
 };
 
+const updateSaleStatus = async (id, status) => {
+  try {
+    const dBase = await connection();
+    const updateSaleQuery = await dBase.getTable('sales').update()
+      .set('status', status)
+      .where('id = :id')
+      .bind('id', id)
+      .execute();
+    return updateSaleQuery.getAffectedItemsCount();
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 const getSalesByUser = async (userId) => {
   try {
     const dBase = await connection();
@@ -170,4 +184,5 @@ module.exports = {
   getSalesByUser,
   addSale,
   addSalesProducts,
+  updateSaleStatus,
 };
