@@ -13,7 +13,7 @@ export default function OrdersPage() {
         setIsLoading(true);
         ordersList().then((data) => setSales(data));
         setIsLoading(false);
-      }, [setSales]);
+      }, []);
 
     if (!userData || userData.role === 'client') return <Redirect to="/login" />;
 
@@ -23,14 +23,14 @@ export default function OrdersPage() {
             <div>
                 <h1>Pedidos pendentes</h1>
                 <div>
-                    {sales.map((ele, index)  => <OrderCard
+                    {sales ? sales.map((ele, index)  => <OrderCard
                         orderNum={ele.id} 
                         address={ele.delivery_address+','+ele.delivery_number}
                         totalPrice={ele.total_price}
                         status={ele.status}
                         key={index}
                         />
-                    )}
+                    ) : ''}
                 </div>
             </div>
         </div>
