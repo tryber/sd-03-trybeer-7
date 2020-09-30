@@ -1,11 +1,23 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import CheckoutCard from '../../components/CheckoutCard';
 import ClientNavBar from '../../components/NavBar/ClientBar/ClientNavBar';
-import AuthContext from '../../context/AuthContext';
 
 function Checkout() {
+  const userData = JSON.parse(localStorage.getItem('user') || '{}');
+  const cartData = JSON.parse(localStorage.getItem('productCart') || '[]');
   const [cartProducts, setCartProducts] = useState([]);
+
+  const removeProduct = (name) => cartProducts.filter((product) => product.name !== name);
+
+  useEffect(() => {
+    setCartProducts(cartData);
+    return () => {
+      setCartProducts([]);
+    };
+  }, [cartData]);
+
+  if (!userData) return <Redirect to="/login" />;
 
   return (
     <div>
@@ -17,7 +29,7 @@ function Checkout() {
           index={ index }
           quantity={ product.quantity }
           price={ product.price }
-          onClick={ null }
+          onClick={ () => removeProduct(product.name) }
         />
       ))}
       <p data-testid="order-total-value">Total:</p>
