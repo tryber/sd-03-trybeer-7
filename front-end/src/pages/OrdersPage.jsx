@@ -1,24 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import AdminNavBar from '../components/NavBar/AdminBar/AdminNavBar';
 import OrderCard from '../components/OrderCard';
 import { ordersList } from '../services';
-
-const mocker = [
-    {
-        orderNum: '1',
-        addressStreet: 'rua dos bobos',
-        addressNum: '0',
-        totalPrice: '15.83',
-        status: 'Pendente',
-    },
-    {
-        orderNum: '2',
-        addressStreet: 'rua dos bobos',
-        addressNum: '1',
-        totalPrice: '11.11',
-        status: 'Entregue',
-    }
-];
 
 export default function OrdersPage() {
     const [sales, setSales] = useState(null);
