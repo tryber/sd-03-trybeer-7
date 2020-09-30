@@ -1,4 +1,4 @@
-const connection = require('./connection');
+const { connection, sqlConnection } = require('./connection');
 
 const addSale = async (
   userId,
@@ -9,30 +9,29 @@ const addSale = async (
 ) => {
   try {
     // inserindo venda usando datetime do banco de dados via função NOW()
-    const insertQuery = `INSERT INTO Trybeer.sales (user_id, total_price, delivery_address, deliver_number, sale_date, status) VALUES(${userId}, ${totalPrice}, ${deliveryAddress}, ${deliveryNumber}, NOW(), ${status})`;
+    const insertQuery = `INSERT INTO Trybeer.sales (user_id, total_price, delivery_address, delivery_number, sale_date, status) VALUES(${userId}, '${totalPrice}', '${deliveryAddress}', '${deliveryNumber}', NOW(), '${status}')`;
 
-    const dBase = await connection();
-    const insertSale = await dBase.getTable('sales').sql(insertQuery)
-      .execute();
+    const insertSale = await sqlConnection(insertQuery);
     // Obtendo ID de venda cadastrada
     const saleID = await insertSale.getAutoIncrementValue();
+
     return { saleID };
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
-const addSalesProducts = async (saleID, product = {}) => {
+const addSalesProducts = async (saleID, id, quantity) => {
   try {
-    const { productId, quantity } = product;
-
     const dBase = await connection();
-    const insertProductsBySale = await dBase.getTable('sales_products').insert(['sales_id', 'product_id', 'quantity'])
-      .values(saleID, productId, quantity)
+    const insertProductsBySale = await dBase.getTable('sales_products').insert(['sale_id', 'product_id', 'quantity'])
+      .values(saleID, id, quantity)
       .execute();
+    const productsBySalesQt = await insertProductsBySale.getAffectedItemsCount();
 
-    return { productBySaleID: insertProductsBySale.getAutoIncrementValue() };
+    return productsBySalesQt;
   } catch (error) {
+    console.error(error, 'oi');
     throw new Error(error.message);
   }
 };
@@ -40,12 +39,9 @@ const addSalesProducts = async (saleID, product = {}) => {
 const getSalesDetailsByID = async (saleId) => {
   try {
     // em desenvolvimento
-    const joinQuery = `SELECT sproducts.product_id, sproducts.quantity FROM Trybeer.sales_products AS sproducts LEFT JOIN Trybeer.sales AS sales ON sproducts.sale_id = sales.id AND sales.id = ${saleId} ORDER BY sales.id`;
-    const dBase = await connection();
-    const searchQuery = await dBase
-      .getTable('sales')
-      .sql(joinQuery)
-      .execute();
+    const joinQuery = `SELECT sproducts.product_id, sproducts.quantity, (SELECT * FROM Trybeer.products AS products WHERE products_details.id = sproducts.product_id) AS products_details FROM Trybeer.sales_products AS sproducts INNER JOIN Trybeer.sales AS sales ON sproducts.sale_id = sales.id AND sales.id = ${saleId} ORDER BY sales.id`;
+
+    const searchQuery = await sqlConnection(joinQuery);
 
     const results = await searchQuery.fetchAll();
     const salesResults = results.map(
