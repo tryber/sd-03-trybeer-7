@@ -73,6 +73,22 @@ const userOrders = async (userId) => {
   return request;
 };
 
+const ordersList = async () => {
+  const request = fetch('http://localhost:3001/sales/search/all', {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response
+      .json()
+      .then((data) => (response.ok
+        ? Promise.resolve(data.sales)
+        : Promise.reject(data.message))));
+  return request;
+};
+
 export {
-  userLogin, registerUser, updateUser, userOrders,
+  userLogin, registerUser, updateUser, userOrders, ordersList,
 };
