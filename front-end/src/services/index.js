@@ -57,4 +57,22 @@ const updateUser = async (name, email) => {
   return request;
 };
 
-export { userLogin, registerUser, updateUser };
+const userOrders = async (userId) => {
+  const request = fetch(`http://localhost:3001/sales/search?userId=${encodeURIComponent(userId)}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response
+      .json()
+      .then((data) => (response.ok
+        ? Promise.resolve(data.sales)
+        : Promise.reject(data.message))));
+  return request;
+};
+
+export {
+  userLogin, registerUser, updateUser, userOrders,
+};

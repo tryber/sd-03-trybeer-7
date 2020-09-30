@@ -5,8 +5,7 @@ const errorCode = 400;
 
 const schemas = {
   userSchema: Joi.object({
-    name: Joi.string()
-      .min(12)
+    name: Joi.string().min(12)
       .max(30)
       .required(),
     email: Joi.string()
@@ -17,12 +16,10 @@ const schemas = {
         },
       })
       .required(),
-    password: Joi.string()
-      .min(6)
+    password: Joi.string().min(6)
       .max(12)
       .required(),
-    role: Joi.string()
-      .valid('administrator', 'client')
+    role: Joi.string().valid('administrator', 'client')
       .required(),
   }),
   loginSchema: Joi.object({
@@ -34,14 +31,12 @@ const schemas = {
         },
       })
       .required(),
-    password: Joi.string()
-      .min(6)
+    password: Joi.string().min(6)
       .max(12)
       .required(),
   }),
   userUpdateSchema: Joi.object({
-    name: Joi.string()
-      .min(12)
+    name: Joi.string().min(12)
       .max(30)
       .required(),
     email: Joi.string()
@@ -51,6 +46,29 @@ const schemas = {
           allow: ['com', 'net', 'br'],
         },
       })
+      .required(),
+  }),
+  registrySalesSchema: Joi.object({
+    // Regex pattern para checar se a string é um número entre 1 e 1.000.000
+    userId: Joi.string().pattern(/^[1-9][0-9]?$|^1000000$/)
+      .required(),
+    // validação do valor de compra conforme https://stackoverflow.com/questions/308122/simple-regular-expression-for-a-decimal-with-a-precision-of-2
+    totalPrice: Joi.string().pattern(/^\d+(\.\d{1,2})?$/)
+      .required(),
+    deliveryAddress: Joi.string().min(3)
+      .max(120)
+      .required(),
+    deliveryNumber: Joi.string().min(1)
+      .max(6)
+      .required(),
+    products: Joi.array().items(Joi.object({
+      id: Joi.string().required(),
+      name: Joi.string(),
+      price: Joi.string(),
+      urlImage: Joi.string(),
+      quantity: Joi.string().pattern(/^[1-9][0-9]?$|^1000000$/)
+        .required(),
+    }))
       .required(),
   }),
 };

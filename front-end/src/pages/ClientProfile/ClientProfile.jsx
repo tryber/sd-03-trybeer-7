@@ -14,13 +14,13 @@ const isValidName = (name) => name.length >= minimumNameLength;
 function ClientProfile() {
   const { setToken } = useContext(AuthContext);
   const userData = JSON.parse(localStorage.getItem('user'));
-  const [user, setUser] = useState(null);
-  const { name, email } = user || userData || '';
-  const [updatedName, setUpdatedName] = useState(name || '');
+  const [user, setUser] = useState({ name: '', email: '' });
+  const { name, email } = user || userData;
+  const [updatedName, setUpdatedName] = useState(name);
   const [isValid, setIsValid] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [message, setMessage] = useState('');
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if (nameValidation(updatedName)

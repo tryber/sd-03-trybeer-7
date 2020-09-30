@@ -7,24 +7,24 @@ function renderNavBar(showBar, setShowBar) {
   return showBar === true ? setShowBar(false) : setShowBar(true);
 }
 
-function ClientNavBar({title}) {
+function ClientNavBar({ title }) {
   const [showBar, setShowBar] = useState(false);
   return (
-    <div style={{ width: '360px' }}>
+    <div style={ { width: '360px' } }>
       <div
-        style={{
+        style={ {
           display: 'flex',
           justifyContent: 'space-around',
           backgroundColor: 'black',
           color: 'white',
           width: '360px',
-        }}
+        } }
       >
         <button
           data-testid="top-hamburguer"
           type="button"
-          onClick={() => renderNavBar(showBar, setShowBar)}
-          style={{ position: 'fixed', left: '10px', top: '20px' }}
+          onClick={ () => renderNavBar(showBar, setShowBar) }
+          style={ { position: 'fixed', left: '10px', top: '20px' } }
         >
           =
         </button>
