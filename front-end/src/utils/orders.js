@@ -7,4 +7,4 @@ const convertMySQLDatetime = (date = '') => {
   return extractDayAndMonth;
 };
 
-export { convertMySQLDatetime };
+export default convertMySQLDatetime;
