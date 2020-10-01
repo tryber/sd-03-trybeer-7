@@ -12,7 +12,7 @@ const emailValidation = (email) => {
 
 const nameValidation = (name) => {
   const nameRegex = /^[a-zA-Z]+(([a-zA-Z ])?[a-zA-Z]*)*$/;
-  return !!name && typeof name === 'string' && !!name.match(nameRegex) 
+  return !!name && typeof name === 'string' && !!name.match(nameRegex)
     && name.length >= minimumNameLength;
 };
 
