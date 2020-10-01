@@ -24,7 +24,7 @@ function ClientNavBar({ title }) {
           data-testid="top-hamburguer"
           type="button"
           onClick={ () => renderNavBar(showBar, setShowBar) }
-          style={ { position: 'fixed', left: '10px', top: '20px' } }
+          style={ { width: "25px", height: "25px", justifySelf: "center" } }
         >
           =
         </button>
