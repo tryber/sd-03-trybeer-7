@@ -38,7 +38,6 @@ const updateSalesStatus = async (id, status) => {
 const salesDetailsById = async (saleID) => {
   try {
     const sales = await salesModel.getSalesDetailsByID(saleID);
-
     const salesData = sales.length ? { saleID: sales[0].saleID,
       userID: sales[0].userID,
       orderValue: sales[0].orderValue,
@@ -47,12 +46,12 @@ const salesDetailsById = async (saleID) => {
       saleDate: sales[0].saleDate,
       status: sales[0].status,
       products: sales.map(({ soldProductID,
-        solQuantity,
+        soldQuantity,
         productName,
         productPrice,
         productImage }) => ({
         soldProductID,
-        solQuantity,
+        soldQuantity,
         productName,
         productPrice,
         productImage,
