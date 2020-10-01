@@ -1,19 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ClientNavBar from '../../components/NavBar/ClientBar/ClientNavBar';
 import pedido from './mockOrder';
 
 const allProductsNames = pedido.sale.products.map((item) => item);
-console.log(allProductsNames)
+console.log(allProductsNames);
 
 const saleDate = pedido.sale.saleDate;
 const sqlDate = new Date(saleDate);
 
 const now = sqlDate.getDate() + '/' + (sqlDate.getMonth() + 1);
-console.log('data agora',now)
+console.log('data agora', now);
 
 function OrderDetail() {
   const { id } = useParams();
+  const [details, setDetails] = useState([]);
+
+  const url = `http://localhost:3001/sales/search/${id}`;
+  const getDetails = async () => {
+    try {
+      const result = await fetch(url);
+      const json = await result.json();
+      return json;
+    } catch (error) {
+      return error.message;
+    }
+  };
+
+  const requestDetails = async () => {
+    return setDetails(await getDetails());
+  };
+
+  useEffect(() => {
+    requestDetails();
+    console.log(details)
+  }, []);
+  console.log(details)
+
 
   return (
     <div>
@@ -28,7 +51,9 @@ function OrderDetail() {
             <p data-testid={`${index + 1}-product-qtd`}>{`${order.soldQuantity}`}</p>
             <p data-testid={`${index + 1}-product-name`}>{`${order.productName}`}</p>
             <p data-testid={`${index + 1}-product-total-value`}>{`${order.productPrice}`}</p>
-            <p data-testid="order-total-value">{`Total: R$${order.soldQuantity * order.productPrice}`}</p>
+            <p data-testid="order-total-value">{`Total: R$${
+              order.soldQuantity * order.productPrice
+            }`}</p>
           </div>
         );
       })}

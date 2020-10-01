@@ -21,7 +21,7 @@ const connection = async () => (
 );
 
 const sqlConnection = async (query) => (
-  connect ? Promise.resolve(connect) : mysqlx.getSession(config).then(async (session) => {
+  mysqlx.getSession(config).then(async (session) => {
     connect = await session.sql(query).execute();
     return connect;
   })
