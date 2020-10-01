@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import CheckoutCard from '../../components/CheckoutCard';
 import ClientNavBar from '../../components/NavBar/ClientBar/ClientNavBar';
 import { registerOrder } from '../../services';
+import { saveCartAtLocalStorage } from '../../utils/products';
 
 const redirectOnPurchase = (callback) => {
   const timer = 3000;
@@ -18,7 +19,10 @@ const cartPrice = (cartProducts = [], initialToTal) => {
   return totalValue;
 };
 
-const removeProduct = (name, products = []) => products.filter((product) => product.name !== name);
+const removeProduct = (name, products = []) => {
+  const updateCart = products.filter((product) => product.name !== name);
+  return saveCartAtLocalStorage(updateCart);
+};
 
 function Checkout() {
   const initialTotal = 0;
@@ -36,7 +40,7 @@ function Checkout() {
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
-    if (cartProducts.length) return undefined;
+    if (cartProducts.length === cartData.length) return undefined;
     setCartProducts(cartData);
     setTotalPrice(cartPrice(cartProducts, initialToTal));
     return () => {
@@ -94,7 +98,7 @@ function Checkout() {
       ))}
       <p data-testid="order-total-value">
         Total: R$
-        {parseFloat(totalPrice.replace('.', ',').toFixed(initialFloat))}
+        {parseFloat(totalPrice.toFixed(initialFloat).replace('.', ','))}
       </p>
       <div>
         <p>Endereço</p>
