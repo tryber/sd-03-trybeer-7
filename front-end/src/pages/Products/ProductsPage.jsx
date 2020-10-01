@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import ProductCard from '../components/Products/ProductCard';
-import CheckoutButton from '../components/Products/CheckoutButton';
-import ClientNavBar from '../components/NavBar/ClientBar/ClientNavBar';
-import ProductContext from '../context/ProductContext';
-import { fetchProducts, getCartAtLocalStorage } from '../utils/products';
+import ProductCard from '../../components/Products/ProductCard';
+import CheckoutButton from '../../components/Products/CheckoutButton';
+import ClientNavBar from '../../components/NavBar/ClientBar/ClientNavBar';
+import ProductContext from '../../context/ProductContext';
+import { fetchProducts, getCartAtLocalStorage } from '../../utils/products';
 
 const ProductsPage = () => {
   const userData = JSON.parse(localStorage.getItem('user'));
