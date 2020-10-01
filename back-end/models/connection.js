@@ -10,10 +10,24 @@ const config = {
 };
 
 let schema;
+let connect;
 
-module.exports = () => (schema
-  ? Promise.resolve(schema)
-  : mysqlx.getSession(config).then(async (session) => {
-    schema = await session.getSchema('Trybeer');
-    return schema;
-  }));
+const connection = async () => (
+  schema ? Promise.resolve(schema)
+    : mysqlx.getSession(config).then(async (session) => {
+      schema = await session.getSchema('Trybeer');
+      return schema;
+    })
+);
+
+const sqlConnection = async (query) => (
+  connect ? Promise.resolve(connect) : mysqlx.getSession(config).then(async (session) => {
+    connect = await session.sql(query).execute();
+    return connect;
+  })
+    .catch((error) => {
+      throw new Error(error.message);
+    })
+);
+
+module.exports = { connection, sqlConnection };
