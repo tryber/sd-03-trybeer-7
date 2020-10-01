@@ -5,7 +5,7 @@ import ProductProvider from './context/ProductContextProvider';
 import './App.css';
 import OrdersPage from './pages/Orders/OrdersPage';
 import LoginPage from './pages/Login/LoginPage';
-import ProductsPage from './pages//Products/ProductsPage';
+import ProductsPage from './pages/Products/ProductsPage';
 import RegisterPage from './pages/Register/RegisterPage';
 import ClientProfile from './pages/ClientProfile/ClientProfile';
 import AdminProfile from './pages/AdminProfile/AdminProfile';
