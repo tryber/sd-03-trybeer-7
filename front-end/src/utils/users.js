@@ -2,7 +2,6 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { registerUser } from '../services';
 
-
 const minimumPasswordLength = 6;
 const minimumNameLength = 12;
 
