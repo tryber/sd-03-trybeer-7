@@ -1,5 +1,8 @@
 import { registerUser } from '../services';
 
+const minimumPasswordLength = 6;
+const minimumNameLength = 12;
+
 const emailValidation = (email) => {
   const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   return !!email && typeof email === 'string' && !!email.match(emailRegex);
@@ -7,12 +10,10 @@ const emailValidation = (email) => {
 
 const nameValidation = (name) => {
   const nameRegex = /^[a-zA-Z]+(([a-zA-Z ])?[a-zA-Z]*)*$/;
-  return !!name && typeof name === 'string' && !!name.match(nameRegex);
+  return !!name && typeof name === 'string' && !!name.match(nameRegex) 
+    && name.length >= minimumNameLength;
 };
-const minimumNameLength = 12;
-const isValidName = (name) => name.length >= minimumNameLength;
 
-const minimumPasswordLength = 6;
 const passwordValidation = (password) => password.length >= minimumPasswordLength;
 
 const submitUser = async (name, email, password, role) => {
@@ -24,7 +25,6 @@ const submitUser = async (name, email, password, role) => {
 export {
   emailValidation,
   nameValidation,
-  isValidName,
   passwordValidation,
   submitUser,
   minimumPasswordLength,

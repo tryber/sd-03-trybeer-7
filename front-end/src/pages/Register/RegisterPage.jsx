@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { registerUser } from '../../services';
 import AuthContext from '../../context/AuthContext';
 import {
   emailValidation,
   nameValidation,
-  isValidName,
   passwordValidation,
   submitUser,
 } from '../../utils/users';
@@ -25,13 +23,11 @@ const RegisterPage = () => {
   useEffect(() => {
     if (emailValidation(email)
     && passwordValidation(password)
-    && nameValidation(name)
-    && isValidName(name)) return setIsValid(true);
+    && nameValidation(name)) return setIsValid(true);
 
     if (!emailValidation(email)
     || !passwordValidation(password)
-    || !nameValidation(name)
-    || !isValidName(name)) return setIsValid(false);
+    || !nameValidation(name)) return setIsValid(false);
 
     return () => setIsValid(false);
   }, [email, password, name]);
