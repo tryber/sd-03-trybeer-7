@@ -2,27 +2,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import { registerUser } from '../../services';
 import AuthContext from '../../context/AuthContext';
-
-const emailValidation = (email) => {
-  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-  return !!email && typeof email === 'string' && !!email.match(emailRegex);
-};
-
-const nameValidation = (name) => {
-  const nameRegex = /^[a-zA-Z]+(([a-zA-Z ])?[a-zA-Z]*)*$/;
-  return !!name && typeof name === 'string' && !!name.match(nameRegex);
-};
-const minimumNameLength = 12;
-const isValidName = (name) => name.length >= minimumNameLength;
-
-const minimumLength = 6;
-const isPasswordValid = (password) => password.length >= minimumLength;
-
-const submitUser = async (name, email, password, role) => {
-  const userRole = role ? 'administrator' : 'client';
-  const token = await registerUser(name, email, password, userRole);
-  return token;
-};
+import {
+  emailValidation,
+  nameValidation,
+  isValidName,
+  passwordValidation,
+  submitUser,
+} from '../../utils/users';
 
 const RegisterPage = () => {
   const [name, setName] = useState('');
@@ -38,12 +24,12 @@ const RegisterPage = () => {
 
   useEffect(() => {
     if (emailValidation(email)
-    && isPasswordValid(password)
+    && passwordValidation(password)
     && nameValidation(name)
     && isValidName(name)) return setIsValid(true);
 
     if (!emailValidation(email)
-    || !isPasswordValid(password)
+    || !passwordValidation(password)
     || !nameValidation(name)
     || !isValidName(name)) return setIsValid(false);
 
