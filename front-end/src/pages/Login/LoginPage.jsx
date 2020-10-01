@@ -2,14 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import { userLogin } from '../../services';
-
-const isEmailValid = (email) => {
-  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-  return !!email && typeof email === 'string' && !!email.match(emailRegex);
-};
-// guardando numero numa variavel como pede o Eslint (No magic number rule)
-const minimumLength = 6;
-const isPasswordValid = (password) => password.length >= minimumLength;
+import { emailValidation, passwordValidation } from '../../utils/users';
 
 const LoginPage = () => {
   const { setToken } = useContext(AuthContext);
@@ -22,8 +15,8 @@ const LoginPage = () => {
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
-    if (isEmailValid(email) && isPasswordValid(password)) setIsValid(true);
-    if (!isEmailValid(email) || !isPasswordValid(password)) setIsValid(false);
+    if (emailValidation(email) && passwordValidation(password)) setIsValid(true);
+    if (!emailValidation(email) || !passwordValidation(password)) setIsValid(false);
   }, [email, password]);
 
   useEffect(() => {
