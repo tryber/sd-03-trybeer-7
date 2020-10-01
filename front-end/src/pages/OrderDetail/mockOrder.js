@@ -10,14 +10,14 @@ const mockOrder = {
     products: [
       {
         soldProductID: 1,
-        solQuantity: '2',
+        soldQuantity: '2',
         productName: 'Skol Lata 250ml',
         productPrice: 2.2,
         productImage: 'http://localhost:3001/images/Skol Lata 350ml.jpg',
       },
       {
         soldProductID: 2,
-        solQuantity: '2',
+        soldQuantity: '2',
         productName: 'Heineken 600ml',
         productPrice: 7.5,
         productImage: 'http://localhost:3001/images/Heineken 600ml.jpg',

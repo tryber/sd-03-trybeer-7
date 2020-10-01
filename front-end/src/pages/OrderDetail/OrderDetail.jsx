@@ -4,14 +4,16 @@ import ClientNavBar from '../../components/NavBar/ClientBar/ClientNavBar';
 import pedido from './mockOrder';
 
 const allProductsNames = pedido.sale.products.map((item) => item);
+console.log(allProductsNames)
+
 const saleDate = pedido.sale.saleDate;
 const sqlDate = new Date(saleDate);
-const now = (sqlDate.getMonth() + 1) + '/' + sqlDate.getDate();
-console.log(allProductsNames)
+
+const now = sqlDate.getDate() + '/' + (sqlDate.getMonth() + 1);
 console.log('data agora',now)
 
 function OrderDetail() {
-  // const { id } = useParams();
+  const { id } = useParams();
 
   return (
     <div>
@@ -23,10 +25,10 @@ function OrderDetail() {
       {pedido.sale.products.map((order, index) => {
         return (
           <div key={index} style={{ width: '360px', border: '1px solid black' }}>
-            <p data-testid={`${index + 1}-product-qtd`}>{`${order.solQuantity}`}</p>
+            <p data-testid={`${index + 1}-product-qtd`}>{`${order.soldQuantity}`}</p>
             <p data-testid={`${index + 1}-product-name`}>{`${order.productName}`}</p>
             <p data-testid={`${index + 1}-product-total-value`}>{`${order.productPrice}`}</p>
-            <p data-testid="order-total-value">{`Total: R$${order.solQuantity * order.productPrice}`}</p>
+            <p data-testid="order-total-value">{`Total: R$${order.soldQuantity * order.productPrice}`}</p>
           </div>
         );
       })}
