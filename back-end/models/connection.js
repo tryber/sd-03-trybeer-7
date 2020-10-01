@@ -21,9 +21,9 @@ const connection = async () => (
 );
 
 const sqlConnection = async (query) => (
-  mysqlx.getSession(config).then(async (session) => {
-    connect = await session.sql(query).execute();
-    return connect;
+  connect ? Promise.resolve(connect.execute()) : mysqlx.getSession(config).then(async (session) => {
+    connect = await session.sql(query);
+    return connect.execute();
   })
     .catch((error) => {
       throw new Error(error.message);

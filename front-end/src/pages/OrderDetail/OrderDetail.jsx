@@ -1,62 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ClientNavBar from '../../components/NavBar/ClientBar/ClientNavBar';
-import pedido from './mockOrder';
-
-const allProductsNames = pedido.sale.products.map((item) => item);
-console.log(allProductsNames);
-
-const saleDate = pedido.sale.saleDate;
-const sqlDate = new Date(saleDate);
-
-const now = sqlDate.getDate() + '/' + (sqlDate.getMonth() + 1);
-console.log('data agora', now);
+import OrderDetailsCard from '../../components/OrderDetails/OrderDetailsCard';
 
 function OrderDetail() {
+  const [details, setDetails] = useState({});
+  const saleDate = details.saleDate;
+  const sqlDate = new Date(saleDate);
+  const sqlFormattedDate = sqlDate.getDate() + '/' + (sqlDate.getMonth() + 1);
+  
   const { id } = useParams();
-  const [details, setDetails] = useState([]);
-
   const url = `http://localhost:3001/sales/search/${id}`;
-  const getDetails = async () => {
+  const getDetails = async (setDetails) => {
     try {
       const result = await fetch(url);
       const json = await result.json();
-      return json;
+      console.log(json.sale)
+      return setDetails(json.sale);
     } catch (error) {
       return error.message;
     }
   };
-
-  const requestDetails = async () => {
-    return setDetails(await getDetails());
-  };
-
+  
+  const requestDetails = async () => await getDetails(setDetails);
+  
   useEffect(() => {
     requestDetails();
-    console.log(details)
-  }, []);
-  console.log(details)
-
-
+  }, []);  
+  
   return (
     <div>
       <ClientNavBar title="Detalhes de Pedido" />
-      <div style={{ width: '360px' }}>
-        <h3 data-testid="order-number">{`Pedido ${pedido.sale.saleID}`}</h3>
-        <p data-testid="order-date">{now}</p>
-      </div>
-      {pedido.sale.products.map((order, index) => {
-        return (
-          <div key={index} style={{ width: '360px', border: '1px solid black' }}>
-            <p data-testid={`${index + 1}-product-qtd`}>{`${order.soldQuantity}`}</p>
-            <p data-testid={`${index + 1}-product-name`}>{`${order.productName}`}</p>
-            <p data-testid={`${index + 1}-product-total-value`}>{`${order.productPrice}`}</p>
-            <p data-testid="order-total-value">{`Total: R$${
-              order.soldQuantity * order.productPrice
-            }`}</p>
-          </div>
-        );
-      })}
+      <OrderDetailsCard object={details} date={sqlFormattedDate} />
     </div>
   );
 }

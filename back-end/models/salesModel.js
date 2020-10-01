@@ -72,6 +72,7 @@ const getSalesDetailsByID = async (saleId) => {
         productImage,
       }]), [],
     );
+
     return salesResults;
   } catch (error) {
     throw new Error(error.message);
