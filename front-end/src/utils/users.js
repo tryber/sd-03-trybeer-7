@@ -1,6 +1,7 @@
 import React from 'react';
-import { registerUser } from '../services';
 import { Redirect } from 'react-router-dom';
+import { registerUser } from '../services';
+
 
 const minimumPasswordLength = 6;
 const minimumNameLength = 12;
@@ -26,8 +27,8 @@ const submitUser = async (name, email, password, role) => {
 
 const redirectByUserRole = () => {
   const { role } = JSON.parse(localStorage.getItem('user'));
-    return role === 'administrator' ? <Redirect to="/admin/orders" /> : <Redirect to="/products" />;
-}
+  return role === 'administrator' ? <Redirect to="/admin/orders" /> : <Redirect to="/products" />;
+};
 
 export {
   emailValidation,
@@ -37,4 +38,4 @@ export {
   redirectByUserRole,
   minimumPasswordLength,
   minimumNameLength,
-}
+};
