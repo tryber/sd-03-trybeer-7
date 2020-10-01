@@ -106,7 +106,7 @@ function Checkout() {
           Número:
           <input type="number" id="delivery_number" data-testid="checkout-house-number-input" value={ deliveryNumber } onChange={ (event) => setDeliveryNumber(event.target.value) } />
         </label>
-        <button data-testid="checkout-finish-btn" type="button" onClick={ () => setIsSubmit(true) }>Finalizar Pedido</button>
+        <button data-testid="checkout-finish-btn" type="button" onClick={ () => setIsSubmit(true) } disabled={ !totalPrice && !deliveryAddress && !deliveryNumber }>Finalizar Pedido</button>
       </div>
     </div>
   );
