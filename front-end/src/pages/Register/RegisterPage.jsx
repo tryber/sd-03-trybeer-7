@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Redirect } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import {
   emailValidation,
   nameValidation,
   passwordValidation,
   submitUser,
+  redirectByUserRole,
 } from '../../utils/users';
 
 const RegisterPage = () => {
@@ -50,10 +50,7 @@ const RegisterPage = () => {
     };
   }, [isSubmit, isAdmin, name, email, password, setToken]);
 
-  if (redirect) {
-    const { role } = JSON.parse(localStorage.getItem('user'));
-    return role === 'administrator' ? <Redirect to="/admin/orders" /> : <Redirect to="/products" />;
-  }
+  if (redirect) redirectByUserRole();
 
   return (
     <div style={ { display: 'flex', flexDirection: 'column' } }>
