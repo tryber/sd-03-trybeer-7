@@ -19,7 +19,9 @@ const ProductsPage = () => {
     getCartAtLocalStorage(setProductCart);
   }, [setProductCart]);
 
-  useEffect(() => {
+  useEffect(() => () => {
+    setProducts(null);
+    setIsLoading(false);
   }, [productCart]);
 
   if (!userData) return <Redirect to="/login" />;

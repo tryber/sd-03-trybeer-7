@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const initialFloat = 2;
+
 const CheckoutCard = ({
   index, quantity, name, price, onClick,
 }) => (
@@ -14,15 +16,13 @@ const CheckoutCard = ({
     </span>
     <span>
       <p data-testid={ `${index}-product-total-value` }>
-        R$
-        {price * quantity}
+        {`R$ ${(price * quantity).toFixed(initialFloat).replace('.', ',')}`}
       </p>
     </span>
     <span>
       <p data-testid={ `${index}-product-unit-price` }>
-        (R$
-        {price}
-        un )
+        {`(R$ ${(price).toFixed(initialFloat).replace('.', ',')}
+        un)`}
       </p>
     </span>
     <button type="button" onClick={ onClick } data-testid={ `${index}-removal-button` }>x</button>
