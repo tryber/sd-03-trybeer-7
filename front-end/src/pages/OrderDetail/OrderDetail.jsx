@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 import ClientNavBar from '../../components/NavBar/ClientBar/ClientNavBar';
 import OrderDetailsCard from '../../components/OrderDetails/OrderDetailsCard';
 
 function OrderDetail() {
+  const userData = JSON.parse(localStorage.getItem('user') || '{}');
   const [details, setDetails] = useState({});
-  const saleDate = details.saleDate;
-  const sqlDate = new Date(saleDate);
-  // const sqlFormattedDate = sqlDate.getDate() + '/' + (sqlDate.getMonth() + 1);
+  const [loading, setLoading] = useState(true);
+  const { saleDate } = details;
   const sqlFormattedDate = (date = '') => {
     const initialDateIndex = 5;
     const finalDateIndex = 10;
@@ -15,31 +15,39 @@ function OrderDetail() {
       .join('/');
     return extractDayAndMonth;
   };
-  
-  
+
   const { id } = useParams();
   const url = `http://localhost:3001/sales/search/${id}`;
-  const getDetails = async (setDetails) => {
+  const getDetails = async () => {
     try {
       const result = await fetch(url);
       const json = await result.json();
-      console.log(json.sale)
+      console.log(json.sale);
       return setDetails(json.sale);
     } catch (error) {
       return error.message;
     }
   };
-  
-  const requestDetails = async () => await getDetails(setDetails);
-  
+
+  const requestDetails = async () => getDetails(setDetails);
+
   useEffect(() => {
+    if (details.saleID) return undefined;
+    setLoading(false);
     requestDetails();
-  }, []);  
-  
+    return () => {};
+  }, [requestDetails, details.saleID]);
+
+  if (!userData.name) return <Redirect to="/login" />;
+
   return (
     <div>
       <ClientNavBar title="Detalhes de Pedido" />
-      <OrderDetailsCard object={details} date={ sqlFormattedDate(saleDate) } />
+      {loading && <h1>Loading...</h1>}
+      {!loading && details.saleID && <OrderDetailsCard
+        object={ details }
+        date={ sqlFormattedDate(saleDate) }
+      />}
     </div>
   );
 }
