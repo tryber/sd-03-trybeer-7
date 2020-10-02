@@ -16,7 +16,7 @@ sales.route('/search/all').get(async (_req, res, next) => {
 
     return res.status(200).json({ sales: [...salesData] });
   } catch (error) {
-    next(generateError(404, error));
+    return next(generateError(404, error));
   }
 });
 
@@ -31,7 +31,29 @@ sales
 
       return res.status(200).json({ sales: [...salesData] });
     } catch (error) {
-      next(generateError(404, error));
+      return next(generateError(404, error));
+    }
+  });
+
+sales.route('/search/:id').get(async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const salesData = await salesService.salesDetailsById(id);
+
+    return res.status(200).json({ sale: salesData });
+  } catch (error) {
+    return next(generateError(404, error));
+  }
+})
+  .put(validateSchema(schemas.updateSalesStatusSchema), async (req, res, next) => {
+    try {
+      const { status } = req.body;
+      const { id } = req.params;
+      const updateSalesStatus = await salesService.updateSalesStatus(id, status);
+
+      return res.status(200).json({ statusUpdate: updateSalesStatus });
+    } catch (error) {
+      return next(error);
     }
   });
 
@@ -49,7 +71,7 @@ sales.route('/register').post(validateSchema(schemas.registrySalesSchema), async
 
     return res.status(200).json({ saleInfo: { ...registerSales } });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 });
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import AdminNavBar from '../components/NavBar/AdminBar/AdminNavBar';
-import { userOrders } from '../services';
+import { orderDetails } from '../services';
 
 export default function OrderDetailsPage() {
     const [sale, setSale] = useState(null);
