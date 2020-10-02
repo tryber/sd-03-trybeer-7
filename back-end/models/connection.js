@@ -10,7 +10,6 @@ const config = {
 };
 
 let schema;
-let connect;
 
 const connection = async () => (
   schema ? Promise.resolve(schema)
@@ -21,10 +20,7 @@ const connection = async () => (
 );
 
 const sqlConnection = async (query) => (
-  connect ? Promise.resolve(connect.execute()) : mysqlx.getSession(config).then(async (session) => {
-    connect = await session.sql(query);
-    return connect.execute();
-  })
+  mysqlx.getSession(config).then(async (session) => session.sql(query).execute())
     .catch((error) => {
       throw new Error(error.message);
     })
