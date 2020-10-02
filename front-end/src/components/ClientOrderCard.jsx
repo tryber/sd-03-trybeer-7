@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+const initialFloat = 2;
+
 // Baseado em: https://stackoverflow.com/questions/3075577/convert-mysql-datetime-stamp-into-javascripts-date-format
 const convertMySQLDatetime = (date = '') => {
   const initialDateIndex = 5;
@@ -19,12 +21,11 @@ const OrderCard = ({
     <div data-testid={ `${index}-order-card-container` }>
       <Link to={ `/orders/${id}` }>
         <h4 data-testid={ `${index}-order-number` }>
-          Pedido nr.
-          {id}
+          {`Pedido ${id}`}
         </h4>
       </Link>
       <p data-testid={ `${index}-order-date` }>{orderDayAndMonth}</p>
-      <p data-testid={ `${index}-order-total-value` }>{totalPrice}</p>
+      <p data-testid={ `${index}-order-total-value` }>{`R$ ${(totalPrice).toFixed(initialFloat).replace('.', ',')}`}</p>
     </div>
   );
 };

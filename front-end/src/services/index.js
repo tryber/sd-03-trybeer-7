@@ -64,14 +64,18 @@ const registerOrder = async (
   deliveryNumber,
   products = [],
 ) => {
-  const request = fetch('http://localhost:3001/sales/registry', {
+  const request = fetch('http://localhost:3001/sales/register', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      userId, totalPrice, deliveryAddress, deliveryNumber, products,
+      userId,
+      totalPrice,
+      deliveryAddress,
+      deliveryNumber,
+      products,
     }),
   }).then((response) => response
     .json()

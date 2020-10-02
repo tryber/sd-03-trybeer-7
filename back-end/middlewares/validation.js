@@ -50,10 +50,11 @@ const schemas = {
   }),
   registrySalesSchema: Joi.object({
     // Regex pattern para checar se a string é um número entre 1 e 1.000.000
-    userId: Joi.string().pattern(/^[1-9][0-9]?$|^1000000$/)
+    userId: Joi.number().min(1)
+      .max(1000000)
       .required(),
-    // validação do valor de compra conforme https://stackoverflow.com/questions/308122/simple-regular-expression-for-a-decimal-with-a-precision-of-2
-    totalPrice: Joi.string().pattern(/^\d+(\.\d{1,2})?$/)
+    totalPrice: Joi.number().greater(0)
+      .precision(2)
       .required(),
     deliveryAddress: Joi.string().min(3)
       .max(120)
@@ -62,11 +63,16 @@ const schemas = {
       .max(6)
       .required(),
     products: Joi.array().items(Joi.object({
-      id: Joi.string().required(),
+      id: Joi.number().min(1)
+        .max(1000000)
+        .required(),
       name: Joi.string(),
-      price: Joi.string(),
+      price: Joi.number().greater(0)
+        .precision(2)
+        .required(),
       urlImage: Joi.string(),
-      quantity: Joi.string().pattern(/^[1-9][0-9]?$|^1000000$/)
+      quantity: Joi.number().min(1)
+        .max(1000000)
         .required(),
     }))
       .required(),

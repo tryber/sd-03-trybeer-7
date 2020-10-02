@@ -127,7 +127,7 @@ const getSalesByUser = async (userId) => {
         totalPrice,
         deliveryAddress,
         deliveryNumber,
-        saleDate,
+        saleDate: new Date(saleDate).toISOString(),
         status,
       }),
     );

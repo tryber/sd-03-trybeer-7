@@ -33,7 +33,7 @@ function ClientOrders() {
     };
   }, [userId, userData.id]);
 
-  if (!userData) return <Redirect to="/login" />;
+  if (!userData.name) return <Redirect to="/login" />;
 
   return (
     <div style={ { display: 'flex', flexDirection: 'column' } }>

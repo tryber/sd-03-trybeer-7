@@ -1,52 +1,50 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
+import ProductContext from '../../context/ProductContext';
 import CheckoutCard from '../../components/CheckoutCard';
 import ClientNavBar from '../../components/NavBar/ClientBar/ClientNavBar';
 import { registerOrder } from '../../services';
 import { saveCartAtLocalStorage } from '../../utils/products';
 
-const redirectOnPurchase = (callback) => {
-  const timer = 3000;
-  const redirect = setTimeout(() => callback(true), timer);
-  return redirect;
-};
-
-const cartPrice = (cartProducts = [], initialToTal) => {
-  const totalValue = !cartProducts.length
-    ? initialToTal
-    : cartProducts
-      .reduce((acc, product) => acc + (product.quantity * product.price), initialToTal);
+const cartPrice = (cartProducts = []) => {
+  const initialTotal = 0;
+  const totalValue = cartProducts
+    .reduce((acc, product) => acc + (product.quantity * product.price), initialTotal);
   return totalValue;
 };
 
-const removeProduct = (name, products = []) => {
+const removeProduct = (name, products = [], callback) => {
   const updateCart = products.filter((product) => product.name !== name);
-  return saveCartAtLocalStorage(updateCart);
+  callback([...updateCart]);
+  return saveCartAtLocalStorage([...updateCart]);
 };
 
+const initialTotal = 0;
+const initialQuantity = 0;
+const initialFloat = 2;
+
 function Checkout() {
-  const initialTotal = 0;
-  const initialFloat = 2;
   const userData = JSON.parse(localStorage.getItem('user') || '{}');
   const cartData = JSON.parse(localStorage.getItem('productCart') || '[]');
-  const initialToTal = 0;
-  const [cartProducts, setCartProducts] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(initialTotal);
+  const { productCart, setProductCart } = useContext(ProductContext);
+  const [cartProducts, setCartProducts] = useState(cartData);
+  const [totalPrice, setTotalPrice] = useState(cartPrice(cartData));
   const [deliveryAddress, setDeliveryAddress] = useState('');
-  const [deliveryNumber, setDeliveryNumber] = useState(null);
+  const [deliveryNumber, setDeliveryNumber] = useState('');
   const [isSubmit, setIsSubmit] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
-    if (cartProducts.length === cartData.length) return undefined;
-    setCartProducts(cartData);
-    setTotalPrice(cartPrice(cartProducts, initialToTal));
+    if (cartProducts.length === productCart.length) return undefined;
+    setCartProducts(productCart);
+    setTotalPrice(cartPrice(productCart, initialTotal));
     return () => {
       setCartProducts([]);
+      setTotalPrice(initialTotal);
     };
-  }, [cartData, cartProducts]);
+  }, [productCart, cartProducts]);
 
   useEffect(() => {
     if (!isSubmit) return undefined;
@@ -61,22 +59,21 @@ function Checkout() {
       });
     return () => {
       setIsSubmit(false);
-      clearTimeout(redirectOnPurchase(setRedirect));
-      setRedirect(false);
+      setError('');
     };
   }, [cartProducts, deliveryAddress, deliveryNumber, totalPrice, userData.id, isSubmit]);
 
   useEffect(() => {
-    if (!isSubmit && !message) return undefined;
-    const timer = redirectOnPurchase(setRedirect);
-    if (!isSubmit && message) return timer;
+    if (!message) return undefined;
+    const timerCount = 3000;
+    const timer = setTimeout(() => setRedirect(true), timerCount);
     return () => {
       setRedirect(false);
       clearTimeout(timer);
     };
   }, [isSubmit, message]);
 
-  if (!userData) return <Redirect to="/login" />;
+  if (!userData.name) return <Redirect to="/login" />;
 
   if (redirect) return <Redirect to="/products" />;
 
@@ -87,19 +84,22 @@ function Checkout() {
       {!isSubmit && message && <h3>{message}</h3>}
       {!isSubmit && error && <h3>{error}</h3>}
       {!isSubmit && !cartProducts.length && <h1>Não há produtos no carrinho</h1>}
-      {!isSubmit && cartProducts.length && cartProducts.map((product, index) => (
+      {!isSubmit && cartProducts.length > initialQuantity && cartProducts.map((product, index) => (
         <CheckoutCard
           key={ product.id }
           index={ index }
           quantity={ product.quantity }
+          name={ product.name }
           price={ product.price }
-          onClick={ () => removeProduct(product.name, cartProducts) }
+          onClick={ () => removeProduct(product.name, cartProducts, setProductCart) }
         />
       ))}
-      <p data-testid="order-total-value">
-        Total: R$
-        {parseFloat(totalPrice.toFixed(initialFloat).replace('.', ','))}
-      </p>
+      <span>
+        <p>Total:</p>
+        <p data-testid="order-total-value">
+          {`R$ ${totalPrice.toFixed(initialFloat).replace('.', ',')}`}
+        </p>
+      </span>
       <div>
         <p>Endereço</p>
         <label htmlFor="delivery_address">
@@ -110,7 +110,7 @@ function Checkout() {
           Número:
           <input type="number" id="delivery_number" data-testid="checkout-house-number-input" value={ deliveryNumber } onChange={ (event) => setDeliveryNumber(event.target.value) } />
         </label>
-        <button data-testid="checkout-finish-btn" type="button" onClick={ () => setIsSubmit(true) } disabled={ !totalPrice && !deliveryAddress && !deliveryNumber }>Finalizar Pedido</button>
+        <button data-testid="checkout-finish-btn" type="button" onClick={ () => setIsSubmit(true) } disabled={ totalPrice === initialTotal || !deliveryAddress || !deliveryNumber }>Finalizar Pedido</button>
       </div>
     </div>
   );

@@ -20,6 +20,7 @@ app.use('/sales', controllers.salesController);
 app.get('/', async (_req, res) => res.send('Hello, Trybeer'));
 
 app.use((err, _req, res, _next) => {
+  console.log(err)
   if (err.payload) return res.status(err.status).json(err.payload);
   if (err.message.match(/^duplicate./i)) {
     return res.status(400).json({ message: 'E-mail already in database.' });
