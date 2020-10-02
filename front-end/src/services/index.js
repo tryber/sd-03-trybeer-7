@@ -141,6 +141,11 @@ const orderFinished = async (orderId) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
+      userId,
+      totalPrice,
+      deliveryAddress,
+      deliveryNumber,
+      products,
       status,
     }),
   })
