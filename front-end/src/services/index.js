@@ -133,6 +133,25 @@ const orderDetails = async (orderId) => {
   return request;
 };
 
+const orderFinished = async (orderId) => {
+  const request = fetch(`http://localhost:3001/sales/search/${encodeURIComponent(orderId)}`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      status,
+    }),
+  })
+    .then((response) => response
+      .json()
+      .then((data) => (response.ok
+        ? Promise.resolve(data.sales)
+        : Promise.reject(data.message))));
+  return request;
+};
+
 export {
   userLogin,
   registerUser,
@@ -141,4 +160,5 @@ export {
   userOrders,
   ordersList,
   orderDetails,
+  orderFinished,
 };

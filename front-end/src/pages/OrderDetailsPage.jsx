@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 import AdminNavBar from '../components/NavBar/AdminBar/AdminNavBar';
-import { orderDetails } from '../services';
+import { orderDetails, orderFinished } from '../services';
 
 export default function OrderDetailsPage() {
     const [sale, setSale] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [pending, setPending] = useState(true);
     const userData = JSON.parse(localStorage.getItem('user'));
+
+    const { id } = useParams();
 
     useEffect(() => {
         setIsLoading(true);
-        userOrders().then((data) => setSale(data));
+        orderDetails(id).then((data) => setSale(data));
+        if(sale.pending === "Entregue") setPending(false);
         setIsLoading(false);
       }, []);
 
@@ -32,7 +36,7 @@ export default function OrderDetailsPage() {
                     </li>) : <p>Loading...</p>}
                     <p data-testid='order-total-value'>Total: R${sale.orderValue.toFixed(2)}</p>
                 </div>
-                <button>Marcar como entregue</button>
+                {pending ? <button onClick={() => orderFinished(id)} >Marcar como entregue</button> : ''}
             </div>
         </div>
     )

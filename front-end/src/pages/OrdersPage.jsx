@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import AdminNavBar from '../components/NavBar/AdminBar/AdminNavBar';
-import OrderCard from '../components/OrderCard';
+import OrderCard from '../components/AdminOrderCard';
 import { ordersList } from '../services';
 
 export default function OrdersPage() {
