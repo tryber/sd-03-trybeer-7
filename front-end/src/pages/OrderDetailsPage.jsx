@@ -36,7 +36,7 @@ export default function OrderDetailsPage() {
                     </li>) : <p>Loading...</p>}
                     <p data-testid='order-total-value'>Total: R${sale.orderValue.toFixed(2)}</p>
                 </div>
-                {pending ? <button onClick={() => orderFinished(id)} >Marcar como entregue</button> : ''}
+                {pending ? <button onClick={() => orderFinished(id, sale)} >Marcar como entregue</button> : ''}
             </div>
         </div>
     )
