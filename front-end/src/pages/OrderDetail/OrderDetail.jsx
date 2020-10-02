@@ -5,7 +5,7 @@ import OrderDetailsCard from '../../components/OrderDetails/OrderDetailsCard';
 
 function OrderDetail() {
   const [details, setDetails] = useState({});
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const saleDate = details.saleDate;
   const sqlDate = new Date(saleDate);
   const sqlFormattedDate = sqlDate.getDate() + '/' + (sqlDate.getMonth() + 1);
@@ -13,40 +13,36 @@ function OrderDetail() {
   const loadingFunc = () => {
     return (
       <div>
-        <p>
-          Loading...
-        </p>
+        <p>Loading...</p>
       </div>
-    )
-  }
-  
+    );
+  };
+
   const { id } = useParams();
   const url = `http://localhost:3001/sales/search/${id}`;
   const getDetails = async (setDetails) => {
     try {
       const result = await fetch(url);
       const json = await result.json();
-      console.log(json.sale)
+      console.log(json.sale);
       return setDetails(json.sale);
     } catch (error) {
       return error.message;
     }
   };
-  
+
   const requestDetails = async () => await getDetails(setDetails);
-  
+
   useEffect(() => {
-    if(details.saleID) return undefined;
-    setTimeout(() => {
-      requestDetails()
-    }, 2000);
-    setLoading(false)
-  }, [requestDetails, details.saleID]);  
-  
+    if (details.saleID) return undefined;
+    requestDetails();
+    setLoading(false);
+  }, [requestDetails, details.saleID]);
+
   return (
     <div>
       <ClientNavBar title="Detalhes de Pedido" />
-      {loading && loadingFunc()} 
+      {loading && loadingFunc()}
       {!loading && <OrderDetailsCard object={details} date={sqlFormattedDate} />}
     </div>
   );
