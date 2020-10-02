@@ -39,7 +39,7 @@ function Checkout() {
   useEffect(() => {
     if (cartProducts.length === productCart.length) return undefined;
     setCartProducts(productCart);
-    setTotalPrice(cartPrice(productCart, initialTotal));
+    setTotalPrice(cartPrice(productCart));
     return () => {
       setCartProducts([]);
       setTotalPrice(initialTotal);
