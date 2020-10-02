@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
-import ProductContext from '../../context/ProductContext';
 import CheckoutCard from '../../components/CheckoutCard';
 import ClientNavBar from '../../components/NavBar/ClientBar/ClientNavBar';
 import { registerOrder } from '../../services';
@@ -81,7 +80,10 @@ function Checkout() {
           quantity={ product.quantity }
           name={ product.name }
           price={ product.price }
-          onClick={ () => removeProduct(product.name, cartProducts, setCartProducts, setTotalPrice) }
+          onClick={ () => removeProduct(product.name,
+            cartProducts,
+            setCartProducts,
+            setTotalPrice) }
         />
       ))}
       <span>
