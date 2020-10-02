@@ -11,7 +11,7 @@ import ClientProfile from './pages/ClientProfile/ClientProfile';
 import AdminProfile from './pages/AdminProfile/AdminProfile';
 import ClientOrders from './pages/ClientOrders/ClientOrders';
 import OrderDetail from './pages/OrderDetail/OrderDetail';
-// import CheckoutPage from './pages/CheckoutPage/CheckoutPage';
+import CheckoutPage from './pages/CheckoutPage/CheckoutPage';
 
 function App() {
   const path = window.location.pathname;
@@ -23,7 +23,7 @@ function App() {
             <Switch>
               <Route exact path={ path === '/' || '/login' } component={ LoginPage } />
               <Route exact path="/products" component={ ProductsPage } />
-              {/* <Route path="/checkout" component={ CheckoutPage } /> */}
+              <Route path="/checkout" component={ CheckoutPage } />
               <Route path="/register" component={ RegisterPage } />
               <Route path="/admin/profile" component={ AdminProfile } />
               <Route path="/admin/orders" component={ OrdersPage } />

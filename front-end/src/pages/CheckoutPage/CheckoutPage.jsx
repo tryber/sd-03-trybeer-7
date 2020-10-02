@@ -47,7 +47,7 @@ function Checkout() {
   }, [productCart, cartProducts]);
 
   useEffect(() => {
-    if (!isSubmit && !message) return undefined;
+    if (!isSubmit) return undefined;
     registerOrder(userData.id, totalPrice, deliveryAddress, deliveryNumber, cartProducts)
       .then(() => {
         setMessage('Compra realizada com sucesso!');
@@ -61,7 +61,7 @@ function Checkout() {
       setIsSubmit(false);
       setError('');
     };
-  }, [cartProducts, deliveryAddress, deliveryNumber, totalPrice, userData.id, isSubmit, message]);
+  }, [cartProducts, deliveryAddress, deliveryNumber, totalPrice, userData.id, isSubmit]);
 
   useEffect(() => {
     if (!message) return undefined;

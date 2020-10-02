@@ -7,7 +7,15 @@ function OrderDetail() {
   const [details, setDetails] = useState({});
   const saleDate = details.saleDate;
   const sqlDate = new Date(saleDate);
-  const sqlFormattedDate = sqlDate.getDate() + '/' + (sqlDate.getMonth() + 1);
+  // const sqlFormattedDate = sqlDate.getDate() + '/' + (sqlDate.getMonth() + 1);
+  const sqlFormattedDate = (date = '') => {
+    const initialDateIndex = 5;
+    const finalDateIndex = 10;
+    const extractDayAndMonth = date.slice(initialDateIndex, finalDateIndex).split('-').reverse()
+      .join('/');
+    return extractDayAndMonth;
+  };
+  
   
   const { id } = useParams();
   const url = `http://localhost:3001/sales/search/${id}`;
@@ -31,7 +39,7 @@ function OrderDetail() {
   return (
     <div>
       <ClientNavBar title="Detalhes de Pedido" />
-      <OrderDetailsCard object={details} date={sqlFormattedDate} />
+      <OrderDetailsCard object={details} date={ sqlFormattedDate(saleDate) } />
     </div>
   );
 }
