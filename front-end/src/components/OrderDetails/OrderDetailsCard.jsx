@@ -14,7 +14,7 @@ function OrderDetailsCard({ object, date }) {
               <p data-testid={`${index}-product-qtd`}>{`${order.soldQuantity}`}</p>
               <p data-testid={`${index}-product-name`}>{`${order.productName}`}</p>
               <p data-testid={`${index}-product-total-value`}>{`${order.productPrice}`}</p>
-              <p data-testid="order-total-value">{`Total: R$${
+              <p data-testid="order-total-value">{`Total: R$ ${
                 (order.soldQuantity * order.productPrice).toFixed(2).replace('.', ',')
               }`}</p>
             </div>
