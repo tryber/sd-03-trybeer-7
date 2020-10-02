@@ -140,7 +140,7 @@ const orderFinished = async (orderId, ...dados) => {
     deliveryAddress,
     deliveryNumber,
     products,
-    status
+    status,
   } = dados;
   const request = fetch(`http://localhost:3001/sales/search/${encodeURIComponent(orderId)}`, {
     method: 'PUT',
