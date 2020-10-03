@@ -11,6 +11,7 @@ import RegisterPage from './pages/Register/RegisterPage';
 import ClientProfile from './pages/ClientProfile/ClientProfile';
 import AdminProfile from './pages/AdminProfile/AdminProfile';
 import ClientOrders from './pages/ClientOrders/ClientOrders';
+import OrderDetail from './pages/OrderDetail/OrderDetail';
 import CheckoutPage from './pages/CheckoutPage/CheckoutPage';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
               <Route path="/admin/orders" component={ OrdersPage } />
               <Route path="/admin/orders/:id" component={ OrderDetailsPage } />
               <Route path="/profile" component={ ClientProfile } />
+              <Route path="/orders/:id" component={ OrderDetail } />
               <Route path="/orders" component={ ClientOrders } />
             </Switch>
           </Router>

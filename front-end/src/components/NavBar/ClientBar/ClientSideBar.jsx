@@ -4,7 +4,7 @@ import ClientButtons from './ClientButtons';
 const ClientSideBar = () => (
   <div
     className="side-menu-container"
-    style={{ width: '250px', height: '460px', backgroundColor: 'black' }}
+    style={{ width: '100px', height: '640px', backgroundColor: 'black', position: 'absolute' }}
   >
     <ClientButtons />
   </div>
