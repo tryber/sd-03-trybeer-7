@@ -53,7 +53,7 @@ const LoginPage = () => {
   }
 
   return (
-    <div style={ { margin: 'auto', height: '640px', display: 'flex' } }>
+    <div>
       {error && <h4>{error}</h4>}
       <form
         className="form-container"
