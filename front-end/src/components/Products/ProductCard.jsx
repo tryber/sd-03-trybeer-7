@@ -8,6 +8,7 @@ import {
   getQuantityFromCart,
   formatPrice,
 } from '../../utils/products';
+import './productCard.css';
 
 export default function ProductCard({ product, index }) {
   const { productCart, setProductCart, update, setUpdate } = useContext(ProductContext);
@@ -18,34 +19,54 @@ export default function ProductCard({ product, index }) {
   }, [productCart, update]);
 
   return (
-    <div key={ name }>
-      <img data-testid={ `${index}-product-img` } src={ urlImage } alt={ name } />
-      <br />
-      <p data-testid={ `${index}-product-name` }>{name}</p>
-      <p data-testid={ `${index}-product-price` }>{`R$ ${formatPrice(price)}`}</p>
-      <br />
-      <button
-        data-testid={ `${index}-product-minus` }
-        type="button"
-        onClick={ getQuantityFromCart(id, productCart) < 1 ? null : () => {
-          removeProductFromCart(product, productCart, setProductCart);
-          setUpdate(!update);
-        } }
-      >
-        -
-      </button>
-      <p data-testid={ `${index}-product-qtd` }>{getQuantityFromCart(id, productCart)}</p>
-      <button
-        data-testid={ `${index}-product-plus` }
-        type="button"
-        onClick={ () => {
-          addProductToCart(product, productCart, setProductCart);
-          setUpdate(!update);
-        } }
-      >
-        +
-      </button>
-    </div>);
+    <div className="products-display" key={name}>
+      <div>
+        <img
+          className={`img-display skoll-chata-${index} `}
+          data-testid={`${index}-product-img`}
+          src={urlImage}
+          alt={name}
+        />
+      </div>
+      <div className="info-display">
+        <div className="info-text">
+          <p className="name-info" data-testid={`${index}-product-name`}>{name}</p>
+          <p className="price-info" data-testid={`${index}-product-price`}>{`R$ ${formatPrice(price)}`}</p>
+        </div>
+        <div className="display-qty">
+          <button
+            className="qty-btn"
+            data-testid={`${index}-product-minus`}
+            type="button"
+            onClick={
+              getQuantityFromCart(id, productCart) < 1
+                ? null
+                : () => {
+                    removeProductFromCart(product, productCart, setProductCart);
+                    setUpdate(!update);
+                  }
+            }
+          >
+            -
+          </button>
+          <p className="qty-ind" data-testid={`${index}-product-qtd`}>
+            {getQuantityFromCart(id, productCart)}
+          </p>
+          <button
+            className="qty-btn"
+            data-testid={`${index}-product-plus`}
+            type="button"
+            onClick={() => {
+              addProductToCart(product, productCart, setProductCart);
+              setUpdate(!update);
+            }}
+          >
+            +
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 ProductCard.propTypes = {

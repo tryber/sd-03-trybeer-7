@@ -28,7 +28,7 @@ const ProductsPage = () => {
   return isLoading ? <h1>Carregando...</h1> : (
     <div>
       <ClientNavBar title="TryBeer" />
-      <div>
+      <div style={{overflowY :"scroll", display: "flex", flexDirection: "column", height: "485px", margin: "0", width: "330px", padding: "15px"}}>
         { Array.isArray(products)
           ? products.map((product, i) => (
             <ProductCard
@@ -37,8 +37,8 @@ const ProductsPage = () => {
               index={ i }
             />))
           : null }
-      </div>
       <CheckoutButton />
+      </div>
     </div>
   );
 };
