@@ -62,7 +62,7 @@ function Checkout() {
     };
   }, [isSubmit, message]);
 
-  if (!userData || userData.role === 'administrator') return <Redirect to="/login" />;
+  if (!userData.name) return <Redirect to="/login" />;
 
   if (redirect) return <Redirect to="/products" />;
 

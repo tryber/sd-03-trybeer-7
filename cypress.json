@@ -10,10 +10,13 @@
   "viewportHeight": 768,
   "defaultCommandTimeout": 10000,
   "pageLoadTimeout": 10000,
-    "env": {
-      "login": "bruno.batista@gmail.com",
-      "password": "12345678",
-      "loginAdmin": "tryber@trybe.com.br",
-      "passwordAdmin": "123456"
-    }
+  "env": {
+    "login": "bruno.batista@gmail.com",
+    "password": "12345678",
+    "loginAdmin": "tryber@trybe.com.br",
+    "passwordAdmin": "123456",
+    "HOSTNAME": "localhost",
+    "MYSQL_USER": "root",
+    "MYSQL_PASSWORD":"100590Aooeio!"
+  }
 }
