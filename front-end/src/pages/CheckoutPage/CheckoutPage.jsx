@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
-import ProductContext from '../../context/ProductContext';
 import CheckoutCard from '../../components/CheckoutCard';
 import ClientNavBar from '../../components/NavBar/ClientBar/ClientNavBar';
 import { registerOrder } from '../../services';
@@ -13,9 +12,10 @@ const cartPrice = (cartProducts = []) => {
   return totalValue;
 };
 
-const removeProduct = (name, products = [], callback) => {
+const removeProduct = (name, products = [], callback1, callback2) => {
   const updateCart = products.filter((product) => product.name !== name);
-  callback([...updateCart]);
+  callback1([...updateCart]);
+  callback2(cartPrice([...updateCart]));
   return saveCartAtLocalStorage([...updateCart]);
 };
 
@@ -26,7 +26,6 @@ const initialFloat = 2;
 function Checkout() {
   const userData = JSON.parse(localStorage.getItem('user') || '{}');
   const cartData = JSON.parse(localStorage.getItem('productCart') || '[]');
-  const { productCart, setProductCart } = useContext(ProductContext);
   const [cartProducts, setCartProducts] = useState(cartData);
   const [totalPrice, setTotalPrice] = useState(cartPrice(cartData));
   const [deliveryAddress, setDeliveryAddress] = useState('');
@@ -35,16 +34,6 @@ function Checkout() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
   const [redirect, setRedirect] = useState(false);
-
-  useEffect(() => {
-    if (cartProducts.length === productCart.length) return undefined;
-    setCartProducts(productCart);
-    setTotalPrice(cartPrice(productCart));
-    return () => {
-      setCartProducts([]);
-      setTotalPrice(initialTotal);
-    };
-  }, [productCart, cartProducts]);
 
   useEffect(() => {
     if (!isSubmit) return undefined;
@@ -91,7 +80,10 @@ function Checkout() {
           quantity={ product.quantity }
           name={ product.name }
           price={ product.price }
-          onClick={ () => removeProduct(product.name, cartProducts, setProductCart) }
+          onClick={ () => removeProduct(product.name,
+            cartProducts,
+            setCartProducts,
+            setTotalPrice) }
         />
       ))}
       <span>
