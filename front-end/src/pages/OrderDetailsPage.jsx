@@ -18,7 +18,7 @@ export default function OrderDetailsPage() {
         setIsLoading(false);
       }, []);
 
-    if (!userData || userData.role === 'client') return <Redirect to="/login" />;
+    if (!userData) return <Redirect to="/login" />;
 
     return isLoading ? <h1>Carregando...</h1> : (
         <div>
