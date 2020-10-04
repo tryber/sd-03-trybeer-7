@@ -49,7 +49,7 @@ function ClientProfile() {
     };
   }, [isSubmit, setToken, updatedName, email, userData, user]);
 
-  if (!userData.name) return <Redirect to="/login" />;
+  if (!userData || userData.role === 'administrator') return <Redirect to="/login" />;
   return (
     <div style={ { display: 'flex', flexDirection: 'column' } }>
       <ClientNavBar title="Meu perfil" />
