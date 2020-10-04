@@ -31,21 +31,20 @@ const addSalesProducts = async (saleID, id, quantity) => {
 
     return productsBySalesQt;
   } catch (error) {
-    console.error(error, 'oi');
     throw new Error(error.message);
   }
 };
 
 const getSalesDetailsByID = async (saleId) => {
   try {
-    // em desenvolvimento
-    const joinQuery = `SELECT sproducts.product_id, sproducts.quantity, (SELECT * FROM Trybeer.products AS products WHERE products_details.id = sproducts.product_id) AS products_details FROM Trybeer.sales_products AS sproducts INNER JOIN Trybeer.sales AS sales ON sproducts.sale_id = sales.id AND sales.id = ${saleId} ORDER BY sales.id`;
+    // join das tabelas sales, sales_products e products para páginas de detalhes de pedidos
+    const joinQuery = `SELECT sales.*, sproducts.product_id AS sold_product_id, sproducts.quantity AS sold_quantity, products.name AS product_name, products.price AS product_price, products.url_image AS product_image FROM Trybeer.sales_products AS sproducts INNER JOIN Trybeer.sales AS sales ON sproducts.sale_id = sales.id AND sales.id = ${saleId} INNER JOIN Trybeer.products AS products ON sproducts.product_id = products.id ORDER BY sales.id`;
 
     const searchQuery = await sqlConnection(joinQuery);
 
     const results = await searchQuery.fetchAll();
-    const salesResults = results.map(
-      ([
+    const salesResults = results.reduce(
+      (acc, [
         id,
         userID,
         totalPrice,
@@ -53,17 +52,42 @@ const getSalesDetailsByID = async (saleId) => {
         deliveryNumber,
         saleDate,
         status,
-      ]) => ({
-        id,
+        soldProductID,
+        soldQuantity,
+        productName,
+        productPrice,
+        productImage,
+      ]) => ([...acc, {
+        saleID: id,
         userID,
-        totalPrice,
+        orderValue: totalPrice,
         deliveryAddress,
         deliveryNumber,
-        saleDate,
+        saleDate: new Date(saleDate).toISOString(),
         status,
-      }),
+        soldProductID,
+        soldQuantity,
+        productName,
+        productPrice,
+        productImage,
+      }]), [],
     );
+
     return salesResults;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const updateSaleStatus = async (id, status) => {
+  try {
+    const dBase = await connection();
+    const updateSaleQuery = await dBase.getTable('sales').update()
+      .set('status', status)
+      .where('id = :id')
+      .bind('id', id)
+      .execute();
+    return updateSaleQuery.getAffectedItemsCount();
   } catch (error) {
     throw new Error(error.message);
   }
@@ -103,7 +127,7 @@ const getSalesByUser = async (userId) => {
         totalPrice,
         deliveryAddress,
         deliveryNumber,
-        saleDate,
+        saleDate: new Date(saleDate).toISOString(),
         status,
       }),
     );
@@ -161,4 +185,5 @@ module.exports = {
   getSalesByUser,
   addSale,
   addSalesProducts,
+  updateSaleStatus,
 };

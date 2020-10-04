@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import ClientNavBar from '../../components/NavBar/ClientBar/ClientNavBar';
-import OrderCard from '../../components/OrderCard';
+import ClientOrderCard from '../../components/ClientOrderCard';
 import { userOrders } from '../../services';
 
 function ClientOrders() {
@@ -33,14 +33,14 @@ function ClientOrders() {
     };
   }, [userId, userData.id]);
 
-  if (!userData) return <Redirect to="/login" />;
+  if (!userData.name) return <Redirect to="/login" />;
 
   return (
     <div style={ { display: 'flex', flexDirection: 'column' } }>
       <ClientNavBar title="Meus Pedidos" />
       {errors && <h4>{errors}</h4>}
       {!isFetching && orders && orders.map((order, index) => (
-        <OrderCard
+        <ClientOrderCard
           key={ order.id }
           index={ index }
           id={ order.id }

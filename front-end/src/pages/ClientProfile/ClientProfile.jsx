@@ -16,7 +16,7 @@ function ClientProfile() {
   const userData = JSON.parse(localStorage.getItem('user'));
   const [user, setUser] = useState({ name: '', email: '' });
   const { name, email } = user || userData;
-  const [updatedName, setUpdatedName] = useState(name);
+  const [updatedName, setUpdatedName] = useState(userData.name);
   const [isValid, setIsValid] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [message, setMessage] = useState('');
@@ -33,7 +33,7 @@ function ClientProfile() {
   }, [updatedName]);
 
   useEffect(() => {
-    if (!user) setUser((previousUser) => ({ ...previousUser, ...userData }));
+    if (!user.name) setUser((previousUser) => ({ ...previousUser, ...userData }));
     if (!isSubmit) return undefined;
     updateUser(updatedName, email).then((response) => {
       setToken(response);
@@ -49,7 +49,7 @@ function ClientProfile() {
     };
   }, [isSubmit, setToken, updatedName, email, userData, user]);
 
-  if (!userData) return <Redirect to="/login" />;
+  if (!userData.name) return <Redirect to="/login" />;
   return (
     <div style={ { display: 'flex', flexDirection: 'column' } }>
       <ClientNavBar title="Meu perfil" />

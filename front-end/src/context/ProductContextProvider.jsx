@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ProductContext from './ProductContext';
 
+const cartData = JSON.parse(localStorage.getItem('productCart') || '[]');
+
 const ProductContextProvider = ({ children }) => {
-  const [productCart, setProductCart] = useState([]);
+  const [productCart, setProductCart] = useState(cartData);
   const [update, setUpdate] = useState(false);
 
   const context = {

@@ -57,6 +57,34 @@ const updateUser = async (name, email) => {
   return request;
 };
 
+const registerOrder = async (
+  userId,
+  totalPrice,
+  deliveryAddress,
+  deliveryNumber,
+  products = [],
+) => {
+  const request = fetch('http://localhost:3001/sales/register', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      userId,
+      totalPrice,
+      deliveryAddress,
+      deliveryNumber,
+      products,
+    }),
+  }).then((response) => response
+    .json()
+    .then((data) => (response.ok
+      ? Promise.resolve(data.saleID)
+      : Promise.reject(data.message))));
+  return request;
+};
+
 const userOrders = async (userId) => {
   const request = fetch(`http://localhost:3001/sales/search?userId=${encodeURIComponent(userId)}`, {
     method: 'GET',
@@ -74,5 +102,9 @@ const userOrders = async (userId) => {
 };
 
 export {
-  userLogin, registerUser, updateUser, userOrders,
+  userLogin,
+  registerUser,
+  updateUser,
+  registerOrder,
+  userOrders,
 };
