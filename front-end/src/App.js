@@ -4,6 +4,7 @@ import AuthProvider from './context/AuthContextProvider';
 import ProductProvider from './context/ProductContextProvider';
 import './App.css';
 import OrdersPage from './pages/OrdersPage';
+import OrderDetailsPage from './pages/OrderDetailsPage';
 import LoginPage from './pages/Login/LoginPage';
 import ProductsPage from './pages/ProductsPage';
 import RegisterPage from './pages/Register/RegisterPage';
@@ -14,18 +15,19 @@ import OrderDetail from './pages/OrderDetail/OrderDetail';
 import CheckoutPage from './pages/CheckoutPage/CheckoutPage';
 
 function App() {
-  const path = window.location.pathname;
   return (
     <div className="App">
       <AuthProvider>
         <ProductProvider>
           <Router>
             <Switch>
-              <Route exact path={ path === '/' || '/login' } component={ LoginPage } />
+              <Route exact path="/login" component={ LoginPage } />
+              <Route exact path="/" component={ LoginPage } />
               <Route exact path="/products" component={ ProductsPage } />
               <Route path="/checkout" component={ CheckoutPage } />
               <Route path="/register" component={ RegisterPage } />
               <Route path="/admin/profile" component={ AdminProfile } />
+              <Route path="/admin/orders/:id" component={ OrderDetailsPage } />
               <Route path="/admin/orders" component={ OrdersPage } />
               <Route path="/profile" component={ ClientProfile } />
               <Route path="/orders/:id" component={ OrderDetail } />
