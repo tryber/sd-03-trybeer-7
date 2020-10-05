@@ -35,15 +35,25 @@
 }
 
 .qty-btn {
-  border: 1px solid lightgray;
   background-color: transparent;
-  background-color: #FFC500;
-  border-radius: 50%;
+  background-color: #FFD000;
   border: none;
   font-size: 30px;
   width: 35px;
   height: 35px;
   color: gray;
+}
+
+.minus {
+  border: 1px solid #FFC300;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.plus {
+  border: 1px solid #FFC300;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .qty-ind {
