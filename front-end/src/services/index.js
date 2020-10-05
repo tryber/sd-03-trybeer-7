@@ -141,7 +141,7 @@ const orderFinished = async (orderId, status) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      status
+      status,
     }),
   })
     .then((response) => response
