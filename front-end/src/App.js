@@ -15,15 +15,14 @@ import OrderDetail from './pages/OrderDetail/OrderDetail';
 import CheckoutPage from './pages/CheckoutPage/CheckoutPage';
 
 function App() {
-  const path = window.location.pathname;
   return (
     <div className="App">
       <AuthProvider>
         <ProductProvider>
           <Router>
             <Switch>
-              <Route exact path={ '/login' } component={ LoginPage } />
-              <Route exact path={ '/' } component={ LoginPage } />
+              <Route exact path="/login" component={ LoginPage } />
+              <Route exact path="/" component={ LoginPage } />
               <Route exact path="/products" component={ ProductsPage } />
               <Route path="/checkout" component={ CheckoutPage } />
               <Route path="/register" component={ RegisterPage } />
