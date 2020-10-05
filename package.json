@@ -23,7 +23,8 @@
   },
   "homepage": "https://github.com/betrybe/sd-0x-trybeer#readme",
   "dependencies": {
-    "@mysql/xdevapi": "^8.0.20",
+    "@mysql/xdevapi": "^8.0.21",
+    "mysql": "^2.18.1",
     "mysql2": "^2.1.0",
     "sequelize": "^6.3.4"
   },

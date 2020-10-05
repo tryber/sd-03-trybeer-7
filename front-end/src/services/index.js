@@ -101,10 +101,64 @@ const userOrders = async (userId) => {
   return request;
 };
 
+const ordersList = async () => {
+  const request = fetch('http://localhost:3001/sales/search/all', {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response
+      .json()
+      .then((data) => (response.ok
+        ? Promise.resolve(data.sales)
+        : Promise.reject(data.message))));
+  return request;
+};
+
+const orderDetails = async (orderId) => {
+  const request = fetch(`http://localhost:3001/sales/search/${encodeURIComponent(orderId)}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response
+      .json()
+      .then((data) => (response.ok
+        ? Promise.resolve(data.sales)
+        : Promise.reject(data.message))));
+  return request;
+};
+
+const orderFinished = async (orderId, status) => {
+  const request = fetch(`http://localhost:3001/sales/search/${encodeURIComponent(orderId)}`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      status,
+    }),
+  })
+    .then((response) => response
+      .json()
+      .then((data) => (response.ok
+        ? Promise.resolve(data.sales)
+        : Promise.reject(data.message))));
+  return request;
+};
+
 export {
   userLogin,
   registerUser,
   updateUser,
   registerOrder,
   userOrders,
+  ordersList,
+  orderDetails,
+  orderFinished,
 };
