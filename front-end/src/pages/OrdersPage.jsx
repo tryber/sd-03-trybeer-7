@@ -25,7 +25,7 @@ export default function OrdersPage() {
                 <div>
                     {sales ? sales.map((ele, index)  => <OrderCard
                         id={ele.id} 
-                        address={ele.deliveryAddress+','+ele.deliveryNumber}
+                        address={ele.deliveryAddress+', '+ele.deliveryNumber}
                         totalPrice={ele.totalPrice}
                         status={ele.status}
                         key={index}

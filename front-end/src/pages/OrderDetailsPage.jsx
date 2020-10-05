@@ -22,15 +22,16 @@ export default function OrderDetailsPage() {
       }
     };
 
-    const alterStatus = (id, status) => {
+    const alterStatus = async (id, status) => {
         status = "Entregue";
-        return orderFinished(id, status);
+        await orderFinished(id, status);
+        return getDetails();
     };
 
     useEffect(() => {
         getDetails();
         setIsLoading(false);
-      }, []);
+      }, [setPending]);
     
     useEffect(() => {
         if(sale.status === "Entregue") setPending(false);
@@ -42,21 +43,24 @@ export default function OrderDetailsPage() {
         <div>
             <AdminNavBar title="TryBeer" />
             <div>
-                <h1>Pedido <span data-testid='order-number'>{sale.saleID ? sale.saleID : ''}</span>
-                - <span data-testid='order-status'>{sale.status ? sale.status : ''}</span></h1>
+                <h1 data-testid='order-number'>Pedido {sale.saleID ? sale.saleID : ''}
+                <span data-testid='order-status'> - {sale.status ? sale.status : ''}</span></h1>
                 <div>
                     {sale.products ? sale.products.map((ele,i) => <li>
                     <span data-testid={`${i}-product-qtd`}>{ele.soldQuantity}</span>
                     <span data-testid={`${i}-product-name`}>{ele.productName}</span>
                     <span data-testid={`${i}-product-total-value`}>
-                        {ele.productPrice * ele.soldQuantity}
+                        R$ {(ele.productPrice * ele.soldQuantity).toFixed(2).replace('.',',')}
+                    </span>
+                    <span data-testid={`${i}-order-unit-price`}>
+                        (R$ {ele.productPrice.toFixed(2).replace('.',',')})
                     </span>
                     </li>) : <p>Loading...</p>}
                     <p data-testid='order-total-value'>
                         Total: R$ {sale.orderValue ? sale.orderValue.toFixed(2).replace('.',',') : ''}
                     </p>
                 </div>
-                {pending ? <button onClick={() => alterStatus(id, sale.status)} >Marcar como entregue</button> : ''}
+                {pending ? <button onClick={() => alterStatus(id, sale.status)} data-testid="mark-as-delivered-btn">Marcar como entregue</button> : ''}
             </div>
         </div>
     )

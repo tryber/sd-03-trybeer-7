@@ -49,7 +49,7 @@ const LoginPage = () => {
 
   if (redirect) {
     const { role } = JSON.parse(localStorage.getItem('user'));
-    return role === 'administrator' ? <Redirect to="/admin/orders" /> : <Redirect to="/products" />;
+    return role && role === 'administrator' ? <Redirect to="/admin/orders" /> : <Redirect to="/products" />;
   }
 
   return (

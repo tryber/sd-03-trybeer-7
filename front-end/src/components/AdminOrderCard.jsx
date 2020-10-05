@@ -12,7 +12,7 @@ export default function OrderCard(props) {
                     <p data-testid={`${id-1}-order-total-value`} >
                       R$ {totalPrice.toFixed(2).replace('.',',')}
                     </p>
-                    <p>{status}</p>
+                    <p data-testid={`${id-1}-order-status`}>{status}</p>
                 </div>
             </Link>
         </div>
