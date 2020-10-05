@@ -35,7 +35,7 @@ export default function ProductCard({ product, index }) {
         </div>
         <div className="display-qty">
           <button
-            className="qty-btn"
+            className="qty-btn minus"
             data-testid={`${index}-product-minus`}
             type="button"
             onClick={
@@ -53,7 +53,7 @@ export default function ProductCard({ product, index }) {
             {getQuantityFromCart(id, productCart)}
           </p>
           <button
-            className="qty-btn"
+            className="qty-btn plus"
             data-testid={`${index}-product-plus`}
             type="button"
             onClick={() => {

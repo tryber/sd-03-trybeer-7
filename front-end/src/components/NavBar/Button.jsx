@@ -5,8 +5,10 @@ function Button(title, link, testId) {
   return (
     <div>
       <Link to={ link }>
-        <button style={ { border: 'none', backgroundColor: 'black', color: 'white' } } data-testid={ testId } type="button">
-          <p>{`${title}`}</p>
+        <button 
+        className="buttons"
+        data-testid={ testId } type="button">
+          <p style={{textAlign: "left"}}>{`${title}`}</p>
         </button>
       </Link>
     </div>
