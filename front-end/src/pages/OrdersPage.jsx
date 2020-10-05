@@ -24,9 +24,9 @@ export default function OrdersPage() {
                 <h1>Pedidos pendentes</h1>
                 <div>
                     {sales ? sales.map((ele, index)  => <OrderCard
-                        orderNum={ele.id} 
-                        address={ele.delivery_address+','+ele.delivery_number}
-                        totalPrice={ele.total_price}
+                        id={ele.id} 
+                        address={ele.deliveryAddress+','+ele.deliveryNumber}
+                        totalPrice={ele.totalPrice}
                         status={ele.status}
                         key={index}
                         />

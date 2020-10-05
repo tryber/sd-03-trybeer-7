@@ -27,8 +27,8 @@ function App() {
               <Route path="/checkout" component={ CheckoutPage } />
               <Route path="/register" component={ RegisterPage } />
               <Route path="/admin/profile" component={ AdminProfile } />
-              <Route path="/admin/orders" component={ OrdersPage } />
               <Route path="/admin/orders/:id" component={ OrderDetailsPage } />
+              <Route path="/admin/orders" component={ OrdersPage } />
               <Route path="/profile" component={ ClientProfile } />
               <Route path="/orders/:id" component={ OrderDetail } />
               <Route path="/orders" component={ ClientOrders } />

@@ -133,15 +133,7 @@ const orderDetails = async (orderId) => {
   return request;
 };
 
-const orderFinished = async (orderId, ...dados) => {
-  const {
-    userId,
-    totalPrice,
-    deliveryAddress,
-    deliveryNumber,
-    products,
-    status,
-  } = dados;
+const orderFinished = async (orderId, status) => {
   const request = fetch(`http://localhost:3001/sales/search/${encodeURIComponent(orderId)}`, {
     method: 'PUT',
     headers: {
@@ -149,12 +141,7 @@ const orderFinished = async (orderId, ...dados) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      userId,
-      totalPrice,
-      deliveryAddress,
-      deliveryNumber,
-      products,
-      status,
+      status
     }),
   })
     .then((response) => response

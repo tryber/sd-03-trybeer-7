@@ -2,15 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function OrderCard(props) {
-    const {orderNum,address,totalPrice,status} = props;
-    console.log(orderNum,address,totalPrice,status);
+    const {id,address,totalPrice,status} = props;
     return (
         <div>
-            <Link to={`/admin/orders/${orderNum-1}`}>
-                <h2 data-testid={`${orderNum-1}-order-number`}>{`Pedido ${orderNum}`}</h2>
-                <p data-testid={`${orderNum-1}-order-address`} >{`${address}`}</p>
+            <Link to={`/admin/orders/${id}`}>
+                <h2 data-testid={`${id-1}-order-number`}>{`Pedido ${id}`}</h2>
+                <p data-testid={`${id-1}-order-address`} >{`${address}`}</p>
                 <div>
-                    <p data-testid={`${orderNum-1}-order-total-value`} >{totalPrice}</p>
+                    <p data-testid={`${id-1}-order-total-value`} >
+                      R$ {totalPrice.toFixed(2).replace('.',',')}
+                    </p>
                     <p>{status}</p>
                 </div>
             </Link>
