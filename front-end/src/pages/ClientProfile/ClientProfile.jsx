@@ -43,7 +43,7 @@ function ClientProfile() {
       (response) => {
         setError(response);
         return setIsSubmit(false);
-      }
+      },
     );
     return () => {
       setIsValid(false);
@@ -53,16 +53,20 @@ function ClientProfile() {
 
   if (!userData.name) return <Redirect to="/login" />;
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', margin: 'auto', height: '640px' }}>
+    <div
+      style={ {
+        display: 'flex', flexDirection: 'column', margin: 'auto', height: '640px',
+      } }
+    >
       <ClientNavBar title="Meu perfil" />
       {error && <h4>{error}</h4>}
       {message && <h4>{message}</h4>}
       <form
         className="form-container"
-        onSubmit={(event) => {
+        onSubmit={ (event) => {
           event.preventDefault();
           setIsSubmit(true);
-        }}
+        } }
       >
         <div className="login-div-inputs login-labels">
           <label className="login-labels" htmlFor="name">
@@ -74,10 +78,10 @@ function ClientProfile() {
               data-testid="profile-name-input"
               placeholder="Nome"
               type="text"
-              value={updatedName}
-              onChange={(event) => setUpdatedName(event.target.value.trim())}
+              value={ updatedName }
+              onChange={ (event) => setUpdatedName(event.target.value.trim()) }
               required
-              maxLength={100}
+              maxLength={ 100 }
             />
           </label>
         </div>
@@ -89,7 +93,7 @@ function ClientProfile() {
               id="email"
               data-testid="profile-email-input"
               type="email"
-              value={email}
+              value={ email }
               readOnly
             />
           </label>
@@ -98,8 +102,8 @@ function ClientProfile() {
           <button
             className="login-button"
             type="submit"
-            disabled={!isValid || name === updatedName}
-            style={{ width: '150px', margin: 'auto' }}
+            disabled={ !isValid || name === updatedName }
+            style={ { width: '150px', margin: 'auto' } }
             data-testid="profile-save-btn"
           >
             <p>Salvar</p>
