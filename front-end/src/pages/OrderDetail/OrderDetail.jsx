@@ -42,7 +42,7 @@ function OrderDetail() {
   if (!userData.name) return <Redirect to="/login" />;
 
   return (
-    <div>
+    <div style={{width: "360px"}}>
       <ClientNavBar title="Detalhes de Pedido" />
       {loading && <h1>Loading...</h1>}
       {!loading && details.saleID && <OrderDetailsCard

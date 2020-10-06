@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import ClientNavBar from '../../components/NavBar/ClientBar/ClientNavBar';
 import { updateUser } from '../../services';
+import '../Login/loginPage.css';
 
 const nameValidation = (name) => {
   const nameRegex = /^[a-zA-Z]+(([a-zA-Z ])?[a-zA-Z]*)*$/;
@@ -23,11 +24,9 @@ function ClientProfile() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (nameValidation(updatedName)
-    && isValidName(updatedName)) setIsValid(true);
+    if (nameValidation(updatedName) && isValidName(updatedName)) setIsValid(true);
 
-    if (!nameValidation(updatedName)
-    || !isValidName(updatedName)) setIsValid(false);
+    if (!nameValidation(updatedName) || !isValidName(updatedName)) setIsValid(false);
 
     return () => setIsValid(false);
   }, [updatedName]);
@@ -35,14 +34,17 @@ function ClientProfile() {
   useEffect(() => {
     if (!user.name) setUser((previousUser) => ({ ...previousUser, ...userData }));
     if (!isSubmit) return undefined;
-    updateUser(updatedName, email).then((response) => {
-      setToken(response);
-      setMessage('Atualização concluída com sucesso');
-      return setIsSubmit(false);
-    }, (response) => {
-      setError(response);
-      return setIsSubmit(false);
-    });
+    updateUser(updatedName, email).then(
+      (response) => {
+        setToken(response);
+        setMessage('Atualização concluída com sucesso');
+        return setIsSubmit(false);
+      },
+      (response) => {
+        setError(response);
+        return setIsSubmit(false);
+      }
+    );
     return () => {
       setIsValid(false);
       setIsSubmit(false);
@@ -51,48 +53,58 @@ function ClientProfile() {
 
   if (!userData.name) return <Redirect to="/login" />;
   return (
-    <div style={ { display: 'flex', flexDirection: 'column' } }>
+    <div style={{ display: 'flex', flexDirection: 'column', margin: 'auto', height: '640px' }}>
       <ClientNavBar title="Meu perfil" />
       {error && <h4>{error}</h4>}
       {message && <h4>{message}</h4>}
       <form
-        onSubmit={ (event) => {
+        className="form-container"
+        onSubmit={(event) => {
           event.preventDefault();
           setIsSubmit(true);
-        } }
+        }}
       >
-        <label htmlFor="name">
-          Nome
-          <input
-            id="name"
-            name="name"
-            data-testid="profile-name-input"
-            placeholder="Nome"
-            type="text"
-            value={ updatedName }
-            onChange={ (event) => setUpdatedName(event.target.value.trim()) }
-            required
-            maxLength={ 100 }
-          />
-        </label>
-        <label htmlFor="email">
-          Email
-          <input
-            id="email"
-            data-testid="profile-email-input"
-            type="email"
-            value={ email }
-            readOnly
-          />
-        </label>
-        <button
-          type="submit"
-          disabled={ !isValid || name === updatedName }
-          style={ { width: '150px', margin: 'auto' } }
-          data-testid="profile-save-btn"
-        >
-          Salvar
-        </button>
+        <div className="login-div-inputs login-labels">
+          <label className="login-labels" htmlFor="name">
+            <p>Nome</p>
+            <input
+              className="inputs"
+              id="name"
+              name="name"
+              data-testid="profile-name-input"
+              placeholder="Nome"
+              type="text"
+              value={updatedName}
+              onChange={(event) => setUpdatedName(event.target.value.trim())}
+              required
+              maxLength={100}
+            />
+          </label>
+        </div>
+        <div className="login-div-inputs login-labels">
+          <label className="login-labels" htmlFor="email">
+            <p>Email</p>
+            <input
+              className="inputs"
+              id="email"
+              data-testid="profile-email-input"
+              type="email"
+              value={email}
+              readOnly
+            />
+          </label>
+        </div>
+        <div>
+          <button
+            className="login-button"
+            type="submit"
+            disabled={!isValid || name === updatedName}
+            style={{ width: '150px', margin: 'auto' }}
+            data-testid="profile-save-btn"
+          >
+            <p>Salvar</p>
+          </button>
+        </div>
       </form>
     </div>
   );
