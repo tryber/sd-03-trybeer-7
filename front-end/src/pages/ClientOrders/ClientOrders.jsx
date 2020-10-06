@@ -36,8 +36,9 @@ function ClientOrders() {
   if (!userData.name) return <Redirect to="/login" />;
 
   return (
-    <div style={ { display: 'flex', flexDirection: 'column' } }>
+    <div style={ { display: 'flex', flexDirection: 'column', width: "360px" } }>
       <ClientNavBar title="Meus Pedidos" />
+      <div style={{overflowY: "scroll", height: "560px"}}>
       {errors && <h4>{errors}</h4>}
       {!isFetching && orders && orders.map((order, index) => (
         <ClientOrderCard
@@ -48,6 +49,7 @@ function ClientOrders() {
           totalPrice={ order.totalPrice }
         />
       ))}
+      </div>
     </div>
   );
 }

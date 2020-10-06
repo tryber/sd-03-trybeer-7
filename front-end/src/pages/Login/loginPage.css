@@ -8,10 +8,6 @@
   padding: 20px;
 }
 
-.login-labels {
-  
-}
-
 .login-labels p{
   margin: 0;
   padding: 5px;
@@ -35,7 +31,7 @@
   width: 245px;
   margin: 10px 0;
   background-color: transparent;
-  color: red;
+  color: gray;
   border: none;
 }
 

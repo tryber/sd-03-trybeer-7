@@ -36,7 +36,8 @@
 
 .qty-btn {
   background-color: transparent;
-  background-color: #FFD000;
+  background-color: #FFC500;
+
   border: none;
   font-size: 30px;
   width: 35px;
@@ -68,4 +69,5 @@
   height: 160px;
   padding-left: 35px;
   padding-right: 25px;
+  margin-top: -10px;
 }

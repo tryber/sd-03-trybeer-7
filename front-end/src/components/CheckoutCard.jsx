@@ -1,31 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './checkoutCard.css';
 
 const initialFloat = 2;
 
-const CheckoutCard = ({
-  index, quantity, name, price, onClick,
-}) => (
-  <div>
-    <span><p data-testid={ `${index}-product-qtd-input` }>{quantity}</p></span>
-    <span>
-      <p data-testid={ `${index}-product-name` }>
-        -
-        {name}
-      </p>
-    </span>
-    <span>
-      <p data-testid={ `${index}-product-total-value` }>
-        {`R$ ${(price * quantity).toFixed(initialFloat).replace('.', ',')}`}
-      </p>
-    </span>
-    <span>
-      <p data-testid={ `${index}-product-unit-price` }>
-        {`(R$ ${(price).toFixed(initialFloat).replace('.', ',')}
+const CheckoutCard = ({ index, quantity, name, price, onClick }) => (
+  <div className="checkout-card">
+    <div>
+      <div style={{ flexDirection: 'row', display: 'flex' }}>
+        <span>
+          <p data-testid={`${index}-product-qtd-input`}>{quantity} x</p>
+        </span>
+        <span>
+          <p data-testid={`${index}-product-name`}>{name} -</p>
+        </span>
+        <span>
+          <p data-testid={`${index}-product-unit-price`}>
+            {`(R$ ${price.toFixed(initialFloat).replace('.', ',')}
         un)`}
-      </p>
-    </span>
-    <button type="button" onClick={ onClick } data-testid={ `${index}-removal-button` }>x</button>
+          </p>
+        </span>
+      </div>
+      <div style={{ flexDirection: 'row', display: 'flex' }}>
+        <span>
+          <p>
+            <strong>TOTAL:</strong>
+          </p>
+        </span>
+        <span>
+          <p data-testid={`${index}-product-total-value`}>
+            {`R$ ${(price * quantity).toFixed(initialFloat).replace('.', ',')}`}
+          </p>
+        </span>
+      </div>
+    </div>
+    <button
+      className="remove-btn"
+      type="button"
+      onClick={onClick}
+      data-testid={`${index}-removal-button`}
+    >
+      x
+    </button>
   </div>
 );
 
