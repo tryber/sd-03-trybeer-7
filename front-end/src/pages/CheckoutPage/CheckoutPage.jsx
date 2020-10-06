@@ -9,7 +9,7 @@ const cartPrice = (cartProducts = []) => {
   const initialTotal = 0;
   const totalValue = cartProducts.reduce(
     (acc, product) => acc + product.quantity * product.price,
-    initialTotal
+    initialTotal,
   );
   return totalValue;
 };
@@ -41,14 +41,15 @@ function Checkout() {
     if (!isSubmit) return undefined;
     registerOrder(userData.id, totalPrice, deliveryAddress, deliveryNumber, cartProducts).then(
       () => {
+        localStorage.setItem('productCart', JSON.stringify([]));
+        setCartProducts([]);
         setMessage('Compra realizada com sucesso!');
-        localStorage.removeItem('productCart');
         return setIsSubmit(false);
       },
       (response) => {
         setError(response);
         return setIsSubmit(false);
-      }
+      },
     );
     return () => {
       setIsSubmit(false);
@@ -73,27 +74,30 @@ function Checkout() {
   return (
     <div>
       <ClientNavBar title="Finalizar Pedido" />
-      <div style={{ overflowY: 'scroll', height: '560px' }}>
+      <div style={ { overflowY: 'scroll', height: '560px' } }>
         <h1>Produtos</h1>
         {!isSubmit && message && <h3>{message}</h3>}
         {!isSubmit && error && <h3>{error}</h3>}
         {!isSubmit && !cartProducts.length && <h1>Não há produtos no carrinho</h1>}
-        {!isSubmit &&
-          cartProducts.length > initialQuantity &&
-          cartProducts.map((product, index) => (
+        {!isSubmit
+          && cartProducts.length > initialQuantity
+          && cartProducts.map((product, index) => (
             <CheckoutCard
-              key={product.id}
-              index={index}
-              quantity={product.quantity}
-              name={product.name}
-              price={product.price}
-              onClick={() =>
-                removeProduct(product.name, cartProducts, setCartProducts, setTotalPrice)
-              }
+              key={ product.id }
+              index={ index }
+              quantity={ product.quantity }
+              name={ product.name }
+              price={ product.price }
+              onClick={ () => removeProduct(
+                product.name,
+                cartProducts,
+                setCartProducts,
+                setTotalPrice,
+              ) }
             />
           ))}
         <div>
-          <span style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+          <span style={ { display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' } }>
             <p>
               <strong>Total:</strong>
             </p>
@@ -112,8 +116,8 @@ function Checkout() {
                 type="text"
                 id="delivery_address"
                 data-testid="checkout-street-input"
-                value={deliveryAddress}
-                onChange={(event) => setDeliveryAddress(event.target.value)}
+                value={ deliveryAddress }
+                onChange={ (event) => setDeliveryAddress(event.target.value) }
               />
             </label>
             <div className="login-div-inputs login-labels">
@@ -124,8 +128,8 @@ function Checkout() {
                   type="number"
                   id="delivery_number"
                   data-testid="checkout-house-number-input"
-                  value={deliveryNumber}
-                  onChange={(event) => setDeliveryNumber(event.target.value)}
+                  value={ deliveryNumber }
+                  onChange={ (event) => setDeliveryNumber(event.target.value) }
                 />
               </label>
             </div>
@@ -134,8 +138,8 @@ function Checkout() {
             className="checkout-btn"
             data-testid="checkout-finish-btn"
             type="button"
-            onClick={() => setIsSubmit(true)}
-            disabled={totalPrice === initialTotal || !deliveryAddress || !deliveryNumber}
+            onClick={ () => setIsSubmit(true) }
+            disabled={ totalPrice === initialTotal || !deliveryAddress || !deliveryNumber }
           >
             Finalizar Pedido
           </button>
