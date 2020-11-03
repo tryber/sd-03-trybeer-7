@@ -13,7 +13,7 @@ const minimumLength = 6;
 const isPasswordValid = (password) => password.length >= minimumLength;
 
 const LoginPage = () => {
-  const { role } = JSON.parse(localStorage.getItem('user'));
+  const { role } = JSON.parse(localStorage.getItem('user')) || {};
   const { setToken } = useContext(AuthContext);
 
   const [email, setEmail] = useState('');
@@ -54,7 +54,6 @@ const LoginPage = () => {
 
   return (
     <div style={{ margin: 'auto', height: '640px', display: 'flex' }}>
-      {error && <h4>{error}</h4>}
       <form
         className="form-container"
         onSubmit={(event) => {
@@ -91,6 +90,7 @@ const LoginPage = () => {
               minLength={6}
             />
           </label>
+          {error && <p style={{fontSize: "10px"}}>{error}</p>}
         </div>
         <div>
           <button
