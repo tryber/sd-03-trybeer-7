@@ -49,7 +49,6 @@ const schemas = {
       .required(),
   }),
   registrySalesSchema: Joi.object({
-    // Regex pattern para checar se a string é um número entre 1 e 1.000.000
     userId: Joi.number().min(1)
       .max(1000000)
       .required(),
