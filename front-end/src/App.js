@@ -3,16 +3,16 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import AuthProvider from './context/AuthContextProvider';
 import ProductProvider from './context/ProductContextProvider';
 import './App.css';
-import OrdersPage from './pages/OrdersPage';
-import OrderDetailsPage from './pages/OrderDetailsPage';
+import AdminOrdersPage from './pages/Admin/AdminOrders/AdminOrdersPage';
+import OrderDetailsPage from './pages/Admin/AdminOrders/AdminOrderDetailsPage';
 import LoginPage from './pages/Login/LoginPage';
-import ProductsPage from './pages/ProductsPage';
+import ProductsPage from './pages/Client/ClientProducts/ProductsPage';
 import RegisterPage from './pages/Register/RegisterPage';
-import ClientProfile from './pages/ClientProfile/ClientProfile';
-import AdminProfile from './pages/AdminProfile/AdminProfile';
-import ClientOrders from './pages/ClientOrders/ClientOrders';
-import OrderDetail from './pages/OrderDetail/OrderDetail';
-import CheckoutPage from './pages/CheckoutPage/CheckoutPage';
+import ClientProfile from './pages/Client/ClientProfile/ClientProfile';
+import AdminProfile from './pages/Admin/AdminProfile/AdminProfile';
+import ClientOrders from './pages/Client/ClientOrders/ClientOrders';
+import OrderDetail from './pages/Client/OrderDetail/OrderDetail';
+import CheckoutPage from './pages/Client/CheckoutPage/CheckoutPage';
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function App() {
               <Route path="/register" component={ RegisterPage } />
               <Route path="/admin/profile" component={ AdminProfile } />
               <Route path="/admin/orders/:id" component={ OrderDetailsPage } />
-              <Route path="/admin/orders" component={ OrdersPage } />
+              <Route path="/admin/orders" component={ AdminOrdersPage } />
               <Route path="/profile" component={ ClientProfile } />
               <Route path="/orders/:id" component={ OrderDetail } />
               <Route path="/orders" component={ ClientOrders } />
