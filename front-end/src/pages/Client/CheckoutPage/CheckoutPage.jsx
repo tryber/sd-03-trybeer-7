@@ -38,9 +38,13 @@ function Checkout() {
   const [redirect, setRedirect] = useState(false);
 
   const submitOrder = useCallback(
-    (
-      userId, price, address, addressNumber, products,
-    ) => registerOrder(userId, price, address, addressNumber, products).then(
+    () => registerOrder(
+      userData.id,
+      totalPrice,
+      deliveryAddress,
+      deliveryNumber,
+      cartProducts,
+    ).then(
       () => {
         setIsSubmit(false);
         setMessage('Compra realizada com sucesso!');
@@ -52,31 +56,23 @@ function Checkout() {
         setIsSubmit(false);
       },
     ),
-    [],
-  );
-
-  useEffect(() => {
-    if (isSubmit === false) return undefined;
-    submitOrder(
+    [
       userData.id,
       totalPrice,
       deliveryAddress,
       deliveryNumber,
       cartProducts,
-    );
+    ],
+  );
+
+  useEffect(() => {
+    if (isSubmit === false) return undefined;
+    submitOrder();
     return () => {
       setIsSubmit(false);
       setError('');
     };
-  }, [
-    submitOrder,
-    isSubmit,
-    userData.id,
-    totalPrice,
-    deliveryAddress,
-    deliveryNumber,
-    cartProducts,
-  ]);
+  }, [isSubmit, submitOrder]);
 
   useEffect(() => {
     if (!message) return undefined;
