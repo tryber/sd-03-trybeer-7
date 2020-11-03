@@ -38,7 +38,7 @@ function Checkout() {
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
-    if (!isSubmit) return undefined;
+    if (isSubmit === false) return undefined;
     registerOrder(userData.id, totalPrice, deliveryAddress, deliveryNumber, cartProducts).then(
       () => {
         localStorage.setItem('productCart', JSON.stringify([]));

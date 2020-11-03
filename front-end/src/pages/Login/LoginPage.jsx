@@ -13,6 +13,7 @@ const minimumLength = 6;
 const isPasswordValid = (password) => password.length >= minimumLength;
 
 const LoginPage = () => {
+  const { role } = JSON.parse(localStorage.getItem('user'));
   const { setToken } = useContext(AuthContext);
 
   const [email, setEmail] = useState('');
@@ -47,8 +48,7 @@ const LoginPage = () => {
     };
   }, [isSubmit, email, error, password, setToken]);
 
-  if (redirect) {
-    const { role } = JSON.parse(localStorage.getItem('user'));
+  if (redirect || role) {
     return role && role === 'administrator' ? <Redirect to="/admin/orders" /> : <Redirect to="/products" />;
   }
 
